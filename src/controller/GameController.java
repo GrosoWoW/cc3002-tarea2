@@ -1,7 +1,7 @@
 package controller;
 
+import java.util.ArrayList;
 import java.util.List;
-import model.Tactician;
 import model.items.IEquipableItem;
 import model.map.Field;
 import model.units.IUnit;
@@ -16,6 +16,13 @@ import model.units.IUnit;
  */
 public class GameController {
 
+  int numberOfPlayers;
+  int mapSize;
+  List listOfPlayers;
+  int actualRound;
+  List listOfWinners;
+  int maxRounds;
+
   /**
    * Creates the controller for a new game.
    *
@@ -26,13 +33,34 @@ public class GameController {
    */
   public GameController(int numberOfPlayers, int mapSize) {
 
+    this.numberOfPlayers = numberOfPlayers;
+    this.mapSize = mapSize;
+    this.listOfPlayers = addPlayers(numberOfPlayers);
+    this.actualRound = 0;
+    this.listOfWinners = null;
+    this.maxRounds = 0;
+
+
+
   }
 
   /**
    * @return the list of all the tacticians participating in the game.
    */
+
+  public List<Tactician> addPlayers(int maxPlayers) {
+
+    List players = new ArrayList();
+    for (int i = 0; i < maxPlayers; i++) {
+
+      Tactician player = new Tactician("Player " + i);
+      players.add(player);
+
+    }
+    return players;
+  }
   public List<Tactician> getTacticians() {
-    return null;
+    return this.listOfPlayers;
   }
 
   /**
@@ -53,14 +81,14 @@ public class GameController {
    * @return the number of rounds since the start of the game.
    */
   public int getRoundNumber() {
-    return 0;
+    return this.actualRound;
   }
 
   /**
    * @return the maximum number of rounds a match can last
    */
   public int getMaxRounds() {
-    return 0;
+    return this.maxRounds;
   }
 
   /**
@@ -87,6 +115,8 @@ public class GameController {
    */
   public void initGame(final int maxTurns) {
 
+
+
   }
 
   /**
@@ -100,7 +130,7 @@ public class GameController {
    * @return the winner of this game, if the match ends in a draw returns a list of all the winners
    */
   public List<String> getWinners() {
-    return null;
+    return listOfWinners;
   }
 
   /**

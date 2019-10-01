@@ -81,6 +81,10 @@ public class Field {
     return map.getOrDefault(id, new InvalidLocation());
   }
 
+  public int getSize(){
+    return 0;
+  }
+
   /**
    * Creates a map key from a row and a column
    *
