@@ -5,6 +5,7 @@ import java.util.List;
 import model.items.IEquipableItem;
 import model.map.Field;
 import model.units.IUnit;
+import java.util.Random;
 
 /**
  * Controller of the game.
@@ -16,12 +17,13 @@ import model.units.IUnit;
  */
 public class GameController {
 
-  int numberOfPlayers;
-  int mapSize;
-  List listOfPlayers;
-  int actualRound;
-  List listOfWinners;
-  int maxRounds;
+  private int numberOfPlayers;
+  private int mapSize;
+  private List listOfPlayers;
+  private int actualRound;
+  private List listOfWinners;
+  private int maxRounds;
+  private Tactician actualPlayer;
 
   /**
    * Creates the controller for a new game.
@@ -35,12 +37,11 @@ public class GameController {
 
     this.numberOfPlayers = numberOfPlayers;
     this.mapSize = mapSize;
-    this.listOfPlayers = addPlayers(numberOfPlayers);
+    this.listOfPlayers = randomList(numberOfPlayers, addPlayers(numberOfPlayers));
     this.actualRound = 0;
     this.listOfWinners = null;
     this.maxRounds = 0;
-
-
+    this.actualPlayer = null;
 
   }
 
@@ -55,9 +56,21 @@ public class GameController {
 
       Tactician player = new Tactician("Player " + i);
       players.add(player);
-
     }
     return players;
+  }
+
+    public List<Tactician> randomList(int numberPlayers, List<Tactician> players){
+    Random r = new Random();
+    List randomPlayers = new ArrayList();
+
+    for(int i = 0; i < numberPlayers; i++){
+
+      int numeroRandom = r.nextInt(numberPlayers - i);
+      randomPlayers.add(players.get(numeroRandom));
+      players.remove(players.get(numeroRandom));
+    }
+    return randomPlayers;
   }
   public List<Tactician> getTacticians() {
     return this.listOfPlayers;
@@ -74,7 +87,7 @@ public class GameController {
    * @return the tactician that's currently playing
    */
   public Tactician getTurnOwner() {
-    return null;
+    return actualPlayer;
   }
 
   /**
@@ -95,6 +108,9 @@ public class GameController {
    * Finishes the current player's turn.
    */
   public void endTurn() {
+
+    this.listOfPlayers = randomList(numberOfPlayers, this.listOfPlayers);
+    this.actualRound++;
 
   }
 
