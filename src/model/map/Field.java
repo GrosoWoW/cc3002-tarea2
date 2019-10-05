@@ -1,6 +1,7 @@
 package model.map;
 
 import java.util.*;
+import java.lang.Math;
 
 /**
  * This class represents the map where the units are located and the game is played.
@@ -81,8 +82,9 @@ public class Field {
     return map.getOrDefault(id, new InvalidLocation());
   }
 
-  public int getSize(){
-    return 0;
+  public double getSize(){
+    int tamano = this.map.size();
+    return Math.sqrt(tamano);
   }
 
   /**

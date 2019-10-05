@@ -6,6 +6,7 @@ import model.items.IEquipableItem;
 import model.map.Field;
 import model.units.IUnit;
 import java.util.Random;
+import factory.*;
 
 /**
  * Controller of the game.
@@ -17,6 +18,7 @@ import java.util.Random;
  */
 public class GameController {
 
+  private MapFactory mapFactory = new MapFactory();
   private int numberOfPlayers;
   private int mapSize;
   private List listOfPlayers;
@@ -24,6 +26,7 @@ public class GameController {
   private List listOfWinners;
   private int maxRounds;
   private Tactician actualPlayer;
+  private Field gameMap;
 
   /**
    * Creates the controller for a new game.
@@ -42,6 +45,7 @@ public class GameController {
     this.listOfWinners = null;
     this.maxRounds = 0;
     this.actualPlayer = null;
+    this.gameMap = mapFactory.createMap(mapSize);
 
   }
 
@@ -80,7 +84,7 @@ public class GameController {
    * @return the map of the current game
    */
   public Field getGameMap() {
-    return null;
+    return this.gameMap;
   }
 
   /**
@@ -122,6 +126,14 @@ public class GameController {
    */
   public void removeTactician(String tactician) {
 
+    for(int i = 0; i<this.numberOfPlayers; i++){
+
+      if (this.getTacticians().get(i).getName().equals(tactician)){
+
+        this.listOfPlayers.remove(i);
+        this.numberOfPlayers--;
+      }
+    }
   }
 
   /**
@@ -156,6 +168,7 @@ public class GameController {
   public IUnit getSelectedUnit() {
     return null;
   }
+
 
   /**
    * Selects a unit in the game map

@@ -16,7 +16,8 @@ public class Tactician {
         return this.name;
     }
 
-    public void createUnits(){
+    public List getPlayerUnit(){
+        return this.playerUnit;
 
 
     }
