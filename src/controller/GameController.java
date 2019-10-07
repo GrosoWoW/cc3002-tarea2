@@ -166,7 +166,7 @@ public class GameController {
    * @return the current player's selected unit
    */
   public IUnit getSelectedUnit() {
-    return null;
+    return this.actualPlayer.getActualUnit();
   }
 
 
@@ -186,7 +186,7 @@ public class GameController {
    * @return the inventory of the currently selected unit.
    */
   public List<IEquipableItem> getItems() {
-    return null;
+    return this.actualPlayer.getInventoryUnit();
   }
 
   /**
@@ -196,6 +196,7 @@ public class GameController {
    *     the location of the item in the inventory.
    */
   public void equipItem(int index) {
+
 
   }
 
@@ -218,6 +219,9 @@ public class GameController {
    *     the location of the item in the inventory.
    */
   public void selectItem(int index) {
+
+    IEquipableItem item = this.actualPlayer.getInventoryUnit().get(index);
+    this.actualPlayer.equipItem(item);
 
   }
 
