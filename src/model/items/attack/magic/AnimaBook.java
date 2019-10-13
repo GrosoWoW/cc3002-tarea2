@@ -59,6 +59,19 @@ public class AnimaBook extends AbstractBook {
 
     }
 
+    @Override
+    public boolean equalsTo(IEquipableItem unit){
+
+        if(unit instanceof AnimaBook){
+
+            return (this.getName()==unit.getName()) &&
+                    (this.getPower()==unit.getPower()) &&
+                    (this.getMinRange()==unit.getMinRange()) &&
+                    (this.getMaxRange()==unit.getMaxRange());
+        }
+        return false;
+    }
+
 
 
 

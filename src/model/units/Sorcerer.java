@@ -61,5 +61,18 @@ public class Sorcerer extends AbstractUnit {
         }
     }
 
+    @Override
+    public boolean equalsTo(IUnit unit){
+
+        if(unit instanceof Sorcerer){
+
+            return (this.getMaxHitPoints()==unit.getMaxHitPoints()) &&
+                    (this.getLocation()==unit.getLocation()) &&
+                    (this.getLive()==unit.getLive()) &&
+                    (this.getItems()==unit.getItems());
+        }
+        return false;
+    }
+
 
 }

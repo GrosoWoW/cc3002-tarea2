@@ -243,5 +243,7 @@ public interface IUnit {
    */
   void equipStaff(IEquipableItem item);
 
+  boolean equalsTo(IUnit unit);
+
 
 }

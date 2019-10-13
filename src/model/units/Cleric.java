@@ -42,4 +42,17 @@ public class Cleric extends AbstractUnit {
     }
   }
 
+  @Override
+  public boolean equalsTo(IUnit unit){
+
+    if(unit instanceof Cleric){
+
+      return (this.getMaxHitPoints()==unit.getMaxHitPoints()) &&
+              (this.getLocation()==unit.getLocation()) &&
+              (this.getLive()==unit.getLive()) &&
+              (this.getItems()==unit.getItems());
+    }
+    return false;
+  }
+
 }

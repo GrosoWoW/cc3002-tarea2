@@ -61,4 +61,17 @@ public class  Spear extends AbstractAttack {
     unit.equipSpear(this);
   }
 
+  @Override
+  public boolean equalsTo(IEquipableItem unit){
+
+    if(unit instanceof Spear){
+
+      return (this.getName()==unit.getName()) &&
+              (this.getPower()==unit.getPower()) &&
+              (this.getMinRange()==unit.getMinRange()) &&
+              (this.getMaxRange()==unit.getMaxRange());
+    }
+    return false;
+  }
+
 }

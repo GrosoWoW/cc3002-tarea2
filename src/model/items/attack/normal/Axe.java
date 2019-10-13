@@ -62,5 +62,18 @@ public class Axe extends AbstractAttack {
 
   }
 
+  @Override
+  public boolean equalsTo(IEquipableItem unit){
+
+    if(unit instanceof Axe){
+
+      return (this.getName()==unit.getName()) &&
+              (this.getPower()==unit.getPower()) &&
+              (this.getMinRange()==unit.getMinRange()) &&
+              (this.getMaxRange()==unit.getMaxRange());
+    }
+    return false;
+  }
+
 
 }

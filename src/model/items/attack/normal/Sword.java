@@ -54,5 +54,18 @@ public class Sword extends AbstractAttack {
     unit.equipSword(this);
   }
 
+  @Override
+  public boolean equalsTo(IEquipableItem unit){
+
+    if(unit instanceof Sword){
+
+      return (this.getName()==unit.getName()) &&
+              (this.getPower()==unit.getPower()) &&
+              (this.getMinRange()==unit.getMinRange()) &&
+              (this.getMaxRange()==unit.getMaxRange());
+    }
+    return false;
+  }
+
 
 }

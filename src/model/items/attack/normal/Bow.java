@@ -56,6 +56,19 @@ public class Bow extends AbstractAttack {
 
   }
 
+  @Override
+  public boolean equalsTo(IEquipableItem unit){
+
+    if(unit instanceof Bow){
+
+      return (this.getName()==unit.getName()) &&
+              (this.getPower()==unit.getPower()) &&
+              (this.getMinRange()==unit.getMinRange()) &&
+              (this.getMaxRange()==unit.getMaxRange());
+    }
+    return false;
+  }
+
 
 
 }

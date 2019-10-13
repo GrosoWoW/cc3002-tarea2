@@ -143,6 +143,8 @@ public class GameController {
    */
   public void initGame(final int maxTurns) {
 
+    this.maxRounds = maxTurns;
+
 
 
 

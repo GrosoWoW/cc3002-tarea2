@@ -47,4 +47,17 @@ public class Archer extends AbstractUnit {
       item.setOwner(this);
     }
   }
+
+  @Override
+  public boolean equalsTo(IUnit unit){
+
+    if(unit instanceof Archer){
+
+      return (this.getMaxHitPoints()==unit.getMaxHitPoints()) &&
+              (this.getLocation()==unit.getLocation()) &&
+              (this.getLive()==unit.getLive()) &&
+              (this.getItems()==unit.getItems());
+    }
+    return false;
+  }
 }

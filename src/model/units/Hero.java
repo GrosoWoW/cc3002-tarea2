@@ -41,4 +41,17 @@ public class Hero extends AbstractUnit {
       item.setOwner(this);
     }
   }
+
+  @Override
+  public boolean equalsTo(IUnit unit){
+
+    if(unit instanceof Hero){
+
+      return (this.getMaxHitPoints()==unit.getMaxHitPoints()) &&
+              (this.getLocation()==unit.getLocation()) &&
+              (this.getLive()==unit.getLive()) &&
+              (this.getItems()==unit.getItems());
+    }
+    return false;
+  }
 }

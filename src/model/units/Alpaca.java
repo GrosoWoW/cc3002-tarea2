@@ -40,4 +40,17 @@ public class Alpaca extends AbstractUnit {
   public void attackEnemy(IUnit unit) {
 
   }
+
+  @Override
+  public boolean equalsTo(IUnit unit){
+
+    if(unit instanceof Alpaca){
+
+      return (this.getMaxHitPoints()==unit.getMaxHitPoints()) &&
+              (this.getLocation()==unit.getLocation()) &&
+              (this.getLive()==unit.getLive()) &&
+              (this.getItems()==unit.getItems());
+    }
+    return false;
+  }
 }
