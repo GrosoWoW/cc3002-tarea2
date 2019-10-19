@@ -22,7 +22,7 @@ public class GameController {
   private MapFactory mapFactory = new MapFactory();
   private int numberOfPlayers;
   private int mapSize;
-  private List listOfPlayers;
+  private List<Tactician> listOfPlayers;
   private int actualRound;
   private List listOfWinners;
   private int maxRounds;
@@ -41,11 +41,8 @@ public class GameController {
 
     this.numberOfPlayers = numberOfPlayers;
     this.mapSize = mapSize;
-    this.listOfPlayers = randomList(numberOfPlayers, addPlayers(numberOfPlayers));
     this.actualRound = 1;
-    this.listOfWinners = null;
-    this.maxRounds = 0;
-    this.actualPlayer = null;
+    this.maxRounds = -1;
     this.gameMap = mapFactory.createMap(mapSize);
 
   }
@@ -162,9 +159,11 @@ public class GameController {
    */
   public void initGame(final int maxTurns) {
 
-
+    this.listOfPlayers = randomList(numberOfPlayers, addPlayers(numberOfPlayers));
     randomList(numberOfPlayers, addPlayers(numberOfPlayers));
     this.maxRounds = maxTurns;
+    this.actualRound = 1;
+    this.actualPlayer = this.listOfPlayers.get(0);
 
   }
 
@@ -172,6 +171,12 @@ public class GameController {
    * Starts a game without a limit of turns.
    */
   public void initEndlessGame() {
+
+    this.maxRounds = -1;
+    this.listOfPlayers = randomList(numberOfPlayers, addPlayers(numberOfPlayers));
+    randomList(numberOfPlayers, addPlayers(numberOfPlayers));
+    this.actualRound = 1;
+    this.actualPlayer = this.listOfPlayers.get(0);
 
     randomList(numberOfPlayers, addPlayers(numberOfPlayers));
 

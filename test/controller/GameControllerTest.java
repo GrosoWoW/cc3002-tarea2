@@ -43,6 +43,7 @@ class GameControllerTest {
     heroFactory = new HeroFactory(controller.getGameMap());
     axeFactory = new AxeFactory();
     alpacaFactory = new AlpacaFactory(controller.getGameMap());
+    controller.initEndlessGame();
   }
 
   public IUnit randomUnit(){
@@ -280,5 +281,11 @@ class GameControllerTest {
 
   @Test
   void giveItemTo() {
+  }
+
+  @Test
+  void getNumberPlayersTest(){
+
+
   }
 }
