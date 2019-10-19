@@ -1,18 +1,14 @@
 package controller;
 
-import factory.ItemFactory;
-import factory.UnitFactory;
+import factory.item.BowFactory;
+import factory.item.DarkFactory;
+import factory.unit.*;
 import model.items.IEquipableItem;
 import model.items.attack.magic.AnimaBook;
-import model.items.attack.normal.Bow;
-import model.items.attack.normal.Sword;
 import model.map.Field;
-import model.map.InvalidLocation;
 import model.map.Location;
-import model.units.Archer;
 import model.units.IUnit;
 import model.units.Sorcerer;
-import model.units.SwordMaster;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -27,8 +23,15 @@ public class TacticianTest {
     private Tactician tactician;
     private List unidades;
     private Field map;
-    private UnitFactory unitFactory;
-    private ItemFactory itemFactory;
+    private IEquipableItem item;
+    private IUnit unit;
+    private HeroFactory heroFactory;
+    private AlpacaFactory alpacaFactory;
+    private DarkFactory darkFactory;
+    private ClericFactory clericFactory;
+    private BowFactory bowFactory;
+    private ArcherFactory archerFactory;
+    private FighterFactory fighterFactory;
 
 
     @BeforeEach
@@ -41,15 +44,20 @@ public class TacticianTest {
         this.map.addCells(true, new Location(0,0));
         this.map.addCells(true, new Location(0,1));
         this.map.addCells(true, new Location(0,2));
-        IEquipableItem item = new AnimaBook("Anima", 10,0,3);
-        IUnit unit = new Sorcerer(10, 1, map.getCell(0,2), item );
+        item = new AnimaBook("Anima", 10,0,3);
+        unit = new Sorcerer(10, 1, map.getCell(0,2) );
         unidades.add(unit);
         this.tactician.setUnits(unidades);
         this.tactician.setActualUnit(unit);
         this.tactician.getActualUnit().addItem(item);
         this.tactician.getActualUnit().setEquippedItem(item);
-        this.unitFactory = new UnitFactory(this.map);
-        this.itemFactory = new ItemFactory();
+        this.heroFactory = new HeroFactory(this.map);
+        this.alpacaFactory = new AlpacaFactory(this.map);
+        this.darkFactory = new DarkFactory();
+        this.bowFactory = new BowFactory();
+        this.archerFactory = new ArcherFactory(this.map);
+        this.fighterFactory = new FighterFactory(this.map);
+        this.clericFactory = new ClericFactory(this.map);
     }
 
 
@@ -99,7 +107,7 @@ public class TacticianTest {
      void getSelectUnitTest(){
 
         assertNull(this.tactician.getSelectIUnit());
-        IUnit unidad = unitFactory.createHero(10, 0, 0);
+        IUnit unidad = heroFactory.create(10, 0, 0);
         this.tactician.setSelectIUnit(unidad);
         assertEquals(unidad, this.tactician.getSelectIUnit());
     }
@@ -107,7 +115,7 @@ public class TacticianTest {
     @Test
     void attackUnitTest(){
 
-        IUnit unidad = unitFactory.createAlpaca(50,0,0);
+        IUnit unidad = alpacaFactory.create(50,0,0);
         assertTrue(tactician.getActualUnit().canAttack(unidad));
         tactician.attackUnit(unidad);
         assertEquals(40, unidad.getCurrentHitPoints());
@@ -116,7 +124,7 @@ public class TacticianTest {
     @Test
     void equipItemTest(){
 
-        IEquipableItem item = itemFactory.createDark(20, 0, 1);
+        IEquipableItem item = darkFactory.create(20, 0, 1);
         tactician.getActualUnit().setEquippedItem(item);
         assertEquals(tactician.getActualUnit().getEquippedItem(), item );
 
@@ -125,19 +133,49 @@ public class TacticianTest {
     @Test
     void tradeItemTest(){
 
-
-
+        IUnit unidad = clericFactory.create(10,0 ,1);
+        IEquipableItem item = bowFactory.create(10, 0, 1);
+        unidad.addItem(item);
+        assertTrue(unidad.getItems().contains(item));
+        assertTrue(tactician.getActualUnit().getItems().contains(this.item));
+        tactician.tradeItem(unidad, item, this.item);
+        assertTrue(unidad.getItems().contains(this.item));
+        assertTrue(tactician.getActualUnit().getItems().contains(item));
+        assertFalse(unidad.getItems().contains(item));
+        assertFalse(tactician.getActualUnit().getItems().contains(this.item));
 
     }
 
     @Test
     void giftItemTest(){
 
+        IUnit unidad = clericFactory.create(10,0 ,1);
+        IEquipableItem item = bowFactory.create(10, 0, 1);
+        unidad.addItem(item);
+        assertTrue(unidad.getItems().contains(item));
+        assertTrue(tactician.getActualUnit().getItems().contains(this.item));
+        tactician.giftItem(unidad, this.item);
+        assertTrue(unidad.getItems().contains(this.item));
+        assertTrue(unidad.getItems().contains(item));
+        assertFalse(tactician.getActualUnit().getItems().contains(item));
+        assertFalse(tactician.getActualUnit().getItems().contains(this.item));
+
 
     }
 
     @Test
     void receiveItemTest(){
+
+        IUnit unidad = clericFactory.create(10,0 ,1);
+        IEquipableItem item = bowFactory.create(10, 0, 1);
+        unidad.addItem(item);
+        assertTrue(unidad.getItems().contains(item));
+        assertTrue(tactician.getActualUnit().getItems().contains(this.item));
+        tactician.receiveItem(unidad, item);
+        assertFalse(unidad.getItems().contains(this.item));
+        assertFalse(unidad.getItems().contains(item));
+        assertTrue(tactician.getActualUnit().getItems().contains(item));
+        assertTrue(tactician.getActualUnit().getItems().contains(this.item));
 
 
 
@@ -147,8 +185,8 @@ public class TacticianTest {
     void setUnitsTest() {
 
         List<IUnit> list = new ArrayList();
-        IUnit unit = unitFactory.createArcher(10, 0,0);
-        IUnit unit1 = unitFactory.createFighter(20,0,1);
+        IUnit unit = archerFactory.create(10, 0,0);
+        IUnit unit1 = fighterFactory.create(20,0,1);
         list.add(unit);
         list.add(unit1);
         assertNotNull(this.tactician.getPlayerUnits());
@@ -161,6 +199,16 @@ public class TacticianTest {
 
     @Test
     void setActualItemTest(){
+
+
+
+
+
+
+
+
+
+
 
 
     }

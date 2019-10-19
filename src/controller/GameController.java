@@ -42,7 +42,7 @@ public class GameController {
     this.numberOfPlayers = numberOfPlayers;
     this.mapSize = mapSize;
     this.listOfPlayers = randomList(numberOfPlayers, addPlayers(numberOfPlayers));
-    this.actualRound = 0;
+    this.actualRound = 1;
     this.listOfWinners = null;
     this.maxRounds = 0;
     this.actualPlayer = null;
@@ -123,9 +123,18 @@ public class GameController {
    */
   public void endTurn() {
 
-    this.listOfPlayers = randomList(numberOfPlayers, this.listOfPlayers);
     this.actualRound++;
+    List<Tactician> list = this.listOfPlayers;
+    int tamano = list.size();
+    if(list.get(tamano-1).getName() == this.actualPlayer.getName()){
 
+        endRound();
+    }
+  }
+
+  public void endRound(){
+
+      this.actualRound++;
   }
 
   /**
@@ -153,10 +162,9 @@ public class GameController {
    */
   public void initGame(final int maxTurns) {
 
+
+    randomList(numberOfPlayers, addPlayers(numberOfPlayers));
     this.maxRounds = maxTurns;
-
-
-
 
   }
 
@@ -164,6 +172,8 @@ public class GameController {
    * Starts a game without a limit of turns.
    */
   public void initEndlessGame() {
+
+    randomList(numberOfPlayers, addPlayers(numberOfPlayers));
 
   }
 

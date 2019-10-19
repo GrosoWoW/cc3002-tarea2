@@ -4,6 +4,7 @@ import model.map.Field;
 import model.map.InvalidLocation;
 import model.map.Location;
 
+
 import java.util.Random;
 
 public class MapFactory {
@@ -14,6 +15,25 @@ public class MapFactory {
     public MapFactory(){
 
         this.sizeMap = sizeMap;
+    }
+
+    public Field createMapSeed(int size, Random seed){
+
+        Field map = new Field();
+        Random r = seed;
+        for(int i = 0; i < size; i++){
+            for(int j = 0; j < size; j++ ){
+
+                int numeroRandom = r.nextInt(1);
+                if(numeroRandom == 0){
+                    map.addCells(true, new Location(i, j));
+                }
+                else{
+                    map.addCells(true, new InvalidLocation());
+                }
+            }
+        }
+        return map;
     }
 
     public Field createMap(int size){
@@ -32,8 +52,6 @@ public class MapFactory {
                 }
             }
         }
-        
         return map;
-
     }
 }

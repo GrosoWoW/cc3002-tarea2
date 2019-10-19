@@ -10,12 +10,12 @@ import java.util.List;
 import java.util.Random;
 import java.util.stream.IntStream;
 
-import factory.ItemFactory;
-import factory.UnitFactory;
+import factory.item.AxeFactory;
+import factory.unit.AlpacaFactory;
+import factory.unit.HeroFactory;
 import model.items.IEquipableItem;
 import model.map.Field;
 import model.map.InvalidLocation;
-import model.map.Location;
 import model.units.IUnit;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -30,8 +30,9 @@ class GameControllerTest {
   private GameController controller;
   private long randomSeed;
   private List<String> testTacticians;
-  private UnitFactory unitFactory;
-  private ItemFactory itemFactory;
+  private HeroFactory heroFactory;
+  private AxeFactory axeFactory;
+  private AlpacaFactory alpacaFactory;
 
   @BeforeEach
   void setUp() {
@@ -39,8 +40,9 @@ class GameControllerTest {
     randomSeed = new Random().nextLong();
     controller = new GameController(4, 7);
     testTacticians = List.of("Player 0", "Player 1", "Player 2", "Player 3");
-    unitFactory = new UnitFactory(controller.getGameMap());
-    itemFactory = new ItemFactory();
+    heroFactory = new HeroFactory(controller.getGameMap());
+    axeFactory = new AxeFactory();
+    alpacaFactory = new AlpacaFactory(controller.getGameMap());
   }
 
   public IUnit randomUnit(){
@@ -52,7 +54,7 @@ class GameControllerTest {
 
         if(!map.getCell(i,j).equals(invalid)){
 
-          IUnit unit = unitFactory.createHero(20, i, j);
+          IUnit unit = heroFactory.create(20, i, j);
           map.getCell(i,j).setUnit(unit);
           return unit;
         }
@@ -61,12 +63,25 @@ class GameControllerTest {
     return null;
   }
 
+  public boolean isTactician(String player, List<Tactician> list){
+
+    for(int i = 0; i<list.size(); i++){
+
+      if(list.get(i).getName().equals(player)){
+        return true;
+      }
+    }
+    return false;
+  }
+
   @Test
   void getTacticians() {
     List<Tactician> tacticians = controller.getTacticians();
     assertEquals(4, tacticians.size());
     for (int i = 0; i < tacticians.size(); i++) {
-      assertEquals("Player " + i, tacticians.get(i).getName());
+
+      assertTrue(isTactician("Player "+i, tacticians));
+
     }
   }
 
@@ -96,6 +111,7 @@ class GameControllerTest {
   void getRoundNumber() {
     controller.initGame(10);
     for (int i = 1; i < 10; i++) {
+
       assertEquals(i, controller.getRoundNumber());
       for (int j = 0; j < 4; j++) {
         controller.endTurn();
@@ -212,7 +228,7 @@ class GameControllerTest {
       Tactician player = listaTactician.get(0);
       this.controller.setActualPlayer(player);
       IUnit unidad = randomUnit();
-      IEquipableItem objeto = itemFactory.createAxe(2, 1, 2);
+      IEquipableItem objeto = axeFactory.create(2, 1, 2);
       List lista = new ArrayList();
       lista.add(objeto);
       unidad.addItem(objeto);
@@ -228,7 +244,7 @@ class GameControllerTest {
     List<Tactician> listaTactician = controller.getTacticians();
     Tactician player = listaTactician.get(0);
     this.controller.setActualPlayer(player);
-    IEquipableItem objeto = itemFactory.createAxe(2,1,2);
+    IEquipableItem objeto = axeFactory.create(2,1,2);
     IUnit unidad = randomUnit();
     List lista = new ArrayList();
     lista.add(objeto);
@@ -244,6 +260,18 @@ class GameControllerTest {
 
   @Test
   void useItemOn() {
+
+    List<Tactician> listaTactician = controller.getTacticians();
+    this.controller.setActualPlayer(listaTactician.get(0));
+    IUnit unidadValida = randomUnit();
+    int x = unidadValida.getLocation().getRow();
+    int y = unidadValida.getLocation().getColumn();
+    controller.selectUnitIn(x,y);
+    controller.getActualPlayer().addUnit(unidadValida);
+    controller.getActualPlayer().setActualUnit(unidadValida);
+    IUnit alpaca = alpacaFactory.create(100, 0, 0);
+    controller.useItemOn(0,0);
+
   }
 
   @Test
