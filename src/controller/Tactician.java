@@ -116,7 +116,7 @@ public class Tactician {
 
         if(this.getActualUnit().getItems().contains(item)){
 
-            this.setActualItem(item);
+            this.actualItem = item;
         }
     }
 

@@ -1,8 +1,10 @@
 package factory.unit;
 
+import controller.Tactician;
 import model.items.IEquipableItem;
 import model.map.Field;
 import model.units.Alpaca;
+import model.units.IUnit;
 
 public class AlpacaFactory extends AbstractUnitFactory {
 
@@ -14,15 +16,19 @@ public class AlpacaFactory extends AbstractUnitFactory {
         this.map = map;
     }
 
-    public Alpaca create(int hitPoints, int x, int y, IEquipableItem... items){
+    public Alpaca create(int hitPoints, int x, int y, Tactician player, IEquipableItem... items){
 
-        return new Alpaca(hitPoints, 1, map.getCell(x,y), items);
+        Alpaca alpaca = new Alpaca(hitPoints, 1, map.getCell(x,y), items);
+        alpaca.setOwner(player);
+        return alpaca;
 
 
     }
 
-    public Alpaca createDefault(int x, int y){
+    public Alpaca createDefault(int x, int y, Tactician player){
 
-        return new Alpaca(50, 1, map.getCell(x, y));
+        Alpaca alpaca =new Alpaca(50, 1, map.getCell(x, y));
+        alpaca.setOwner(player);
+        return alpaca;
     }
 }

@@ -107,7 +107,7 @@ public class TacticianTest {
      void getSelectUnitTest(){
 
         assertNull(this.tactician.getSelectIUnit());
-        IUnit unidad = heroFactory.create(10, 0, 0);
+        IUnit unidad = heroFactory.create(10, 0, 0, tactician);
         this.tactician.setSelectIUnit(unidad);
         assertEquals(unidad, this.tactician.getSelectIUnit());
     }
@@ -115,7 +115,7 @@ public class TacticianTest {
     @Test
     void attackUnitTest(){
 
-        IUnit unidad = alpacaFactory.create(50,0,0);
+        IUnit unidad = alpacaFactory.create(50,0,0, tactician);
         assertTrue(tactician.getActualUnit().canAttack(unidad));
         tactician.attackUnit(unidad);
         assertEquals(40, unidad.getCurrentHitPoints());
@@ -133,7 +133,7 @@ public class TacticianTest {
     @Test
     void tradeItemTest(){
 
-        IUnit unidad = clericFactory.create(10,0 ,1);
+        IUnit unidad = clericFactory.create(10,0 ,1, tactician);
         IEquipableItem item = bowFactory.create(10, 0, 1);
         unidad.addItem(item);
         assertTrue(unidad.getItems().contains(item));
@@ -149,7 +149,7 @@ public class TacticianTest {
     @Test
     void giftItemTest(){
 
-        IUnit unidad = clericFactory.create(10,0 ,1);
+        IUnit unidad = clericFactory.create(10,0 ,1, tactician);
         IEquipableItem item = bowFactory.create(10, 0, 1);
         unidad.addItem(item);
         assertTrue(unidad.getItems().contains(item));
@@ -166,7 +166,7 @@ public class TacticianTest {
     @Test
     void receiveItemTest(){
 
-        IUnit unidad = clericFactory.create(10,0 ,1);
+        IUnit unidad = clericFactory.create(10,0 ,1, tactician);
         IEquipableItem item = bowFactory.create(10, 0, 1);
         unidad.addItem(item);
         assertTrue(unidad.getItems().contains(item));
@@ -185,8 +185,8 @@ public class TacticianTest {
     void setUnitsTest() {
 
         List<IUnit> list = new ArrayList();
-        IUnit unit = archerFactory.create(10, 0,0);
-        IUnit unit1 = fighterFactory.create(20,0,1);
+        IUnit unit = archerFactory.create(10, 0,0, tactician);
+        IUnit unit1 = fighterFactory.create(20,0,1, tactician);
         list.add(unit);
         list.add(unit1);
         assertNotNull(this.tactician.getPlayerUnits());

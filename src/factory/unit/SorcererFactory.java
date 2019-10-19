@@ -1,5 +1,6 @@
 package factory.unit;
 
+import controller.Tactician;
 import model.items.IEquipableItem;
 import model.map.Field;
 import model.units.Sorcerer;
@@ -13,13 +14,17 @@ public class SorcererFactory extends AbstractUnitFactory {
         this.map = map;
     }
 
-    public Sorcerer create(int hitPoints, int x, int y, IEquipableItem... items){
+    public Sorcerer create(int hitPoints, int x, int y, Tactician player, IEquipableItem... items){
 
-        return new Sorcerer(hitPoints, 1, map.getCell(x,y), items);
+        Sorcerer sorcerer = new Sorcerer(hitPoints, 1, map.getCell(x,y), items);
+        sorcerer.setOwner(player);
+        return sorcerer;
     }
 
-    public Sorcerer createDefault(int x, int y){
+    public Sorcerer createDefault(int x, int y, Tactician player){
 
-        return new Sorcerer(50, 1, map.getCell(x, y));
+        Sorcerer sorcerer = new Sorcerer(50, 1, map.getCell(x, y));
+        sorcerer.setOwner(player);
+        return sorcerer;
     }
 }

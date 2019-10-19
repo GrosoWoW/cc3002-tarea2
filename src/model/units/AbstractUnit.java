@@ -5,6 +5,8 @@ import static java.lang.Math.min;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import controller.Tactician;
 import model.items.IEquipableItem;
 import model.map.Location;
 
@@ -28,6 +30,7 @@ public abstract class AbstractUnit implements IUnit {
   private Location location;
   int maxItems;
   boolean life;
+  Tactician owner;
 
   /**
    * Creates a new Unit.
@@ -50,6 +53,7 @@ public abstract class AbstractUnit implements IUnit {
     this.items.addAll(Arrays.asList(items).subList(0, min(maxItems, items.length)));
     this.maxItems = maxItems;
     this.life = true;
+    this.owner = null;
   }
 
 
@@ -76,6 +80,11 @@ public abstract class AbstractUnit implements IUnit {
   public void setEquippedItem(final IEquipableItem item) {
 
     this.equippedItem = item;
+  }
+
+  public void setOwner(Tactician player){
+
+    this.owner = player;
   }
 
   public Location getLocation() {
@@ -205,7 +214,8 @@ public abstract class AbstractUnit implements IUnit {
 
   public void giveAway(IUnit unit, IEquipableItem gift) {
 
-    if(this.getLocation().distanceTo(unit.getLocation()) <= 1){
+    if(Math.abs(this.getLocation().getRow() - unit.getLocation().getRow()) <= 1 &&
+            Math.abs(this.getLocation().getColumn() - unit.getLocation().getColumn()) <= 1){
 
       if(unit.getItems().size() < unit.getMaxItems()){
 

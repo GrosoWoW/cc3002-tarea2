@@ -1,5 +1,6 @@
 package factory.unit;
 
+import controller.Tactician;
 import model.items.IEquipableItem;
 import model.map.Field;
 import model.units.Hero;
@@ -13,13 +14,18 @@ public class HeroFactory extends AbstractUnitFactory {
         this.map = map;
     }
 
-    public Hero create(int hitPoints, int x, int y, IEquipableItem... items){
+    public Hero create(int hitPoints, int x, int y, Tactician player, IEquipableItem... items){
 
-        return new Hero(hitPoints, 1, map.getCell(x,y), items);
+        Hero hero = new Hero(hitPoints, 1, map.getCell(x,y), items);
+        hero.setOwner(player);
+        return hero;
     }
 
-    public Hero createDefault(int x, int y){
+    public Hero createDefault(int x, int y, Tactician player){
 
-        return new Hero(50, 1, map.getCell(x, y));
+        Hero hero = new Hero(50, 1, map.getCell(x, y));
+        hero.setOwner(player);
+        return hero;
+
     }
 }

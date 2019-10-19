@@ -1,5 +1,6 @@
 package factory.unit;
 
+import controller.Tactician;
 import model.items.IEquipableItem;
 import model.map.Field;
 import model.units.Archer;
@@ -14,13 +15,17 @@ public class ArcherFactory extends AbstractUnitFactory {
         this.map = map;
     }
 
-    public Archer create(int hitPoints, int x, int y, IEquipableItem... items){
+    public Archer create(int hitPoints, int x, int y, Tactician player, IEquipableItem... items){
 
-        return new Archer(hitPoints, 1, map.getCell(x,y), items);
+        Archer archer = new Archer(hitPoints, 1, map.getCell(x,y), items);
+        archer.setOwner(player);
+        return archer;
     }
 
-    public Archer createDefault(int x, int y){
+    public Archer createDefault(int x, int y, Tactician player){
 
-        return new Archer(50, 1, map.getCell(x, y));
+        Archer archer = new Archer(50, 1, map.getCell(x, y));
+        archer.setOwner(player);
+        return archer;
     }
 }

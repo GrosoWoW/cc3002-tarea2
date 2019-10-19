@@ -1,6 +1,8 @@
 package model.units;
 
 import java.util.List;
+
+import controller.Tactician;
 import model.items.IEquipableItem;
 import model.map.Location;
 
@@ -244,6 +246,8 @@ public interface IUnit {
   void equipStaff(IEquipableItem item);
 
   boolean equalsTo(IUnit unit);
+
+  void setOwner(Tactician player);
 
 
 }

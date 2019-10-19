@@ -2,9 +2,12 @@ package controller;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import factory.unit.*;
 import model.items.IEquipableItem;
 import model.map.Field;
 import model.map.Location;
+import model.units.Archer;
 import model.units.IUnit;
 import java.util.Random;
 import factory.*;
@@ -165,6 +168,14 @@ public class GameController {
     this.actualRound = 1;
     this.actualPlayer = this.listOfPlayers.get(0);
 
+    for(int i = 0; i < listOfPlayers.size(); i++){
+
+      Tactician player = listOfPlayers.get(i);
+      List<IUnit> list = setUnits(player);
+      player.setUnits(list);
+
+    }
+
   }
 
   /**
@@ -172,13 +183,19 @@ public class GameController {
    */
   public void initEndlessGame() {
 
-    this.maxRounds = -1;
     this.listOfPlayers = randomList(numberOfPlayers, addPlayers(numberOfPlayers));
     randomList(numberOfPlayers, addPlayers(numberOfPlayers));
     this.actualRound = 1;
     this.actualPlayer = this.listOfPlayers.get(0);
+    this.maxRounds = -1;
 
-    randomList(numberOfPlayers, addPlayers(numberOfPlayers));
+    for(int i = 0; i < listOfPlayers.size(); i++){
+
+      Tactician player = listOfPlayers.get(i);
+      List<IUnit> list = setUnits(player);
+      player.setUnits(list);
+
+    }
 
   }
 
@@ -280,12 +297,37 @@ public class GameController {
 
     Location location = gameMap.getCell(x, y);
     IUnit unidad = location.getUnit();
-    unidad.giveAway(unidad, actualPlayer.getActualItem());
+    IUnit actualUnit = actualPlayer.getActualUnit();
+    actualUnit.giveAway(unidad, actualPlayer.getActualItem());
 
   }
 
   public int getNumberOfPlayers(){
 
     return this.numberOfPlayers;
+  }
+
+  public List<IUnit> setUnits(Tactician player){
+
+    List<IUnit> list = new ArrayList<>();
+
+    IUnit alpaca = new AlpacaFactory(this.gameMap).createDefault(0, 1, player);
+    IUnit archer = new ArcherFactory(this.gameMap).createDefault(0,2, player);
+    IUnit cleric = new ClericFactory(this.gameMap).createDefault(0,3, player);
+    IUnit fighter = new FighterFactory(this.gameMap).createDefault(0,4, player);
+    IUnit hero = new HeroFactory(this.gameMap).createDefault(1,0, player);
+    IUnit sorcerer = new SorcererFactory(this.gameMap).createDefault(2,0, player);
+    IUnit swordMaster = new SwordMasterFactory(this.gameMap).createDefault(3, 0, player);
+
+    list.add(alpaca);
+    list.add(archer);
+    list.add(cleric);
+    list.add(fighter);
+    list.add(hero);
+    list.add(sorcerer);
+    list.add(swordMaster);
+
+    return list;
+
   }
 }

@@ -1,5 +1,6 @@
 package factory.unit;
 
+import controller.Tactician;
 import model.items.IEquipableItem;
 import model.map.Field;
 import model.units.Fighter;
@@ -14,13 +15,17 @@ public class FighterFactory extends AbstractUnitFactory {
     }
 
 
-    public Fighter create(int hitPoints, int x, int y, IEquipableItem... items){
+    public Fighter create(int hitPoints, int x, int y, Tactician player, IEquipableItem... items){
 
-        return new Fighter(hitPoints, 1, map.getCell(x,y), items);
+        Fighter fighter = new Fighter(hitPoints, 1, map.getCell(x,y), items);
+        fighter.setOwner(player);
+        return fighter;
     }
 
-    public Fighter createDefault(int x, int y){
+    public Fighter createDefault(int x, int y, Tactician player){
 
-        return new Fighter(50, 1, map.getCell(x, y));
+        Fighter fighter = new Fighter(50, 1, map.getCell(x, y));
+        fighter.setOwner(player);
+        return fighter;
     }
 }
