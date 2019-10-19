@@ -11,10 +11,13 @@ public class Tactician {
     private final String name;
     private List playerUnit;
     private IUnit actualUnit;
+    private IUnit selectIUnit;
+    private IEquipableItem actualItem;
 
     public Tactician(String name){
 
         this.name = name;
+        this.playerUnit = new ArrayList();
     }
 
     public String getName(){
@@ -56,6 +59,16 @@ public class Tactician {
         return this.actualUnit.getEquippedItem().getName();
     }
 
+    public IUnit getSelectIUnit(){
+
+        return this.selectIUnit;
+    }
+
+    public IEquipableItem getActualItem(){
+
+        return this.actualItem;
+    }
+
     public void attackUnit(IUnit unit){
 
         this.actualUnit.attackEnemy(unit);
@@ -88,8 +101,39 @@ public class Tactician {
 
     public void setActualUnit(IUnit unit){
 
-        this.actualUnit = unit;
+        if(this.playerUnit.contains(unit)) {
+
+            this.actualUnit = unit;
+        }
     }
+
+    public void setSelectIUnit(IUnit unit){
+
+        this.selectIUnit = unit;
+    }
+
+    public void setActualItem(IEquipableItem item){
+
+        if(this.getActualUnit().getItems().contains(item)){
+
+            this.setActualItem(item);
+        }
+    }
+
+    public void addUnit(IUnit unit){
+
+        this.playerUnit.add(unit);
+    }
+
+    public void setItem(IEquipableItem item){
+
+        if(this.actualUnit.getItems().contains(item)){
+
+            this.actualUnit.setEquippedItem(item);
+        }
+    }
+
+
 
 
 

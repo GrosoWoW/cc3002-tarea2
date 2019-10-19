@@ -1,4 +1,4 @@
-package model.items.attack.heal;
+package model.items.heal;
 
 import model.items.IEquipableItem;
 import model.units.IUnit;

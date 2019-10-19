@@ -2,7 +2,7 @@ package model.units;
 
 
 import model.items.*;
-import model.items.attack.heal.Staff;
+import model.items.heal.Staff;
 import model.items.attack.magic.AnimaBook;
 import model.items.attack.magic.DarkBook;
 import model.items.attack.magic.LightBook;

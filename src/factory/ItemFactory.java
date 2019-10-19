@@ -1,6 +1,6 @@
 package factory;
 
-import model.items.attack.heal.*;
+import model.items.heal.*;
 import model.items.attack.magic.*;
 import model.items.attack.normal.*;
 

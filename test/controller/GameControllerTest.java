@@ -5,10 +5,18 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.IntStream;
+
+import factory.ItemFactory;
+import factory.UnitFactory;
+import model.items.IEquipableItem;
 import model.map.Field;
+import model.map.InvalidLocation;
+import model.map.Location;
+import model.units.IUnit;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,6 +30,8 @@ class GameControllerTest {
   private GameController controller;
   private long randomSeed;
   private List<String> testTacticians;
+  private UnitFactory unitFactory;
+  private ItemFactory itemFactory;
 
   @BeforeEach
   void setUp() {
@@ -29,6 +39,26 @@ class GameControllerTest {
     randomSeed = new Random().nextLong();
     controller = new GameController(4, 7);
     testTacticians = List.of("Player 0", "Player 1", "Player 2", "Player 3");
+    unitFactory = new UnitFactory(controller.getGameMap());
+    itemFactory = new ItemFactory();
+  }
+
+  public IUnit randomUnit(){
+
+    Field map = controller.getGameMap();
+    InvalidLocation invalid = new InvalidLocation();
+    for(int i = 0; i < map.getSize(); i++){
+      for(int j = 0; j< map.getSize(); j++){
+
+        if(!map.getCell(i,j).equals(invalid)){
+
+          IUnit unit = unitFactory.createHero(20, i, j);
+          map.getCell(i,j).setUnit(unit);
+          return unit;
+        }
+      }
+    }
+    return null;
   }
 
   @Test
@@ -145,18 +175,71 @@ class GameControllerTest {
   // Desde aquí en adelante, los tests deben definirlos completamente ustedes
   @Test
   void getSelectedUnit() {
+
+    List<Tactician> listaTactician = controller.getTacticians();
+    this.controller.setActualPlayer(listaTactician.get(0));
+    IUnit unidadValida = randomUnit();
+    assertNull(controller.getActualPlayer().getSelectIUnit());
+    int x = unidadValida.getLocation().getRow();
+    int y = unidadValida.getLocation().getColumn();
+    controller.selectUnitIn(x,y);
+    assertEquals(unidadValida, controller.getActualPlayer().getSelectIUnit());
+    assertNotEquals(unidadValida, controller.getActualPlayer().getActualUnit());
+    assertEquals(unidadValida, controller.getActualPlayer().getSelectIUnit());
+
   }
 
   @Test
   void selectUnitIn() {
+
+      List<Tactician> listaTactician = controller.getTacticians();
+      this.controller.setActualPlayer(listaTactician.get(1));
+      IUnit unidadValida = randomUnit();
+      int x = unidadValida.getLocation().getRow();
+      int y = unidadValida.getLocation().getColumn();
+      controller.selectUnitIn(x, y);
+      assertEquals(unidadValida, controller.getActualPlayer().getSelectIUnit());
+      assertNotEquals(unidadValida, controller.getActualPlayer().getActualUnit());
+      assertEquals(unidadValida, controller.getActualPlayer().getSelectIUnit());
+
+
   }
 
   @Test
   void getItems() {
+
+      List<Tactician> listaTactician = controller.getTacticians();
+      Tactician player = listaTactician.get(0);
+      this.controller.setActualPlayer(player);
+      IUnit unidad = randomUnit();
+      IEquipableItem objeto = itemFactory.createAxe(2, 1, 2);
+      List lista = new ArrayList();
+      lista.add(objeto);
+      unidad.addItem(objeto);
+      player.addUnit(unidad);
+      this.controller.getActualPlayer().setActualUnit(unidad);
+      assertEquals(lista, this.controller.getItems());
+
   }
 
   @Test
   void equipItem() {
+
+    List<Tactician> listaTactician = controller.getTacticians();
+    Tactician player = listaTactician.get(0);
+    this.controller.setActualPlayer(player);
+    IEquipableItem objeto = itemFactory.createAxe(2,1,2);
+    IUnit unidad = randomUnit();
+    List lista = new ArrayList();
+    lista.add(objeto);
+    player.addUnit(unidad);
+    unidad.addItem(objeto);
+    this.controller.getActualPlayer().setActualUnit(unidad);
+    assertNull(this.controller.getActualPlayer().getActualUnit().getEquippedItem());
+    this.controller.equipItem(0);
+    assertEquals(objeto, this.controller.getActualPlayer().getActualUnit().getEquippedItem());
+
+
   }
 
   @Test

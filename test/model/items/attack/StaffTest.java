@@ -1,7 +1,7 @@
 package model.items.attack;
 
 import model.items.IEquipableItem;
-import model.items.attack.heal.Staff;
+import model.items.heal.Staff;
 import model.map.Location;
 import model.units.Cleric;
 import model.units.IUnit;

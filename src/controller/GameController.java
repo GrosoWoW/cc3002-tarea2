@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import model.items.IEquipableItem;
 import model.map.Field;
+import model.map.Location;
 import model.units.IUnit;
 import java.util.Random;
 import factory.*;
@@ -108,6 +109,15 @@ public class GameController {
     return this.maxRounds;
   }
 
+  public Tactician getActualPlayer(){
+    return this.actualPlayer;
+  }
+
+  public void setActualPlayer(Tactician player){
+
+    this.actualPlayer = player;
+  }
+
   /**
    * Finishes the current player's turn.
    */
@@ -182,6 +192,10 @@ public class GameController {
    */
   public void selectUnitIn(int x, int y) {
 
+    Location ubicacion = this.gameMap.getCell(x,y);
+    IUnit unidadSeleccionada = ubicacion.getUnit();
+    this.actualPlayer.setSelectIUnit(unidadSeleccionada);
+
   }
 
   /**
@@ -200,6 +214,15 @@ public class GameController {
   public void equipItem(int index) {
 
 
+      if(this.actualPlayer.getInventoryUnit().get(index) != null){
+
+          List inventory = this.actualPlayer.getInventoryUnit();
+          IEquipableItem item = this.actualPlayer.getInventoryUnit().get(index);
+          this.actualPlayer.setItem(item);
+
+      }
+
+
   }
 
   /**
@@ -212,6 +235,10 @@ public class GameController {
    */
   public void useItemOn(int x, int y) {
 
+    Location locacion = this.getGameMap().getCell(x, y);
+    IUnit unit = locacion.getUnit();
+    this.actualPlayer.getActualUnit().attackEnemy(unit);
+
   }
 
   /**
@@ -223,8 +250,7 @@ public class GameController {
   public void selectItem(int index) {
 
     IEquipableItem item = this.actualPlayer.getInventoryUnit().get(index);
-    this.actualPlayer.equipItem(item);
-
+    this.actualPlayer.setActualItem(item);
   }
 
   /**
@@ -236,6 +262,10 @@ public class GameController {
    *     vertical position of the target
    */
   public void giveItemTo(int x, int y) {
+
+    Location location = gameMap.getCell(x, y);
+    IUnit unidad = location.getUnit();
+    unidad.giveAway(unidad, actualPlayer.getActualItem());
 
   }
 

@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import model.items.IEquipableItem;
 import model.items.ITestEquipableItem;
-import model.items.attack.heal.Staff;
+import model.items.heal.Staff;
 import model.items.attack.normal.Axe;
 import model.items.attack.normal.Bow;
 import model.items.attack.normal.Spear;
