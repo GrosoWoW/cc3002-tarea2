@@ -29,11 +29,12 @@ public class GameController implements PropertyChangeListener {
   private int mapSize;
   private List<Tactician> listOfPlayers;
   private int actualRound;
-  private List listOfWinners;
+  private List<Tactician> listOfWinners;
   private int maxRounds;
   private Tactician actualPlayer;
   private Field gameMap;
   private Random random;
+  private int maxNumberOfPlayers;
 
   /**
    * Creates the controller for a new game.
@@ -51,6 +52,7 @@ public class GameController implements PropertyChangeListener {
     this.maxRounds = -1;
     this.gameMap = mapFactory.createMap(mapSize);
     this.random = new Random();
+    this.maxNumberOfPlayers = numberOfPlayers;
 
   }
 
@@ -136,7 +138,11 @@ public class GameController implements PropertyChangeListener {
 
     List<Tactician> list = this.listOfPlayers;
     int tamano = list.size();
-    if(list.get(tamano-1).getName() == this.actualPlayer.getName()){
+    if (this.getTacticians().size() == 1){
+
+      this.listOfWinners = this.getTacticians();
+    }
+    else if(list.get(tamano-1).getName() == this.actualPlayer.getName()){
 
         endRound();
     }
@@ -150,9 +156,21 @@ public class GameController implements PropertyChangeListener {
 
   public void endRound(){
 
+    if (this.getTacticians().size() == 1){
+
+      this.listOfWinners = this.getTacticians();
+    }
+
+    else if (this.getRoundNumber() == this.getMaxRounds()){
+
+      this.listOfWinners = this.listOfPlayers;
+    }
+    else {
+
       this.actualRound++;
       this.listOfPlayers = randomList(this.numberOfPlayers, this.listOfPlayers, random);
       actualPlayer = listOfPlayers.get(0);
+    }
   }
 
   /**
@@ -163,12 +181,21 @@ public class GameController implements PropertyChangeListener {
    */
   public void removeTactician(String tactician) {
 
-    for(int i = 0; i<this.numberOfPlayers; i++){
+    for(int i = 0; i<this.getTacticians().size(); i++){
 
       if (this.getTacticians().get(i).getName().equals(tactician)){
 
+        if((this.getTacticians().size() >= 2) && (this.actualPlayer == this.getTacticians().get(i))){
+          this.actualPlayer = this.getTacticians().get(i+1);
+        }
+
         this.listOfPlayers.remove(i);
         this.numberOfPlayers--;
+
+      }
+      if( this.getTacticians().size() == 1){
+
+        this.listOfWinners = this.getTacticians();
       }
     }
   }
@@ -180,7 +207,8 @@ public class GameController implements PropertyChangeListener {
    */
   public void initGame(final int maxTurns) {
 
-    this.listOfPlayers = randomList(numberOfPlayers, addPlayers(numberOfPlayers), random);
+    this.listOfWinners = null;
+    this.listOfPlayers = randomList(maxNumberOfPlayers, addPlayers(numberOfPlayers), random);
     this.maxRounds = maxTurns;
     this.actualRound = 1;
     this.actualPlayer = this.listOfPlayers.get(0);
@@ -200,7 +228,8 @@ public class GameController implements PropertyChangeListener {
    */
   public void initEndlessGame() {
 
-    this.listOfPlayers = randomList(numberOfPlayers, addPlayers(numberOfPlayers), random);
+    this.listOfWinners = null;
+    this.listOfPlayers = randomList(maxNumberOfPlayers, addPlayers(maxNumberOfPlayers), random);
     this.actualRound = 1;
     this.actualPlayer = this.listOfPlayers.get(0);
     this.maxRounds = -1;
@@ -217,8 +246,8 @@ public class GameController implements PropertyChangeListener {
   /**
    * @return the winner of this game, if the match ends in a draw returns a list of all the winners
    */
-  public List<String> getWinners() {
-    return listOfWinners;
+  public List<Tactician> getWinners() {
+    return this.listOfWinners;
   }
 
   /**
@@ -347,5 +376,10 @@ public class GameController implements PropertyChangeListener {
   public Random getRandom(){
 
     return this.random;
+  }
+
+  public int getMaxNumberOfPlayers(){
+
+    return this.maxNumberOfPlayers;
   }
 }

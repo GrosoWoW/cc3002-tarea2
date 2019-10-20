@@ -232,25 +232,32 @@ class GameControllerTest {
     controller.initGame(2);
     IntStream.range(0, 8).forEach(i -> controller.endTurn());
     assertEquals(4, controller.getWinners().size());
-    controller.getWinners()
-        .forEach(player -> Assertions.assertTrue(testTacticians.contains(player)));
+    for(int i = 0; i < controller.getTacticians().size(); i++){
+
+      Tactician player = controller.getTacticians().get(i);
+      assertTrue(controller.getWinners().contains(player));
+    }
 
     controller.initGame(2);
     IntStream.range(0, 4).forEach(i -> controller.endTurn());
     assertNull(controller.getWinners());
     controller.removeTactician("Player 0");
     controller.removeTactician("Player 2");
-    IntStream.range(0, 2).forEach(i -> controller.endTurn());
-    List<String> winners = controller.getWinners();
+    controller.endTurn();
+    controller.endTurn();
+    List<Tactician> winners = controller.getWinners();
+    Tactician winner1 = winners.get(0);
+    Tactician winner2 = winners.get(1);
     assertEquals(2, winners.size());
-    assertTrue(List.of("Player 1", "Player 3").containsAll(winners));
+    assertTrue(List.of(winner1, winner2).containsAll(winners));
 
     controller.initEndlessGame();
     for (int i = 0; i < 3; i++) {
       assertNull(controller.getWinners());
       controller.removeTactician("Player " + i);
     }
-    assertTrue(List.of("Player 3").containsAll(controller.getWinners()));
+    Tactician winner3 = controller.getTacticians().get(0);
+    assertTrue(List.of(winner3).containsAll(controller.getWinners()));
   }
 
   // Desde aquí en adelante, los tests deben definirlos completamente ustedes
