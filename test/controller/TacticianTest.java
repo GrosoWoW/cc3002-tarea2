@@ -21,6 +21,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class TacticianTest {
 
     private Tactician tactician;
+    private GameController controller;
     private List unidades;
     private Field map;
     private IEquipableItem item;
@@ -36,8 +37,9 @@ public class TacticianTest {
 
     @BeforeEach
     void setUp(){
-        Tactician tactician = new Tactician("Player");
+        Tactician tactician = new Tactician("Player", controller);
         this.tactician = tactician;
+        this.controller = new GameController(4, 7);
         List<IUnit> unidades = new ArrayList<>();
         this.unidades = unidades;
         this.map = new Field();

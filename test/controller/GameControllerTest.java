@@ -152,7 +152,18 @@ class GameControllerTest {
 
   @Test
   void getTurnOwner() {
-    //  En este caso deben hacer lo mismo que para el mapa
+
+    controller.initGame(4);
+    List<Tactician> list = controller.getTacticians();
+    for( int i = 0; i < controller.getTacticians().size(); i++){
+
+      Tactician player = controller.getTurnOwner();
+      Tactician realPlayer = list.get(i);
+      assertEquals(player, realPlayer);
+      controller.endTurn();
+    }
+
+
   }
 
   @Test
@@ -183,13 +194,19 @@ class GameControllerTest {
   @Test
   void endTurn() {
     Tactician firstPlayer = controller.getTurnOwner();
-    // Nuevamente, para determinar el orden de los jugadores se debe usar una semilla
-    Tactician secondPlayer = new Tactician("Player 1"); // <- Deben cambiar esto (!)
+    int index = controller.getTacticians().indexOf(firstPlayer);
+    Tactician secondPlayer = controller.getTacticians().get(index + 1);
+    Tactician thirdPlayer = controller.getTacticians().get(index + 2);
     assertNotEquals(secondPlayer.getName(), firstPlayer.getName());
 
     controller.endTurn();
     assertNotEquals(firstPlayer.getName(), controller.getTurnOwner().getName());
     assertEquals(secondPlayer.getName(), controller.getTurnOwner().getName());
+
+    controller.endTurn();
+    assertNotEquals(firstPlayer.getName(), controller.getTurnOwner().getName());
+    assertNotEquals(secondPlayer.getName(), controller.getTurnOwner().getName());
+    assertEquals(thirdPlayer.getName(), controller.getTurnOwner().getName());
   }
 
   @Test

@@ -3,6 +3,7 @@ package controller;
 import model.items.IEquipableItem;
 import model.units.IUnit;
 
+import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,11 +14,18 @@ public class Tactician {
     private IUnit actualUnit;
     private IUnit selectIUnit;
     private IEquipableItem actualItem;
+    private GameController controller;
+    private PropertyChangeSupport changes = new PropertyChangeSupport(this);
 
-    public Tactician(String name){
+    public Tactician(String name, GameController controller){
 
         this.name = name;
         this.playerUnit = new ArrayList();
+    }
+
+    public void addObserver(GameController resp){
+
+        changes.addPropertyChangeListener(resp);
     }
 
     public String getName(){
@@ -132,6 +140,8 @@ public class Tactician {
             this.actualUnit.setEquippedItem(item);
         }
     }
+
+
 
 
 

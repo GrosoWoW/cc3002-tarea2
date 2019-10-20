@@ -1,6 +1,7 @@
 package model.items.attack.magic;
 
 import model.items.IEquipableItem;
+import model.items.attack.IAttack;
 
 /**
  * This interface represents the <i>MagicItems</i> that the units of the game can use.
@@ -11,7 +12,7 @@ import model.items.IEquipableItem;
  * @author Cristobal Jaramillo Andrade
  */
 
-public interface IMagic extends IEquipableItem{
+public interface IMagic extends IEquipableItem, IAttack {
 
     /**
      *

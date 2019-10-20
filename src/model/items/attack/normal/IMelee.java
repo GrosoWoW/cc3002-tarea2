@@ -1,6 +1,7 @@
 package model.items.attack.normal;
 
 import model.items.IEquipableItem;
+import model.items.attack.IAttack;
 
 /**
  * This interface represents the <i>AttackWeapons</i> that the units of the game can use.
@@ -11,7 +12,7 @@ import model.items.IEquipableItem;
  * @author Cristobal Jaramillo Andrade
  */
 
-interface IAttack extends IEquipableItem {
+interface IMelee extends IEquipableItem, IAttack {
 
 
     /**

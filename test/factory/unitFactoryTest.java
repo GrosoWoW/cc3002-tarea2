@@ -1,5 +1,6 @@
 package factory;
 
+import controller.GameController;
 import controller.Tactician;
 import factory.unit.*;
 import model.items.IEquipableItem;
@@ -20,6 +21,7 @@ public class unitFactoryTest {
 
     private Field field;
     private ArrayList<IEquipableItem> items = new ArrayList<IEquipableItem>();
+    private GameController controller = new GameController(4 ,7);
     private Archer archer;
     private Alpaca alpaca;
     private Cleric cleric;
@@ -58,7 +60,8 @@ public class unitFactoryTest {
         this.sorcererFactory = new SorcererFactory(field);
         this.swordMasterFactory = new SwordMasterFactory(field);
         this.clericFactory = new ClericFactory(field);
-        this.tactician = new Tactician("Player 0");
+        this.tactician = new Tactician("Player 0", controller);
+
 
     }
 

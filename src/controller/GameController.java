@@ -1,5 +1,7 @@
 package controller;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +22,7 @@ import factory.*;
  * @version 2.0
  * @since 2.0
  */
-public class GameController {
+public class GameController implements PropertyChangeListener {
 
   private MapFactory mapFactory = new MapFactory();
   private int numberOfPlayers;
@@ -31,6 +33,7 @@ public class GameController {
   private int maxRounds;
   private Tactician actualPlayer;
   private Field gameMap;
+  private Random random;
 
   /**
    * Creates the controller for a new game.
@@ -47,6 +50,13 @@ public class GameController {
     this.actualRound = 1;
     this.maxRounds = -1;
     this.gameMap = mapFactory.createMap(mapSize);
+    this.random = new Random();
+
+  }
+
+  @Override
+  public void propertyChange(PropertyChangeEvent evt){
+
 
   }
 
@@ -59,21 +69,22 @@ public class GameController {
     List players = new ArrayList();
     for (int i = 0; i < maxPlayers; i++) {
 
-      Tactician player = new Tactician("Player " + i);
+      Tactician player = new Tactician("Player " + i, this);
       players.add(player);
     }
     return players;
   }
 
-    public List<Tactician> randomList(int numberPlayers, List<Tactician> players){
-    Random r = new Random();
+    public List<Tactician> randomList(int numberPlayers, List<Tactician> players, Random seed){
     List randomPlayers = new ArrayList();
+    Random ran = seed;
+    List<Tactician> jugadores = players;
 
     for(int i = 0; i < numberPlayers; i++){
 
-      int numeroRandom = r.nextInt(numberPlayers - i);
-      randomPlayers.add(players.get(numeroRandom));
-      players.remove(players.get(numeroRandom));
+      int numeroRandom = ran.nextInt(numberPlayers - i);
+      randomPlayers.add(jugadores.get(numeroRandom));
+      jugadores.remove(jugadores.get(numeroRandom));
     }
     return randomPlayers;
   }
@@ -123,18 +134,25 @@ public class GameController {
    */
   public void endTurn() {
 
-    this.actualRound++;
     List<Tactician> list = this.listOfPlayers;
     int tamano = list.size();
     if(list.get(tamano-1).getName() == this.actualPlayer.getName()){
 
         endRound();
     }
+    else {
+
+      int i = list.indexOf(this.actualPlayer);
+      actualPlayer = list.get(i+1);
+    }
+
   }
 
   public void endRound(){
 
       this.actualRound++;
+      this.listOfPlayers = randomList(this.numberOfPlayers, this.listOfPlayers, random);
+      actualPlayer = listOfPlayers.get(0);
   }
 
   /**
@@ -162,8 +180,7 @@ public class GameController {
    */
   public void initGame(final int maxTurns) {
 
-    this.listOfPlayers = randomList(numberOfPlayers, addPlayers(numberOfPlayers));
-    randomList(numberOfPlayers, addPlayers(numberOfPlayers));
+    this.listOfPlayers = randomList(numberOfPlayers, addPlayers(numberOfPlayers), random);
     this.maxRounds = maxTurns;
     this.actualRound = 1;
     this.actualPlayer = this.listOfPlayers.get(0);
@@ -183,8 +200,7 @@ public class GameController {
    */
   public void initEndlessGame() {
 
-    this.listOfPlayers = randomList(numberOfPlayers, addPlayers(numberOfPlayers));
-    randomList(numberOfPlayers, addPlayers(numberOfPlayers));
+    this.listOfPlayers = randomList(numberOfPlayers, addPlayers(numberOfPlayers), random);
     this.actualRound = 1;
     this.actualPlayer = this.listOfPlayers.get(0);
     this.maxRounds = -1;
@@ -196,7 +212,6 @@ public class GameController {
       player.setUnits(list);
 
     }
-
   }
 
   /**
@@ -253,8 +268,6 @@ public class GameController {
           this.actualPlayer.setItem(item);
 
       }
-
-
   }
 
   /**
@@ -329,5 +342,10 @@ public class GameController {
 
     return list;
 
+  }
+
+  public Random getRandom(){
+
+    return this.random;
   }
 }

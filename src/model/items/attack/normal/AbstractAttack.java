@@ -9,7 +9,7 @@ import model.units.IUnit;
  * @author Ignacio Slater Muñoz
  * @since 1.0
  */
-public abstract class AbstractAttack implements IAttack {
+public abstract class AbstractAttack implements IMelee {
 
     private String name;
     private double power;
