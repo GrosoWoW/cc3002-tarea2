@@ -36,6 +36,7 @@ class GameControllerTest {
   private AxeFactory axeFactory;
   private AlpacaFactory alpacaFactory;
   private MapFactory mapFactory;
+  private InvalidLocation invalidLocation;
 
   @BeforeEach
   void setUp() {
@@ -48,6 +49,7 @@ class GameControllerTest {
     axeFactory = new AxeFactory();
     alpacaFactory = new AlpacaFactory(controller.getGameMap());
     mapFactory = new MapFactory();
+    invalidLocation = new InvalidLocation();
   }
 
   public boolean vecinos(Field gMap, Field map){
@@ -68,10 +70,6 @@ class GameControllerTest {
           Location a = itr.next();
           while(itr1.hasNext()){
             Location b = itr1.next();
-            if(a.equals(invalidLocation) && b.equals(invalidLocation)){
-              contador = 0;
-              break;
-            }
             if(a.equals(b)){
               contador = 0;
               break;
@@ -80,9 +78,10 @@ class GameControllerTest {
               contador ++;
             }
           }
-          if(contador == 3){
+          if(contador == 4){
             return false;
           }
+          contador = 0;
         }
       }
     }
@@ -384,7 +383,12 @@ class GameControllerTest {
     controller.getActualPlayer().setActualUnit(selectUnit);
     controller.getActualPlayer().setActualItem(objeto);
     controller.giveItemTo(0, 1);
-    assertTrue(unit.getItems().contains(objeto));
+    if(selectUnit.getLocation().getNeighbours().size() == 0|| unit.getLocation().getNeighbours().size() == 0) {
+      assertFalse(unit.getItems().contains(objeto));
+    }
+    else{
+      assertTrue(unit.getItems().contains(objeto));
+    }
 
   }
 

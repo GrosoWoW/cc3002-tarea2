@@ -174,4 +174,8 @@ public class Location {
     return column;
   }
 
+  public String getId(){
+    return this.id;
+  }
+
 }

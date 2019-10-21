@@ -103,7 +103,7 @@ public class Field {
   }
 
   public Map<String, Location> getMap() {
-    return Map.copyOf(map);
+    return this.map;
   }
 
   /**
@@ -151,4 +151,11 @@ public class Field {
 
     return this.random;
   }
+
+  public void setRandom(Random seed){
+
+    this.random = seed;
+  }
+
+
 }

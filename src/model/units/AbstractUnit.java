@@ -8,6 +8,7 @@ import java.util.List;
 
 import controller.Tactician;
 import model.items.IEquipableItem;
+import model.map.InvalidLocation;
 import model.map.Location;
 
 /**
@@ -214,8 +215,9 @@ public abstract class AbstractUnit implements IUnit {
 
   public void giveAway(IUnit unit, IEquipableItem gift) {
 
+    InvalidLocation invalidLocation = new InvalidLocation();
     if(Math.abs(this.getLocation().getRow() - unit.getLocation().getRow()) <= 1 &&
-            Math.abs(this.getLocation().getColumn() - unit.getLocation().getColumn()) <= 1){
+            Math.abs(this.getLocation().getColumn() - unit.getLocation().getColumn()) <= 1 && (this.getLocation().getNeighbours().size()> 0 && unit.getLocation().getNeighbours().size()>0)){
 
       if(unit.getItems().size() < unit.getMaxItems()){
 
