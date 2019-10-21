@@ -59,6 +59,8 @@ public class GameController implements PropertyChangeListener {
   @Override
   public void propertyChange(PropertyChangeEvent evt){
 
+    System.out.println("Eo");
+
 
   }
 

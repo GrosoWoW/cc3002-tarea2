@@ -22,6 +22,7 @@ public class Tactician {
         this.name = name;
         this.playerUnit = new ArrayList();
         this.controller = controller;
+        this.addObserver(controller);
     }
 
     public void addObserver(GameController resp){

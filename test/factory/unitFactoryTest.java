@@ -98,7 +98,7 @@ public class unitFactoryTest {
         assertEquals(unidad5.getLocation().getRow(), 2);
         assertEquals(unidad5.getLocation().getColumn(), 0);
 
-        IUnit unidad6 = swordMasterFactory.createSwordMaster(30,1,1, tactician);
+        IUnit unidad6 = swordMasterFactory.create(30,1,1, tactician);
         assertTrue(unidad6.equalsTo(swordMaster));
         assertEquals(unidad6.getMaxHitPoints(), 30);
         assertEquals(unidad6.getLocation().getRow(), 1);
