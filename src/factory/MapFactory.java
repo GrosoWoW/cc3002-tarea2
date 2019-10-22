@@ -12,12 +12,10 @@ import java.util.Set;
 
 public class MapFactory {
 
-    private int size;
-    private int sizeMap;
 
     public MapFactory(){
 
-        this.sizeMap = sizeMap;
+
     }
 
     public Field checkMap(Field map) {
@@ -35,6 +33,9 @@ public class MapFactory {
                             location.addNeighbour(map.getCell(i+1, j));
                             location.addNeighbour(map.getCell(i-1, j));
                         }
+                        if(map.isConnected()){
+                            return map;
+                        }
                         if(location.getColumn() < map.getSize()-1 && location.getColumn() > 0){
                             location.addNeighbour(map.getCell(i, j+1));
                             location.addNeighbour(map.getCell(i,j-1));
@@ -49,35 +50,11 @@ public class MapFactory {
         }
     }
 
+    public Field createMapSeed(int size, Random seed, Field field){
 
-    public Field createMapSeed(int size, Random seed){
-
-        Field map = new Field();
+        Field map = field;
         map.setRandom(seed);
-        for(int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
-
-                map.addCells(false, new Location(i, j));
-            }
-        }
-        for(int i = 0; i < size; i++){
-            for(int j = 0; j < size; j++){
-
-
-                int numeroRandom = seed.nextInt(4);
-                if(numeroRandom == 0){
-
-                    Location location = map.getCell(i ,j);
-                    Set<Location> vecinos = location.getNeighbours();
-                    Iterator<Location> itr = vecinos.iterator();
-                    while(itr.hasNext()){
-                        Location o = itr.next();
-                        location.removeNeighbour(o);
-                    }
-                }
-            }
-        }
-        return checkMap(map);
+        return getField(size, map, seed);
     }
 
 
@@ -85,6 +62,10 @@ public class MapFactory {
 
         Field map = new Field();
         Random seed = map.getSeed();
+        return getField(size, map, seed);
+    }
+
+    public Field getField(int size, Field map, Random seed) {
         for(int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
 

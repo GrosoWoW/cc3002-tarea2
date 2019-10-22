@@ -37,7 +37,7 @@ public class mapFactoryTest {
     void equalsMap(){
 
         Random random = this.map.getSeed();
-        Field nuevoMapa = mapFactory.createMapSeed(7, random);
+        Field nuevoMapa = mapFactory.createMap(7);
         for(int i = 0; i < map.getSize(); i++){
             for(int j = 0; j< map.getSize(); j++){
 

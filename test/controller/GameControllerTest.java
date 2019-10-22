@@ -78,7 +78,7 @@ class GameControllerTest {
               contador ++;
             }
           }
-          if(contador == 4){
+          if(contador != 0){
             return false;
           }
           contador = 0;
@@ -134,8 +134,10 @@ class GameControllerTest {
     assertEquals(7, gameMap.getSize()); // getSize deben definirlo
     assertTrue(controller.getGameMap().isConnected());
     Random testRandom = gameMap.getSeed();
-    Field map = mapFactory.createMapSeed(7, testRandom);
-    assertTrue(vecinos(gameMap, map));
+    Field a = gameMap;
+    controller.getGameMap().getMap().clear();
+    Field map = mapFactory.createMapSeed(7, testRandom, controller.getGameMap());
+    assertTrue(vecinos(a, map));
 
 
     // Para testear funcionalidades que dependen de valores aleatorios se hacen 2 cosas:

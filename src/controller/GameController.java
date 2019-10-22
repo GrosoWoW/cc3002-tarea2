@@ -24,7 +24,6 @@ import factory.*;
  */
 public class GameController implements PropertyChangeListener {
 
-  private MapFactory mapFactory = new MapFactory();
   private int numberOfPlayers;
   private int mapSize;
   private List<Tactician> listOfPlayers;
@@ -35,8 +34,10 @@ public class GameController implements PropertyChangeListener {
   private Field gameMap;
   private Random random;
   private int maxNumberOfPlayers;
+  private MapFactory mapFactory;
 
-  /**
+
+    /**
    * Creates the controller for a new game.
    *
    * @param numberOfPlayers
@@ -50,9 +51,12 @@ public class GameController implements PropertyChangeListener {
     this.mapSize = mapSize;
     this.actualRound = 1;
     this.maxRounds = -1;
-    this.gameMap = mapFactory.createMap(mapSize);
     this.random = new Random();
     this.maxNumberOfPlayers = numberOfPlayers;
+    this.mapFactory = new MapFactory();
+    this.gameMap = mapFactory.createMap(mapSize);
+
+
 
   }
 
@@ -384,4 +388,5 @@ public class GameController implements PropertyChangeListener {
 
     return this.maxNumberOfPlayers;
   }
+
 }
