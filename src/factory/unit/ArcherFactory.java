@@ -42,6 +42,7 @@ public class ArcherFactory extends AbstractUnitFactory {
     public Archer create(int hitPoints, int x, int y, Tactician player, IEquipableItem... items){
 
         Archer archer = new Archer(hitPoints, 1, map.getCell(x,y), items);
+        map.getCell(x, y).setUnit(archer);
         archer.setOwner(player);
         return archer;
     }
@@ -59,6 +60,7 @@ public class ArcherFactory extends AbstractUnitFactory {
     public Archer createDefault(int x, int y, Tactician player){
 
         Archer archer = new Archer(50, 1, map.getCell(x, y));
+        map.getCell(x, y).setUnit(archer);
         archer.setOwner(player);
         return archer;
     }

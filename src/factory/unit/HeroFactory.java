@@ -35,6 +35,7 @@ public class HeroFactory extends AbstractUnitFactory {
     public Hero create(int hitPoints, int x, int y, Tactician player, IEquipableItem... items){
 
         Hero hero = new Hero(hitPoints, 1, map.getCell(x,y), items);
+        map.getCell(x, y).setUnit(hero);
         hero.setOwner(player);
         return hero;
     }
@@ -51,6 +52,7 @@ public class HeroFactory extends AbstractUnitFactory {
     public Hero createDefault(int x, int y, Tactician player){
 
         Hero hero = new Hero(50, 1, map.getCell(x, y));
+        map.getCell(x, y).setUnit(hero);
         hero.setOwner(player);
         return hero;
 

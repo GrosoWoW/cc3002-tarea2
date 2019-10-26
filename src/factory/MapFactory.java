@@ -10,14 +10,21 @@ import java.util.Iterator;
 import java.util.Random;
 import java.util.Set;
 
+
+/**
+ * Clase encargada de la fabricacion del mapa de juego
+ * @Author Cristóbal Jaramillo Andrede
+ * @Since 2.0
+ */
 public class MapFactory {
 
-
-    public MapFactory(){
-
-
-    }
-
+    /**
+     * Se encarga de chequear el mapa, verificando que el mapa sea conexo
+     * En caso contrario agrega vecinos a los nodos que no poseen
+     * hasta que logre que sea conexo
+     * @param map Mapa a verificar
+     * @return Mapa modificado y conexo
+     */
     public Field checkMap(Field map) {
 
         if (map.isConnected()) {
@@ -50,6 +57,14 @@ public class MapFactory {
         }
     }
 
+    /**
+     * Crea una mapa con una semilla (para testeo)
+     * @param size Tamaño del mapa
+     * @param seed Semilla para Random
+     * @param field Mapa base donde se creara (testeos)
+     * @return
+     */
+
     public Field createMapSeed(int size, Random seed, Field field){
 
         Field map = field;
@@ -57,6 +72,11 @@ public class MapFactory {
         return getField(size, map, seed);
     }
 
+    /**
+     * Crea un mapa con la semilla del controlador
+     * @param size Tamaño del mapa
+     * @return El mapa
+     */
 
     public Field createMap(int size){
 
@@ -64,6 +84,15 @@ public class MapFactory {
         Random seed = map.getSeed();
         return getField(size, map, seed);
     }
+
+    /**
+     * Encargado de introducir las celdas al mapa
+     * Con un numero al azar crea celdas con o sin vecinos
+     * @param size Tamaño del mapa
+     * @param map Mapa base
+     * @param seed Semilla (testeos)
+     * @return El mapa del juego
+     */
 
     public Field getField(int size, Field map, Random seed) {
         for(int i = 0; i < size; i++) {

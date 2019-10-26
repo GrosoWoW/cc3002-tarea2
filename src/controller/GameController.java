@@ -9,7 +9,6 @@ import factory.unit.*;
 import model.items.IEquipableItem;
 import model.map.Field;
 import model.map.Location;
-import model.units.Archer;
 import model.units.IUnit;
 import java.util.Random;
 import factory.*;
@@ -22,7 +21,7 @@ import factory.*;
  * @version 2.0
  * @since 2.0
  */
-public class GameController implements PropertyChangeListener {
+public class GameController{
 
   private int numberOfPlayers;
   private int mapSize;
@@ -35,6 +34,8 @@ public class GameController implements PropertyChangeListener {
   private Random random;
   private int maxNumberOfPlayers;
   private MapFactory mapFactory;
+  private IUnit actualUnit;
+  private IUnit selectUnit;
 
 
     /**
@@ -56,21 +57,12 @@ public class GameController implements PropertyChangeListener {
     this.mapFactory = new MapFactory();
     this.gameMap = mapFactory.createMap(mapSize);
 
-
-
   }
-
-  @Override
-  public void propertyChange(PropertyChangeEvent evt){
-
-    System.out.println("Eo");
-
-
-  }
-
-  /**
-   * @return the list of all the tacticians participating in the game.
-   */
+    /**
+     * Crea la lista inicial de jugadores
+     * @param maxPlayers Cantidad maxima de jugadores de la partida
+     * @return Lista con todos los jugadores
+     */
 
   public List<Tactician> addPlayers(int maxPlayers) {
 
@@ -83,19 +75,38 @@ public class GameController implements PropertyChangeListener {
     return players;
   }
 
-    public List<Tactician> randomList(int numberPlayers, List<Tactician> players, Random seed){
-    List randomPlayers = new ArrayList();
-    Random ran = seed;
+    /**
+     * Reordena una lista de manera aleatoria, asegurando que el el ultimo jugador nunca
+     * quede al inicio de la nueva lista
+     * @param numberPlayers Cantidad de jugadores actuales
+     * @param players Lista de jugadores a cambiar
+     * @param seed Semilla (para cosas de testeo)
+     * @return Lista de jugadores
+     */
+
+  public List<Tactician> randomList(int numberPlayers, List<Tactician> players, Random seed){
+
+    List<Tactician> randomPlayers = new ArrayList<Tactician>();
     List<Tactician> jugadores = players;
+    Tactician ultimoJugador = jugadores.get(jugadores.size()-1);
+    jugadores.remove(jugadores.size()-1);
 
-    for(int i = 0; i < numberPlayers; i++){
+    for(int i = 0; i < numberPlayers - 1; i++){
 
-      int numeroRandom = ran.nextInt(numberPlayers - i);
+      int numeroRandom = seed.nextInt(numberPlayers - i - 1);
       randomPlayers.add(jugadores.get(numeroRandom));
       jugadores.remove(jugadores.get(numeroRandom));
     }
+
+    int numRandom = seed.nextInt(numberPlayers);
+    randomPlayers.add(numRandom, ultimoJugador);
     return randomPlayers;
   }
+
+    /**
+     * @return the list of all the tacticians participating in the game.
+     */
+
   public List<Tactician> getTacticians() {
     return this.listOfPlayers;
   }
@@ -150,15 +161,20 @@ public class GameController implements PropertyChangeListener {
     }
     else if(list.get(tamano-1).getName() == this.actualPlayer.getName()){
 
+        verifyHero();
         endRound();
     }
     else {
 
       int i = list.indexOf(this.actualPlayer);
       actualPlayer = list.get(i+1);
+      verifyHero();
     }
-
   }
+
+    /**
+     * Termina una ronda cuando todas los Tactician han jugado su turno
+     */
 
   public void endRound(){
 
@@ -226,7 +242,6 @@ public class GameController implements PropertyChangeListener {
       player.setUnits(list);
 
     }
-
   }
 
   /**
@@ -245,7 +260,6 @@ public class GameController implements PropertyChangeListener {
       Tactician player = listOfPlayers.get(i);
       List<IUnit> list = setUnits(player);
       player.setUnits(list);
-
     }
   }
 
@@ -295,16 +309,12 @@ public class GameController implements PropertyChangeListener {
    */
   public void equipItem(int index) {
 
-
       if(this.actualPlayer.getInventoryUnit().get(index) != null){
 
-          List inventory = this.actualPlayer.getInventoryUnit();
           IEquipableItem item = this.actualPlayer.getInventoryUnit().get(index);
           this.actualPlayer.setItem(item);
-
       }
   }
-
   /**
    * Uses the equipped item on a target
    *
@@ -379,14 +389,43 @@ public class GameController implements PropertyChangeListener {
 
   }
 
-  public Random getRandom(){
-
-    return this.random;
-  }
-
   public int getMaxNumberOfPlayers(){
 
     return this.maxNumberOfPlayers;
   }
 
+  public IUnit getActualUnit(){
+
+    return this.actualUnit;
+  }
+
+  public void setActualUnit(IUnit unit){
+
+    this.actualUnit = unit;
+  }
+
+  public IUnit getSelectUnit(){
+
+    return this.selectUnit;
+  }
+
+  public void setSelectUnit(IUnit unit){
+
+    this.selectUnit = unit;
+  }
+
+  /**
+   * Verifica que para los tacticians en juego, sus heros esten vivos
+   */
+  public void verifyHero(){
+    int size = this.getTacticians().size();
+    for(int i = 0; i < size; i++){
+      for(int j = 0; j < getTacticians().get(i).getPlayerUnits().size(); j++){
+        if(getTacticians().get(i).getPlayerUnits().get(j).isHero() && !getTacticians().get(i).getPlayerUnits().get(j).getLive()){
+          this.getTacticians().remove(getTacticians().get(i));
+          size = getTacticians().size();
+        }
+      }
+    }
+  }
 }

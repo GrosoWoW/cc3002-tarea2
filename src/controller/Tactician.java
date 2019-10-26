@@ -1,5 +1,8 @@
 package controller;
 
+import controller.changes.ActualUnitChange;
+import controller.changes.HeroDie;
+import controller.changes.SelectUnitChange;
 import model.items.IEquipableItem;
 import model.units.IUnit;
 
@@ -10,31 +13,37 @@ import java.util.List;
 public class Tactician {
 
     private final String name;
-    private List playerUnit;
+    private List<IUnit> playerUnit;
     private IUnit actualUnit;
     private IUnit selectIUnit;
     private IEquipableItem actualItem;
     private GameController controller;
-    private PropertyChangeSupport changes = new PropertyChangeSupport(this);
+    private PropertyChangeSupport handler1;
+    private PropertyChangeSupport handler2;
+    private PropertyChangeSupport handler3;
+    private ActualUnitChange actualUnitChange;
+    private SelectUnitChange selectUnitChange;
+    private HeroDie heroDie = new HeroDie();
 
     public Tactician(String name, GameController controller){
 
         this.name = name;
-        this.playerUnit = new ArrayList();
+        this.playerUnit = new ArrayList<IUnit>();
         this.controller = controller;
-        this.addObserver(controller);
+        actualUnitChange =  new ActualUnitChange(this.controller);
+        selectUnitChange = new SelectUnitChange(this.controller);
+        handler1 = new PropertyChangeSupport(this);
+        handler2 = new PropertyChangeSupport(this);
+        handler3 = new PropertyChangeSupport(this);
+        handler1.addPropertyChangeListener(actualUnitChange);
+        handler2.addPropertyChangeListener(heroDie);
+        handler3.addPropertyChangeListener(selectUnitChange);
     }
 
-    public void addObserver(GameController resp){
-
-        changes.addPropertyChangeListener(resp);
-    }
 
     public void setUnits(List<IUnit> newUnits){
 
-        List<IUnit> oldUnits = playerUnit;
         playerUnit = newUnits;
-        changes.firePropertyChange("playerUnit", oldUnits, newUnits);
     }
 
     public void setActualUnit(IUnit newUnit){
@@ -43,24 +52,26 @@ public class Tactician {
 
             IUnit oldUnit = actualUnit;
             actualUnit = newUnit;
-            changes.firePropertyChange("actualUnit", oldUnit, newUnit);
+            handler1.firePropertyChange("actualUnit", oldUnit, newUnit);
         }
     }
+
+    public void heroDie(){}
 
     public void setSelectIUnit(IUnit newUnit){
 
         IUnit oldUnit = selectIUnit;
         selectIUnit = newUnit;
-        changes.firePropertyChange("selectUnit", oldUnit, newUnit);
+        handler3.firePropertyChange("selectUnit", oldUnit, newUnit);
     }
 
     public void setActualItem(IEquipableItem newItem){
 
         if(this.getActualUnit().getItems().contains(newItem)) {
 
-            IEquipableItem oldItem = actualItem;
+            //IEquipableItem oldItem = actualItem;
             actualItem = newItem;
-            changes.firePropertyChange("actualItem", oldItem, newItem);
+            //changes.firePropertyChange("actualItem", oldItem, newItem);
         }
     }
 
@@ -68,7 +79,7 @@ public class Tactician {
         return this.name;
     }
 
-    public List getPlayerUnits(){
+    public List<IUnit> getPlayerUnits(){
         return this.playerUnit;
 
     }

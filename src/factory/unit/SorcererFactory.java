@@ -35,6 +35,7 @@ public class SorcererFactory extends AbstractUnitFactory {
     public Sorcerer create(int hitPoints, int x, int y, Tactician player, IEquipableItem... items){
 
         Sorcerer sorcerer = new Sorcerer(hitPoints, 1, map.getCell(x,y), items);
+        map.getCell(x, y).setUnit(sorcerer);
         sorcerer.setOwner(player);
         return sorcerer;
     }
@@ -51,6 +52,7 @@ public class SorcererFactory extends AbstractUnitFactory {
     public Sorcerer createDefault(int x, int y, Tactician player){
 
         Sorcerer sorcerer = new Sorcerer(50, 1, map.getCell(x, y));
+        map.getCell(x, y).setUnit(sorcerer);
         sorcerer.setOwner(player);
         return sorcerer;
     }

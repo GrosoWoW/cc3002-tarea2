@@ -1,11 +1,5 @@
 package controller;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-
 
 import java.util.*;
 import java.util.stream.IntStream;
@@ -23,6 +17,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 /**
  * @author Ignacio Slater Muñoz
  * @since v2.0
@@ -36,7 +32,6 @@ class GameControllerTest {
   private AxeFactory axeFactory;
   private AlpacaFactory alpacaFactory;
   private MapFactory mapFactory;
-  private InvalidLocation invalidLocation;
 
   @BeforeEach
   void setUp() {
@@ -44,21 +39,18 @@ class GameControllerTest {
     randomSeed = new Random().nextLong();
     controller = new GameController(4, 7);
     controller.initEndlessGame();
-    testTacticians =  controller.getTacticians();
+    testTacticians = controller.getTacticians();
     heroFactory = new HeroFactory(controller.getGameMap());
     axeFactory = new AxeFactory();
     alpacaFactory = new AlpacaFactory(controller.getGameMap());
     mapFactory = new MapFactory();
-    invalidLocation = new InvalidLocation();
   }
 
-  public boolean vecinos(Field gMap, Field map){
-
-    InvalidLocation invalidLocation = new InvalidLocation();
+  public boolean vecinos(Field gMap, Field map) {
 
     int contador = 0;
-    for(int i = 0 ; i<7; i++){
-      for(int j = 0; j<7; j++) {
+    for (int i = 0; i < 7; i++) {
+      for (int j = 0; j < 7; j++) {
 
         Location ub1 = gMap.getCell(i, j);
         Location ub2 = map.getCell(i, j);
@@ -66,19 +58,18 @@ class GameControllerTest {
         Set<Location> vecinos2 = ub2.getNeighbours();
         Iterator<Location> itr = vecinos1.iterator();
         Iterator<Location> itr1 = vecinos2.iterator();
-        while(itr.hasNext()){
+        while (itr.hasNext()) {
           Location a = itr.next();
-          while(itr1.hasNext()){
+          while (itr1.hasNext()) {
             Location b = itr1.next();
-            if(a.equals(b)){
+            if (a.equals(b)) {
               contador = 0;
               break;
-            }
-            else{
-              contador ++;
+            } else {
+              contador++;
             }
           }
-          if(contador != 0){
+          if (contador != 0) {
             return false;
           }
           contador = 0;
@@ -88,17 +79,17 @@ class GameControllerTest {
     return true;
   }
 
-  public IUnit randomUnit(){
+  public IUnit randomUnit() {
 
     Field map = controller.getGameMap();
     InvalidLocation invalid = new InvalidLocation();
-    for(int i = 0; i < map.getSize(); i++){
-      for(int j = 0; j< map.getSize(); j++){
+    for (int i = 0; i < map.getSize(); i++) {
+      for (int j = 0; j < map.getSize(); j++) {
 
-        if(!map.getCell(i,j).equals(invalid)){
+        if (!map.getCell(i, j).equals(invalid)) {
 
           IUnit unit = heroFactory.create(20, i, j, null);
-          map.getCell(i,j).setUnit(unit);
+          map.getCell(i, j).setUnit(unit);
           return unit;
         }
       }
@@ -106,11 +97,11 @@ class GameControllerTest {
     return null;
   }
 
-  public boolean isTactician(String player, List<Tactician> list){
+  public boolean isTactician(String player, List<Tactician> list) {
 
-    for(int i = 0; i<list.size(); i++){
+    for (int i = 0; i < list.size(); i++) {
 
-      if(list.get(i).getName().equals(player)){
+      if (list.get(i).getName().equals(player)) {
         return true;
       }
     }
@@ -123,7 +114,7 @@ class GameControllerTest {
     assertEquals(4, tacticians.size());
     for (int i = 0; i < tacticians.size(); i++) {
 
-      assertTrue(isTactician("Player "+i, tacticians));
+      assertTrue(isTactician("Player " + i, tacticians));
 
     }
   }
@@ -139,16 +130,6 @@ class GameControllerTest {
     Field map = mapFactory.createMapSeed(7, testRandom, controller.getGameMap());
     assertTrue(vecinos(a, map));
 
-
-    // Para testear funcionalidades que dependen de valores aleatorios se hacen 2 cosas:
-    //  - Comprobar las invariantes de las estructuras que se crean (en este caso que el mapa tenga
-    //    las dimensiones definidas y que sea conexo.
-    //  - Setear una semilla para el generador de números aleatorios. Hacer esto hace que la
-    //    secuencia de números generada sea siempre la misma, así pueden predecir los
-    //    resultados que van a obtener.
-    //    Hay 2 formas de hacer esto en Java, le pueden pasar el seed al constructor de Random, o
-    //    usar el método setSeed de Random.
-    //  ESTO ÚLTIMO NO ESTÁ IMPLEMENTADO EN EL MAPA, ASÍ QUE DEBEN AGREGARLO (!)
   }
 
   @Test
@@ -156,7 +137,7 @@ class GameControllerTest {
 
     controller.initGame(4);
     List<Tactician> list = controller.getTacticians();
-    for( int i = 0; i < controller.getTacticians().size(); i++){
+    for (int i = 0; i < controller.getTacticians().size(); i++) {
 
       Tactician player = controller.getTurnOwner();
       Tactician realPlayer = list.get(i);
@@ -214,18 +195,18 @@ class GameControllerTest {
   void removeTactician() {
     assertEquals(4, controller.getTacticians().size());
     controller.getTacticians()
-        .forEach(tactician -> Assertions.assertTrue(testTacticians.contains(tactician)));
+            .forEach(tactician -> Assertions.assertTrue(testTacticians.contains(tactician)));
 
     controller.removeTactician("Player 0");
     assertEquals(3, controller.getTacticians().size());
     controller.getTacticians().forEach(tactician -> assertNotEquals("Player 0", tactician));
     controller.getTacticians()
-        .forEach(tactician -> Assertions.assertTrue(testTacticians.contains(tactician)));
+            .forEach(tactician -> Assertions.assertTrue(testTacticians.contains(tactician)));
 
     controller.removeTactician("Player 5");
     assertEquals(3, controller.getTacticians().size());
     controller.getTacticians()
-        .forEach(tactician -> Assertions.assertTrue(testTacticians.contains(tactician)));
+            .forEach(tactician -> Assertions.assertTrue(testTacticians.contains(tactician)));
   }
 
   @Test
@@ -233,7 +214,7 @@ class GameControllerTest {
     controller.initGame(2);
     IntStream.range(0, 8).forEach(i -> controller.endTurn());
     assertEquals(4, controller.getWinners().size());
-    for(int i = 0; i < controller.getTacticians().size(); i++){
+    for (int i = 0; i < controller.getTacticians().size(); i++) {
 
       Tactician player = controller.getTacticians().get(i);
       assertTrue(controller.getWinners().contains(player));
@@ -261,7 +242,6 @@ class GameControllerTest {
     assertTrue(List.of(winner3).containsAll(controller.getWinners()));
   }
 
-  // Desde aquí en adelante, los tests deben definirlos completamente ustedes
   @Test
   void getSelectedUnit() {
 
@@ -271,7 +251,7 @@ class GameControllerTest {
     assertNull(controller.getActualPlayer().getSelectIUnit());
     int x = unidadValida.getLocation().getRow();
     int y = unidadValida.getLocation().getColumn();
-    controller.selectUnitIn(x,y);
+    controller.selectUnitIn(x, y);
     assertEquals(unidadValida, controller.getActualPlayer().getSelectIUnit());
     assertNotEquals(unidadValida, controller.getActualPlayer().getActualUnit());
     assertEquals(unidadValida, controller.getActualPlayer().getSelectIUnit());
@@ -281,15 +261,15 @@ class GameControllerTest {
   @Test
   void selectUnitIn() {
 
-      List<Tactician> listaTactician = controller.getTacticians();
-      this.controller.setActualPlayer(listaTactician.get(1));
-      IUnit unidadValida = randomUnit();
-      int x = unidadValida.getLocation().getRow();
-      int y = unidadValida.getLocation().getColumn();
-      controller.selectUnitIn(x, y);
-      assertEquals(unidadValida, controller.getActualPlayer().getSelectIUnit());
-      assertNotEquals(unidadValida, controller.getActualPlayer().getActualUnit());
-      assertEquals(unidadValida, controller.getActualPlayer().getSelectIUnit());
+    List<Tactician> listaTactician = controller.getTacticians();
+    this.controller.setActualPlayer(listaTactician.get(1));
+    IUnit unidadValida = randomUnit();
+    int x = unidadValida.getLocation().getRow();
+    int y = unidadValida.getLocation().getColumn();
+    controller.selectUnitIn(x, y);
+    assertEquals(unidadValida, controller.getActualPlayer().getSelectIUnit());
+    assertNotEquals(unidadValida, controller.getActualPlayer().getActualUnit());
+    assertEquals(unidadValida, controller.getActualPlayer().getSelectIUnit());
 
 
   }
@@ -297,17 +277,17 @@ class GameControllerTest {
   @Test
   void getItems() {
 
-      List<Tactician> listaTactician = controller.getTacticians();
-      Tactician player = listaTactician.get(0);
-      this.controller.setActualPlayer(player);
-      IUnit unidad = randomUnit();
-      IEquipableItem objeto = axeFactory.create(2, 1, 2);
-      List lista = new ArrayList();
-      lista.add(objeto);
-      unidad.addItem(objeto);
-      player.addUnit(unidad);
-      this.controller.getActualPlayer().setActualUnit(unidad);
-      assertEquals(lista, this.controller.getItems());
+    List<Tactician> listaTactician = controller.getTacticians();
+    Tactician player = listaTactician.get(0);
+    this.controller.setActualPlayer(player);
+    IUnit unidad = randomUnit();
+    IEquipableItem objeto = axeFactory.create(2, 1, 2);
+    List lista = new ArrayList();
+    lista.add(objeto);
+    unidad.addItem(objeto);
+    player.addUnit(unidad);
+    this.controller.getActualPlayer().setActualUnit(unidad);
+    assertEquals(lista, this.controller.getItems());
 
   }
 
@@ -317,7 +297,7 @@ class GameControllerTest {
     List<Tactician> listaTactician = controller.getTacticians();
     Tactician player = listaTactician.get(0);
     this.controller.setActualPlayer(player);
-    IEquipableItem objeto = axeFactory.create(2,1,2);
+    IEquipableItem objeto = axeFactory.create(2, 1, 2);
     IUnit unidad = randomUnit();
     List lista = new ArrayList();
     lista.add(objeto);
@@ -339,11 +319,11 @@ class GameControllerTest {
     IUnit unidadValida = randomUnit();
     int x = unidadValida.getLocation().getRow();
     int y = unidadValida.getLocation().getColumn();
-    controller.selectUnitIn(x,y);
+    controller.selectUnitIn(x, y);
     controller.getActualPlayer().addUnit(unidadValida);
     controller.getActualPlayer().setActualUnit(unidadValida);
     IUnit alpaca = alpacaFactory.create(100, 0, 0, listaTactician.get(0));
-    controller.useItemOn(0,0);
+    controller.useItemOn(0, 0);
 
   }
 
@@ -353,7 +333,7 @@ class GameControllerTest {
     List<Tactician> listaTactician = controller.getTacticians();
     Tactician player = listaTactician.get(0);
     this.controller.setActualPlayer(player);
-    IEquipableItem objeto = axeFactory.create(2,1,2);
+    IEquipableItem objeto = axeFactory.create(2, 1, 2);
     IUnit unidad = randomUnit();
     unidad.addItem(objeto);
     player.addUnit(unidad);
@@ -368,11 +348,11 @@ class GameControllerTest {
   @Test
   void giveItemTo() {
 
-    IUnit selectUnit = heroFactory.createDefault(0,0, testTacticians.get(0));
-    IUnit unit = heroFactory.createDefault(0,1, testTacticians.get(1));
+    IUnit selectUnit = heroFactory.createDefault(0, 0, testTacticians.get(0));
+    IUnit unit = heroFactory.createDefault(0, 1, testTacticians.get(1));
     controller.getGameMap().getCell(0, 0).setUnit(selectUnit);
     controller.getGameMap().getCell(0, 1).setUnit(unit);
-    IEquipableItem objeto = axeFactory.create(2,1,2);
+    IEquipableItem objeto = axeFactory.create(2, 1, 2);
     IEquipableItem objeto2 = axeFactory.create(3, 1, 3);
     unit.addItem(objeto2);
     assertFalse(selectUnit.getItems().contains(objeto));
@@ -385,23 +365,78 @@ class GameControllerTest {
     controller.getActualPlayer().setActualUnit(selectUnit);
     controller.getActualPlayer().setActualItem(objeto);
     controller.giveItemTo(0, 1);
-    if(selectUnit.getLocation().getNeighbours().size() == 0|| unit.getLocation().getNeighbours().size() == 0) {
+    if (selectUnit.getLocation().getNeighbours().size() == 0 || unit.getLocation().getNeighbours().size() == 0) {
       assertFalse(unit.getItems().contains(objeto));
-    }
-    else{
+    } else {
       assertTrue(unit.getItems().contains(objeto));
     }
 
   }
 
   @Test
-  void getNumberPlayersTest(){
+  void getNumberPlayersTest() {
 
     int number = controller.getTacticians().size();
     assertEquals(number, controller.getNumberOfPlayers());
     controller.removeTactician("Player 0");
     int newNumber = controller.getTacticians().size();
     assertEquals(newNumber, controller.getNumberOfPlayers());
+
+  }
+
+  @Test
+  void getMaxNumberOfPlayers() {
+
+    controller.initGame(4);
+    assertEquals(4, controller.getNumberOfPlayers());
+    controller.removeTactician("Player 0");
+    assertEquals(4, controller.getMaxNumberOfPlayers());
+    controller.removeTactician("Player 1");
+    assertEquals(4, controller.getMaxNumberOfPlayers());
+    controller.removeTactician("Player 0");
+    assertEquals(4, controller.getMaxNumberOfPlayers());
+  }
+
+
+  /**
+   * Verifica que si una unidad muere, esta sea extraida de la casilla
+   */
+  @Test
+  void unitDead(){
+
+    controller.initGame(4);
+    Tactician player = controller.getTacticians().get(0);
+    IUnit unidad = heroFactory.createDefault(4,4, player);
+    Location location = unidad.getLocation();
+    assertNotNull(location.getUnit());
+    assertTrue(unidad.getLive());
+    unidad.die();
+    assertFalse(unidad.getLive());
+    assertNull(location.getUnit());
+  }
+
+  /**
+   * Verifica que si un hero de un tactician muere, este debe ser retirado de la mesa
+   */
+  @Test
+  void heroDie(){
+
+    controller.initGame(4);
+    Tactician player = controller.getActualPlayer();
+    assertTrue(controller.getTacticians().contains(player));
+    IUnit hero = null;
+    for(int i = 0; i < player.getPlayerUnits().size(); i++){
+      if(player.getPlayerUnits().get(i).isHero()){
+        hero = player.getPlayerUnits().get(i);
+      }
+    }
+    if(hero!=null){
+      hero.die();
+    }
+    assertTrue(controller.getTacticians().contains(player));
+    controller.endTurn();
+    assertFalse(controller.getTacticians().contains(player));
+
 
   }
 }

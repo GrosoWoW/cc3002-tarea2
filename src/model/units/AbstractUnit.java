@@ -152,6 +152,7 @@ public abstract class AbstractUnit implements IUnit {
   public void die(){
 
     this.life = false;
+    this.getLocation().setUnit(null);
   }
 
   public void unEquipAItem(IEquipableItem item){
@@ -275,6 +276,11 @@ public abstract class AbstractUnit implements IUnit {
         this.takeDamage(dano);
         }
     }
+  }
+
+  public boolean isHero(){
+
+    return false;
   }
 
 }

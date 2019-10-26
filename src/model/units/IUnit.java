@@ -245,9 +245,26 @@ public interface IUnit {
    */
   void equipStaff(IEquipableItem item);
 
+  /**
+   * Metodo de equivalencias de unidades
+   * @param unit Unidad con la que se comparar
+   * @return booleano indicando si son iguales o no
+   */
+
   boolean equalsTo(IUnit unit);
 
+  /**
+   * Establece el Tactician dueño de la unidad
+   * @param player Jugador dueño
+   */
+
   void setOwner(Tactician player);
+
+  /**
+   * Verifica si una unidad es un hero o no
+   * @return un booleano verificando si es un hero
+   */
+  boolean isHero();
 
 
 }

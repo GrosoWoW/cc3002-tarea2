@@ -35,6 +35,7 @@ public class FighterFactory extends AbstractUnitFactory {
     public Fighter create(int hitPoints, int x, int y, Tactician player, IEquipableItem... items){
 
         Fighter fighter = new Fighter(hitPoints, 1, map.getCell(x,y), items);
+        map.getCell(x, y).setUnit(fighter);
         fighter.setOwner(player);
         return fighter;
     }
@@ -51,6 +52,7 @@ public class FighterFactory extends AbstractUnitFactory {
     public Fighter createDefault(int x, int y, Tactician player){
 
         Fighter fighter = new Fighter(50, 1, map.getCell(x, y));
+        map.getCell(x, y).setUnit(fighter);
         fighter.setOwner(player);
         return fighter;
     }

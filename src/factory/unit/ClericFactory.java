@@ -35,6 +35,8 @@ public class ClericFactory extends AbstractUnitFactory {
     public Cleric create(int hitPoints, int x, int y, Tactician player, IEquipableItem... items){
 
         Cleric cleric = new Cleric(hitPoints, 1, map.getCell(x,y));
+        map.getCell(x, y).setUnit(cleric);
+
         cleric.setOwner(player);
         return cleric;
     }
@@ -51,6 +53,8 @@ public class ClericFactory extends AbstractUnitFactory {
     public Cleric createDefault(int x, int y, Tactician player){
 
         Cleric cleric = new Cleric(50, 1, map.getCell(x, y));
+        map.getCell(x, y).setUnit(cleric);
+
         cleric.setOwner(player);
         return cleric;
     }

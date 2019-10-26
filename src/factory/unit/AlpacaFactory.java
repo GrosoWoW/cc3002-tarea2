@@ -36,6 +36,7 @@ public class AlpacaFactory extends AbstractUnitFactory {
     public Alpaca create(int hitPoints, int x, int y, Tactician player, IEquipableItem... items){
 
         Alpaca alpaca = new Alpaca(hitPoints, 1, map.getCell(x,y), items);
+        map.getCell(x, y).setUnit(alpaca);
         alpaca.setOwner(player);
         return alpaca;
     }
@@ -52,6 +53,7 @@ public class AlpacaFactory extends AbstractUnitFactory {
     public Alpaca createDefault(int x, int y, Tactician player){
 
         Alpaca alpaca =new Alpaca(50, 1, map.getCell(x, y));
+        map.getCell(x, y).setUnit(alpaca);
         alpaca.setOwner(player);
         return alpaca;
     }
