@@ -152,7 +152,7 @@ public abstract class AbstractUnit implements IUnit {
   public void die(){
 
     this.life = false;
-    this.getLocation().setUnit(null);
+    this.getLocation().removeUnit();
   }
 
   public void unEquipAItem(IEquipableItem item){

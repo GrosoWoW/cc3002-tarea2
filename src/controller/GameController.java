@@ -1,7 +1,5 @@
 package controller;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +19,7 @@ import factory.*;
  * @version 2.0
  * @since 2.0
  */
-public class GameController{
+public class GameController {
 
   private int numberOfPlayers;
   private int mapSize;
@@ -35,16 +33,13 @@ public class GameController{
   private int maxNumberOfPlayers;
   private MapFactory mapFactory;
   private IUnit actualUnit;
-  private IUnit selectUnit;
 
 
-    /**
+  /**
    * Creates the controller for a new game.
    *
-   * @param numberOfPlayers
-   *     the number of players for this game
-   * @param mapSize
-   *     the dimensions of the map, for simplicity, all maps are squares
+   * @param numberOfPlayers the number of players for this game
+   * @param mapSize         the dimensions of the map, for simplicity, all maps are squares
    */
   public GameController(int numberOfPlayers, int mapSize) {
 
@@ -58,11 +53,13 @@ public class GameController{
     this.gameMap = mapFactory.createMap(mapSize);
 
   }
-    /**
-     * Crea la lista inicial de jugadores
-     * @param maxPlayers Cantidad maxima de jugadores de la partida
-     * @return Lista con todos los jugadores
-     */
+
+  /**
+   * Crea la lista inicial de jugadores
+   *
+   * @param maxPlayers Cantidad maxima de jugadores de la partida
+   * @return Lista con todos los jugadores
+   */
 
   public List<Tactician> addPlayers(int maxPlayers) {
 
@@ -75,23 +72,24 @@ public class GameController{
     return players;
   }
 
-    /**
-     * Reordena una lista de manera aleatoria, asegurando que el el ultimo jugador nunca
-     * quede al inicio de la nueva lista
-     * @param numberPlayers Cantidad de jugadores actuales
-     * @param players Lista de jugadores a cambiar
-     * @param seed Semilla (para cosas de testeo)
-     * @return Lista de jugadores
-     */
+  /**
+   * Reordena una lista de manera aleatoria, asegurando que el el ultimo jugador nunca
+   * quede al inicio de la nueva lista
+   *
+   * @param numberPlayers Cantidad de jugadores actuales
+   * @param players       Lista de jugadores a cambiar
+   * @param seed          Semilla (para cosas de testeo)
+   * @return Lista de jugadores
+   */
 
-  public List<Tactician> randomList(int numberPlayers, List<Tactician> players, Random seed){
+  public List<Tactician> randomList(int numberPlayers, List<Tactician> players, Random seed) {
 
     List<Tactician> randomPlayers = new ArrayList<Tactician>();
     List<Tactician> jugadores = players;
-    Tactician ultimoJugador = jugadores.get(jugadores.size()-1);
-    jugadores.remove(jugadores.size()-1);
+    Tactician ultimoJugador = jugadores.get(jugadores.size() - 1);
+    jugadores.remove(jugadores.size() - 1);
 
-    for(int i = 0; i < numberPlayers - 1; i++){
+    for (int i = 0; i < numberPlayers - 1; i++) {
 
       int numeroRandom = seed.nextInt(numberPlayers - i - 1);
       randomPlayers.add(jugadores.get(numeroRandom));
@@ -103,9 +101,9 @@ public class GameController{
     return randomPlayers;
   }
 
-    /**
-     * @return the list of all the tacticians participating in the game.
-     */
+  /**
+   * @return the list of all the tacticians participating in the game.
+   */
 
   public List<Tactician> getTacticians() {
     return this.listOfPlayers;
@@ -139,11 +137,11 @@ public class GameController{
     return this.maxRounds;
   }
 
-  public Tactician getActualPlayer(){
+  public Tactician getActualPlayer() {
     return this.actualPlayer;
   }
 
-  public void setActualPlayer(Tactician player){
+  public void setActualPlayer(Tactician player) {
 
     this.actualPlayer = player;
   }
@@ -155,39 +153,34 @@ public class GameController{
 
     List<Tactician> list = this.listOfPlayers;
     int tamano = list.size();
-    if (this.getTacticians().size() == 1){
+    if (this.getTacticians().size() == 1) {
 
       this.listOfWinners = this.getTacticians();
-    }
-    else if(list.get(tamano-1).getName() == this.actualPlayer.getName()){
+    } else if (list.get(tamano - 1).getName() == this.actualPlayer.getName()) {
 
-        verifyHero();
-        endRound();
-    }
-    else {
+      verifyHero();
+      endRound();
+    } else {
 
       int i = list.indexOf(this.actualPlayer);
-      actualPlayer = list.get(i+1);
+      actualPlayer = list.get(i + 1);
       verifyHero();
     }
   }
 
-    /**
-     * Termina una ronda cuando todas los Tactician han jugado su turno
-     */
+  /**
+   * Termina una ronda cuando todas los Tactician han jugado su turno
+   */
 
-  public void endRound(){
+  public void endRound() {
 
-    if (this.getTacticians().size() == 1){
+    if (this.getTacticians().size() == 1) {
 
       this.listOfWinners = this.getTacticians();
-    }
-
-    else if (this.getRoundNumber() == this.getMaxRounds()){
+    } else if (this.getRoundNumber() == this.getMaxRounds()) {
 
       this.listOfWinners = this.listOfPlayers;
-    }
-    else {
+    } else {
 
       this.actualRound++;
       this.listOfPlayers = randomList(this.numberOfPlayers, this.listOfPlayers, random);
@@ -198,24 +191,23 @@ public class GameController{
   /**
    * Removes a tactician and all of it's units from the game.
    *
-   * @param tactician
-   *     the player to be removed
+   * @param tactician the player to be removed
    */
   public void removeTactician(String tactician) {
 
-    for(int i = 0; i<this.getTacticians().size(); i++){
+    for (int i = 0; i < this.getTacticians().size(); i++) {
 
-      if (this.getTacticians().get(i).getName().equals(tactician)){
+      if (this.getTacticians().get(i).getName().equals(tactician)) {
 
-        if((this.getTacticians().size() >= 2) && (this.actualPlayer == this.getTacticians().get(i))){
-          this.actualPlayer = this.getTacticians().get(i+1);
+        if ((this.getTacticians().size() >= 2) && (this.actualPlayer == this.getTacticians().get(i))) {
+          this.actualPlayer = this.getTacticians().get(i + 1);
         }
 
         this.listOfPlayers.remove(i);
         this.numberOfPlayers--;
 
       }
-      if( this.getTacticians().size() == 1){
+      if (this.getTacticians().size() == 1) {
 
         this.listOfWinners = this.getTacticians();
       }
@@ -224,8 +216,8 @@ public class GameController{
 
   /**
    * Starts the game.
-   * @param maxTurns
-   *  the maximum number of turns the game can last
+   *
+   * @param maxTurns the maximum number of turns the game can last
    */
   public void initGame(final int maxTurns) {
 
@@ -235,7 +227,7 @@ public class GameController{
     this.actualRound = 1;
     this.actualPlayer = this.listOfPlayers.get(0);
 
-    for(int i = 0; i < listOfPlayers.size(); i++){
+    for (int i = 0; i < listOfPlayers.size(); i++) {
 
       Tactician player = listOfPlayers.get(i);
       List<IUnit> list = setUnits(player);
@@ -255,7 +247,7 @@ public class GameController{
     this.actualPlayer = this.listOfPlayers.get(0);
     this.maxRounds = -1;
 
-    for(int i = 0; i < listOfPlayers.size(); i++){
+    for (int i = 0; i < listOfPlayers.size(); i++) {
 
       Tactician player = listOfPlayers.get(i);
       List<IUnit> list = setUnits(player);
@@ -281,17 +273,14 @@ public class GameController{
   /**
    * Selects a unit in the game map
    *
-   * @param x
-   *     horizontal position of the unit
-   * @param y
-   *     vertical position of the unit
+   * @param x horizontal position of the unit
+   * @param y vertical position of the unit
    */
   public void selectUnitIn(int x, int y) {
 
-    Location ubicacion = this.gameMap.getCell(x,y);
+    Location ubicacion = this.gameMap.getCell(x, y);
     IUnit unidadSeleccionada = ubicacion.getUnit();
-    this.actualPlayer.setSelectIUnit(unidadSeleccionada);
-
+    this.actualUnit = unidadSeleccionada;
   }
 
   /**
@@ -304,24 +293,22 @@ public class GameController{
   /**
    * Equips an item from the inventory to the currently selected unit.
    *
-   * @param index
-   *     the location of the item in the inventory.
+   * @param index the location of the item in the inventory.
    */
   public void equipItem(int index) {
 
-      if(this.actualPlayer.getInventoryUnit().get(index) != null){
+    if (this.actualPlayer.getInventoryUnit().get(index) != null) {
 
-          IEquipableItem item = this.actualPlayer.getInventoryUnit().get(index);
-          this.actualPlayer.setItem(item);
-      }
+      IEquipableItem item = this.actualPlayer.getInventoryUnit().get(index);
+      this.actualPlayer.setItem(item);
+    }
   }
+
   /**
    * Uses the equipped item on a target
    *
-   * @param x
-   *     horizontal position of the target
-   * @param y
-   *     vertical position of the target
+   * @param x horizontal position of the target
+   * @param y vertical position of the target
    */
   public void useItemOn(int x, int y) {
 
@@ -334,8 +321,7 @@ public class GameController{
   /**
    * Selects an item from the selected unit's inventory.
    *
-   * @param index
-   *     the location of the item in the inventory.
+   * @param index the location of the item in the inventory.
    */
   public void selectItem(int index) {
 
@@ -346,10 +332,8 @@ public class GameController{
   /**
    * Gives the selected item to a target unit.
    *
-   * @param x
-   *     horizontal position of the target
-   * @param y
-   *     vertical position of the target
+   * @param x horizontal position of the target
+   * @param y vertical position of the target
    */
   public void giveItemTo(int x, int y) {
 
@@ -360,21 +344,26 @@ public class GameController{
 
   }
 
-  public int getNumberOfPlayers(){
+  /**
+   * Entrega la cantidad de jugadores actuales en el juego
+   * @return numero de jugadores
+   */
+
+  public int getNumberOfPlayers() {
 
     return this.numberOfPlayers;
   }
 
-  public List<IUnit> setUnits(Tactician player){
+  public List<IUnit> setUnits(Tactician player) {
 
     List<IUnit> list = new ArrayList<>();
 
     IUnit alpaca = new AlpacaFactory(this.gameMap).createDefault(0, 1, player);
-    IUnit archer = new ArcherFactory(this.gameMap).createDefault(0,2, player);
-    IUnit cleric = new ClericFactory(this.gameMap).createDefault(0,3, player);
-    IUnit fighter = new FighterFactory(this.gameMap).createDefault(0,4, player);
-    IUnit hero = new HeroFactory(this.gameMap).createDefault(1,0, player);
-    IUnit sorcerer = new SorcererFactory(this.gameMap).createDefault(2,0, player);
+    IUnit archer = new ArcherFactory(this.gameMap).createDefault(0, 2, player);
+    IUnit cleric = new ClericFactory(this.gameMap).createDefault(0, 3, player);
+    IUnit fighter = new FighterFactory(this.gameMap).createDefault(0, 4, player);
+    IUnit hero = new HeroFactory(this.gameMap).createDefault(1, 0, player);
+    IUnit sorcerer = new SorcererFactory(this.gameMap).createDefault(2, 0, player);
     IUnit swordMaster = new SwordMasterFactory(this.gameMap).createDefault(3, 0, player);
 
     list.add(alpaca);
@@ -389,43 +378,33 @@ public class GameController{
 
   }
 
-  public int getMaxNumberOfPlayers(){
+  public int getMaxNumberOfPlayers() {
 
     return this.maxNumberOfPlayers;
   }
 
-  public IUnit getActualUnit(){
+  public IUnit getActualUnit() {
 
     return this.actualUnit;
   }
 
-  public void setActualUnit(IUnit unit){
+  public void setActualUnit(IUnit unit) {
 
     this.actualUnit = unit;
-  }
-
-  public IUnit getSelectUnit(){
-
-    return this.selectUnit;
-  }
-
-  public void setSelectUnit(IUnit unit){
-
-    this.selectUnit = unit;
   }
 
   /**
    * Verifica que para los tacticians en juego, sus heros esten vivos
    */
-  public void verifyHero(){
+  public void verifyHero() {
     int size = this.getTacticians().size();
-    for(int i = 0; i < size; i++){
-      for(int j = 0; j < getTacticians().get(i).getPlayerUnits().size(); j++){
-        if(getTacticians().get(i).getPlayerUnits().get(j).isHero() && !getTacticians().get(i).getPlayerUnits().get(j).getLive()){
-          this.getTacticians().remove(getTacticians().get(i));
-          size = getTacticians().size();
-        }
-      }
+    for (int i = 0; i < size; i++) {
+
+      getTacticians().get(i).verifyUnits();
+      size = this.getTacticians().size();
+
     }
   }
 }
+
+

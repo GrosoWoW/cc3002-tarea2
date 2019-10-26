@@ -43,6 +43,8 @@ public class TacticianTest {
         this.map.addCells(true, new Location(0,0));
         this.map.addCells(true, new Location(0,1));
         this.map.addCells(true, new Location(0,2));
+        this.map.addCells(true, new Location(4,0));
+        this.map.addCells(true, new Location(0,6));
         controller.initGame(4);
         this.heroFactory = new HeroFactory(this.map);
         this.alpacaFactory = new AlpacaFactory(this.map);
@@ -117,12 +119,12 @@ public class TacticianTest {
     }
 
     @Test
-     void getSelectUnit(){
+     void getActualUnit(){
 
-        assertNull(this.tactician.getSelectIUnit());
-        IUnit unidad = heroFactory.create(10, 0, 0, tactician);
-        this.tactician.setSelectIUnit(unidad);
-        assertEquals(unidad, this.tactician.getSelectIUnit());
+        IUnit unidad = controller.getActualPlayer().getPlayerUnits().get(0);
+        assertEquals(unidad, tactician.getActualUnit());
+        this.tactician.setActualUnit(controller.getActualPlayer().getPlayerUnits().get(1));
+        assertEquals(controller.getActualPlayer().getPlayerUnits().get(1), this.tactician.getActualUnit());
     }
 
     @Test
@@ -225,33 +227,15 @@ public class TacticianTest {
 
         controller.initGame(4);
         Tactician jugador = controller.getActualPlayer();
-        IUnit unidad = jugador.getPlayerUnits().get(0);
-        IUnit unidad1 = jugador.getPlayerUnits().get(1);
+        IUnit unidad = archerFactory.createDefault(0, 6,jugador);
+        IUnit unidad1 = archerFactory.createDefault(4,0 ,jugador);
+        jugador.addUnit(unidad);
+        jugador.addUnit(unidad1);
         jugador.setActualUnit(unidad);
         assertEquals(unidad, jugador.getActualUnit());
-        assertEquals(unidad, controller.getActualUnit());
-        jugador.setActualUnit(jugador.getPlayerUnits().get(1));
+        jugador.setActualUnit(unidad1);
         assertEquals(unidad1,  jugador.getActualUnit());
-        assertEquals(unidad1, controller.getActualUnit());
 
     }
-
-    @Test
-    void setSelectUnit(){
-
-        controller.initGame(4);
-        Tactician jugador = controller.getActualPlayer();
-        IUnit unidad = jugador.getPlayerUnits().get(0);
-        IUnit unidad1 = jugador.getPlayerUnits().get(1);
-        jugador.setSelectIUnit(unidad);
-        assertEquals(unidad, jugador.getSelectIUnit());
-        assertEquals(unidad, controller.getSelectUnit());
-    }
-
-
-
-
-
-
 
 }

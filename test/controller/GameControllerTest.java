@@ -248,13 +248,13 @@ class GameControllerTest {
     List<Tactician> listaTactician = controller.getTacticians();
     this.controller.setActualPlayer(listaTactician.get(0));
     IUnit unidadValida = randomUnit();
-    assertNull(controller.getActualPlayer().getSelectIUnit());
+    controller.getActualPlayer().addUnit(unidadValida);
+    unidadValida.setOwner(controller.getActualPlayer());
     int x = unidadValida.getLocation().getRow();
     int y = unidadValida.getLocation().getColumn();
-    controller.selectUnitIn(x, y);
-    assertEquals(unidadValida, controller.getActualPlayer().getSelectIUnit());
-    assertNotEquals(unidadValida, controller.getActualPlayer().getActualUnit());
-    assertEquals(unidadValida, controller.getActualPlayer().getSelectIUnit());
+    controller.getActualPlayer().setActualUnit(unidadValida);
+    assertEquals(unidadValida, controller.getActualPlayer().getActualUnit());
+    assertEquals(unidadValida, controller.getSelectedUnit());
 
   }
 
@@ -264,12 +264,12 @@ class GameControllerTest {
     List<Tactician> listaTactician = controller.getTacticians();
     this.controller.setActualPlayer(listaTactician.get(1));
     IUnit unidadValida = randomUnit();
+    controller.getActualPlayer().addUnit(unidadValida);
+    unidadValida.setOwner(controller.getActualPlayer());
     int x = unidadValida.getLocation().getRow();
     int y = unidadValida.getLocation().getColumn();
     controller.selectUnitIn(x, y);
-    assertEquals(unidadValida, controller.getActualPlayer().getSelectIUnit());
-    assertNotEquals(unidadValida, controller.getActualPlayer().getActualUnit());
-    assertEquals(unidadValida, controller.getActualPlayer().getSelectIUnit());
+    assertEquals(unidadValida, controller.getActualUnit());
 
 
   }
@@ -348,10 +348,10 @@ class GameControllerTest {
   @Test
   void giveItemTo() {
 
-    IUnit selectUnit = heroFactory.createDefault(0, 0, testTacticians.get(0));
-    IUnit unit = heroFactory.createDefault(0, 1, testTacticians.get(1));
-    controller.getGameMap().getCell(0, 0).setUnit(selectUnit);
-    controller.getGameMap().getCell(0, 1).setUnit(unit);
+    IUnit selectUnit = heroFactory.createDefault(7, 6, testTacticians.get(0));
+    IUnit unit = heroFactory.createDefault(7, 7, testTacticians.get(1));
+    controller.getGameMap().getCell(7, 6).setUnit(selectUnit);
+    controller.getGameMap().getCell(7, 7).setUnit(unit);
     IEquipableItem objeto = axeFactory.create(2, 1, 2);
     IEquipableItem objeto2 = axeFactory.create(3, 1, 3);
     unit.addItem(objeto2);

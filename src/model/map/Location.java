@@ -108,7 +108,18 @@ public class Location {
    *     the unit to be placed in this cell
    */
   public void setUnit(final IUnit unit) {
-    this.unit = unit;
+
+    if(this.unit == null){
+      this.unit = unit;
+    }
+  }
+
+  /**
+   * Remueve una unidad de un location
+   *
+   */
+  public void removeUnit(){
+    this.unit = null;
   }
 
   /**
@@ -174,8 +185,5 @@ public class Location {
     return column;
   }
 
-  public String getId(){
-    return this.id;
-  }
 
 }
