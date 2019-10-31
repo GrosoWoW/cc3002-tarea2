@@ -4,6 +4,7 @@ import controller.changes.ActualUnitChange;
 import controller.changes.HeroDie;
 import model.items.IEquipableItem;
 import model.units.IUnit;
+import model.map.*;
 
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
@@ -26,6 +27,7 @@ public class Tactician {
     private PropertyChangeSupport handler2;
     private ActualUnitChange actualUnitChange;
     private HeroDie heroDie;
+    private Field map;
 
     /**
      * Constructor de la clase Tactician
@@ -38,6 +40,7 @@ public class Tactician {
         this.name = name;
         this.playerUnit = new ArrayList<IUnit>();
         this.controller = controller;
+        this.map = controller.getGameMap();
         actualUnitChange =  new ActualUnitChange(this.controller);
         heroDie = new HeroDie(this.controller);
         handler1 = new PropertyChangeSupport(this);
@@ -254,19 +257,7 @@ public class Tactician {
         }
     }
 
-    /**
-     * Verifica que si el hero de una player esta muerto, se le remueva de la partida
-     */
 
-    public void verifyUnits(){
-
-        for(int i = 0; i < getPlayerUnits().size(); i++){
-
-            if(getPlayerUnits().get(i).isHero() && !getPlayerUnits().get(i).getLive()){
-                this.heroDie();
-            }
-        }
-    }
 
 
 

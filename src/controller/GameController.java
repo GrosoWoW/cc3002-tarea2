@@ -158,13 +158,11 @@ public class GameController {
       this.listOfWinners = this.getTacticians();
     } else if (list.get(tamano - 1).getName() == this.actualPlayer.getName()) {
 
-      verifyHero();
       endRound();
     } else {
 
       int i = list.indexOf(this.actualPlayer);
       actualPlayer = list.get(i + 1);
-      verifyHero();
     }
   }
 
@@ -396,15 +394,15 @@ public class GameController {
   /**
    * Verifica que para los tacticians en juego, sus heros esten vivos
    */
-  public void verifyHero() {
-    int size = this.getTacticians().size();
-    for (int i = 0; i < size; i++) {
+ // public void verifyHero() {
+   // int size = this.getTacticians().size();
+    //for (int i = 0; i < size; i++) {
 
-      getTacticians().get(i).verifyUnits();
-      size = this.getTacticians().size();
+      //getTacticians().get(i).verifyUnits();
+      //size = this.getTacticians().size();
 
-    }
-  }
+   // }
+ // }
 }
 
 

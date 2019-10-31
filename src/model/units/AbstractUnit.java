@@ -2,11 +2,15 @@ package model.units;
 
 import static java.lang.Math.min;
 
+import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import controller.Tactician;
+import controller.changes.ActualUnitChange;
+import controller.changes.HeroDie;
+import controller.changes.UnitDie;
 import model.items.IEquipableItem;
 import model.map.InvalidLocation;
 import model.map.Location;
@@ -29,9 +33,12 @@ public abstract class AbstractUnit implements IUnit {
   private final int movement;
   private IEquipableItem equippedItem;
   private Location location;
-  int maxItems;
-  boolean life;
-  Tactician owner;
+  private int maxItems;
+  private boolean life;
+  private Tactician owner;
+  private UnitDie unitDie;
+  private PropertyChangeSupport handler1;
+
 
   /**
    * Creates a new Unit.
@@ -55,6 +62,9 @@ public abstract class AbstractUnit implements IUnit {
     this.maxItems = maxItems;
     this.life = true;
     this.owner = null;
+    this.unitDie =  new UnitDie();
+    this.handler1 = new PropertyChangeSupport(this);
+    handler1.addPropertyChangeListener(unitDie);
   }
 
 
@@ -86,6 +96,13 @@ public abstract class AbstractUnit implements IUnit {
   public void setOwner(Tactician player){
 
     this.owner = player;
+
+
+  }
+
+  public Tactician getOwner(){
+
+    return this.owner;
   }
 
   public Location getLocation() {
@@ -151,8 +168,9 @@ public abstract class AbstractUnit implements IUnit {
 
   public void die(){
 
-    this.life = false;
-    this.getLocation().removeUnit();
+
+    handler1.firePropertyChange("Unit", null, this);
+
   }
 
   public void unEquipAItem(IEquipableItem item){
@@ -216,7 +234,6 @@ public abstract class AbstractUnit implements IUnit {
 
   public void giveAway(IUnit unit, IEquipableItem gift) {
 
-    InvalidLocation invalidLocation = new InvalidLocation();
     if(Math.abs(this.getLocation().getRow() - unit.getLocation().getRow()) <= 1 &&
             Math.abs(this.getLocation().getColumn() - unit.getLocation().getColumn()) <= 1 && (this.getLocation().getNeighbours().size()> 0 && unit.getLocation().getNeighbours().size()>0)){
 
@@ -274,6 +291,9 @@ public abstract class AbstractUnit implements IUnit {
         double dano = attacker.getEquippedItem().attack(this.getEquippedItem());
         dano = check(dano, this.getMaxHitPoints(), this.getCurrentHitPoints());
         this.takeDamage(dano);
+        if(this.getCurrentHitPoints() <= 0){
+          this.die();
+        }
         }
     }
   }
@@ -281,6 +301,11 @@ public abstract class AbstractUnit implements IUnit {
   public boolean isHero(){
 
     return false;
+  }
+
+  public void setLifeDead(){
+
+    this.life = false;
   }
 
 }

@@ -69,16 +69,19 @@ public class TacticianTest {
 
     @Test
     void getName(){
+
         assertEquals(this.tactician.getName(), controller.getActualPlayer().getName());
     }
     @Test
     void getPlayerUnit(){
         assertEquals(this.tactician.getActualUnit(), unidades.get(0));
+        assertNotEquals(this.tactician.getActualUnit(), unidades.get(1));
 
     }
 
     @Test
     void getPlayerUnits(){
+
         assertEquals(this.tactician.getPlayerUnits(), this.unidades);
     }
 
@@ -95,6 +98,27 @@ public class TacticianTest {
         assertEquals(this.tactician.getMaxHitPointsUnit(), controller.getActualPlayer().getActualUnit().getMaxHitPoints());
         this.tactician.getActualUnit().takeDamage(5);
         assertEquals(this.tactician.getMaxHitPointsUnit(), controller.getActualPlayer().getActualUnit().getMaxHitPoints());
+    }
+
+    @Test
+    void getInventoryUnit(){
+
+        controller.initGame(4);
+        IEquipableItem bow = bowFactory.createDefault();
+        List<IEquipableItem> inventory = tactician.getActualUnit().getItems();
+        assertEquals(inventory, tactician.getInventoryUnit());
+        tactician.getPlayerUnits().get(0).addItem(bow);
+        tactician.getActualUnit().addItem(bow);
+        assertTrue(tactician.getInventoryUnit().contains(bow));
+    }
+
+    @Test
+    void getActualUnit(){
+
+        IUnit unidad = controller.getActualPlayer().getPlayerUnits().get(0);
+        assertEquals(unidad, tactician.getActualUnit());
+        this.tactician.setActualUnit(controller.getActualPlayer().getPlayerUnits().get(1));
+        assertEquals(controller.getActualPlayer().getPlayerUnits().get(1), this.tactician.getActualUnit());
     }
 
     @Test
@@ -119,13 +143,16 @@ public class TacticianTest {
     }
 
     @Test
-     void getActualUnit(){
+    void getActualItem(){
 
-        IUnit unidad = controller.getActualPlayer().getPlayerUnits().get(0);
-        assertEquals(unidad, tactician.getActualUnit());
-        this.tactician.setActualUnit(controller.getActualPlayer().getPlayerUnits().get(1));
-        assertEquals(controller.getActualPlayer().getPlayerUnits().get(1), this.tactician.getActualUnit());
+        controller.initGame(4);
+        IEquipableItem bow = bowFactory.createDefault();
+        tactician.getActualUnit().addItem(bow);
+        assertNotEquals(tactician.getActualItem(), bow);
+        tactician.setActualItem(bow);
+        assertEquals(tactician.getActualItem(), bow);
     }
+
 
     @Test
     void attackUnitTest(){
@@ -195,8 +222,19 @@ public class TacticianTest {
         assertTrue(tactician.getActualUnit().getItems().contains(item));
         assertTrue(tactician.getActualUnit().getItems().contains(this.item1));
 
+    }
 
+    /**
+     * Test para el metodo addUnit, verifica que la unidad sea añadida a la lista de unidades del jugador
+     */
+    @Test
+    void addUnit(){
 
+        controller.initGame(4);
+        IUnit newUnit = archerFactory.createDefault(5,5, tactician);
+        assertFalse(tactician.getPlayerUnits().contains(newUnit));
+        tactician.addUnit(newUnit);
+        assertTrue(tactician.getPlayerUnits().contains(newUnit));
     }
 
     @Test
@@ -212,13 +250,6 @@ public class TacticianTest {
         assertEquals(list, this.tactician.getPlayerUnits());
         this.tactician.setUnits(null);
         assertNull(this.tactician.getPlayerUnits());
-
-    }
-
-    @Test
-    void setActualItem(){
-
-
 
     }
 

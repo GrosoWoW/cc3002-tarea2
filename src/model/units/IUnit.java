@@ -266,5 +266,13 @@ public interface IUnit {
    */
   boolean isHero();
 
+  /**
+   * Modifica la vida de la unidad a muerto
+   */
+
+  void setLifeDead();
+
+  Tactician getOwner();
+
 
 }

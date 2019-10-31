@@ -122,7 +122,7 @@ class GameControllerTest {
   @Test
   void getGameMap() {
     Field gameMap = controller.getGameMap();
-    assertEquals(7, gameMap.getSize()); // getSize deben definirlo
+    assertEquals(7, gameMap.getSize());
     assertTrue(controller.getGameMap().isConnected());
     Random testRandom = gameMap.getSeed();
     Field a = gameMap;
@@ -433,7 +433,7 @@ class GameControllerTest {
     if(hero!=null){
       hero.die();
     }
-    assertTrue(controller.getTacticians().contains(player));
+    assertFalse(controller.getTacticians().contains(player));
     controller.endTurn();
     assertFalse(controller.getTacticians().contains(player));
 
