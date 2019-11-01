@@ -211,7 +211,6 @@ public class GameController {
       }
     }
   }
-
   /**
    * Starts the game.
    *

@@ -257,14 +257,30 @@ public class Tactician {
         }
     }
 
+    /**
+     * Entrega el mapa donde se encuentra jugando el tactician
+     * @return el mapa del tactician
+     */
 
+    public Field getMap(){
+        return this.map;
+    }
 
+    /**
+     * Mueve a una unidad
+     * @param x posicion x donde se desea mover
+     * @param y posicion y donde se desea mover
+     */
 
+    public void moveUnit(int x, int y) {
 
-
-
-
-
-
-
+        Location actualPosicion = this.getActualUnit().getLocation();
+        Location posicionFutura = this.getMap().getCell(x, y);
+        if(Math.abs(actualPosicion.getRow() - posicionFutura.getRow()) <= this.getActualUnit().getMovement() &&
+                Math.abs(actualPosicion.getColumn() - posicionFutura.getColumn()) <= this.getActualUnit().getMovement() &&
+                    actualPosicion.getNeighbours().contains(posicionFutura) && posicionFutura.getUnit() == null){
+            actualPosicion.removeUnit();
+            posicionFutura.setUnit(this.getActualUnit());
+        }
+    }
 }

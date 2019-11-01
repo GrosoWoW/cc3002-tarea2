@@ -1,11 +1,9 @@
 package factory;
 
 import model.map.Field;
-import model.map.InvalidLocation;
 import model.map.Location;
 
 
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Random;
 import java.util.Set;
@@ -35,23 +33,37 @@ public class MapFactory {
                 for (int j = 0; j < map.getSize(); j++) {
 
                     Location location = map.getCell(i, j);
-                    if(location.getNeighbours().size() != 4){
+                    if(location.getNeighbours().size() < 2){
                         if(location.getRow() <= map.getSize()-1 && location.getRow() >= 0){
                             if(location.getRow() == 0) {
                                 location.addNeighbour(map.getCell(i + 1, j));
+                                map.getCell(i + 1, j).addNeighbour(location);
                                 location.addNeighbour(map.getCell(i - 1, j));
+                                map.getCell(i - 1, j).addNeighbour(location);
                                 location.addNeighbour(map.getCell(i, j + 1));
+                                map.getCell(i , j + 1).addNeighbour(location);
+
                             }
                             else if(location.getRow() == map.getSize()-1){
                                 location.addNeighbour(map.getCell(i + 1, j));
+                                map.getCell(i + 1, j).addNeighbour(location);
                                 location.addNeighbour(map.getCell(i - 1, j));
+                                map.getCell(i - 1 , j).addNeighbour(location);
                                 location.addNeighbour(map.getCell(i, j - 1));
+                                map.getCell(i, j - 1).addNeighbour(location);
+
                             }
                             else{
-                                location.addNeighbour(map.getCell(i + 1, j));
+
                                 location.addNeighbour(map.getCell(i - 1, j));
+                                map.getCell(i - 1, j).addNeighbour(location);
                                 location.addNeighbour(map.getCell(i, j - 1));
+                                map.getCell(i, j - 1).addNeighbour(location);
                                 location.addNeighbour(map.getCell(i, j + 1));
+                                map.getCell(i, j + 1).addNeighbour(location);
+                                location.addNeighbour(map.getCell(i + 1, j));
+                                map.getCell(i + 1, j).addNeighbour(location);
+
                             }
                         }
                         if(map.isConnected()){
@@ -60,19 +72,34 @@ public class MapFactory {
                         else if(location.getColumn() <= map.getSize()-1 && location.getColumn() >= 0){
                             if(location.getColumn() == 0) {
                                 location.addNeighbour(map.getCell(i, j + 1));
+                                map.getCell(i, j + 1).addNeighbour(location);
                                 location.addNeighbour(map.getCell(i, j - 1));
+                                map.getCell(i, j - 1).addNeighbour(location);
                                 location.addNeighbour(map.getCell(i + 1, j));
+                                map.getCell(i + 1, j).addNeighbour(location);
+
                             }
                             else if(location.getColumn() == map.getSize()-1){
                                 location.addNeighbour(map.getCell(i, j + 1));
+                                map.getCell(i, j + 1).addNeighbour(location);
                                 location.addNeighbour(map.getCell(i, j - 1));
+                                map.getCell(i, j - 1).addNeighbour(location);
                                 location.addNeighbour(map.getCell(i - 1, j));
+                                map.getCell(i - 1, j).addNeighbour(location);
+
                             }
                             else{
-                                location.addNeighbour(map.getCell(i + 1, j));
-                                location.addNeighbour(map.getCell(i - 1, j));
-                                location.addNeighbour(map.getCell(i, j - 1));
+
+
                                 location.addNeighbour(map.getCell(i, j + 1));
+                                map.getCell(i, j + 1).addNeighbour(location);
+                                location.addNeighbour(map.getCell(i + 1, j));
+                                map.getCell(i + 1, j).addNeighbour(location);
+                                location.addNeighbour(map.getCell(i - 1, j));
+                                map.getCell(i - 1, j).addNeighbour(location);
+                                location.addNeighbour(map.getCell(i, j - 1));
+                                map.getCell(i, j - 1).addNeighbour(location);
+
                             }
                         }
                         if(map.isConnected()){
@@ -134,7 +161,7 @@ public class MapFactory {
             for(int j = 0; j < size; j++){
 
 
-                int numeroRandom = seed.nextInt(4);
+                int numeroRandom = seed.nextInt(2);
                 if(numeroRandom == 0){
 
                     Location location = map.getCell(i ,j);
@@ -143,6 +170,7 @@ public class MapFactory {
                     while(itr.hasNext()){
                         Location o = itr.next();
                         location.removeNeighbour(o);
+                        o.removeNeighbour(location);
                     }
                 }
             }

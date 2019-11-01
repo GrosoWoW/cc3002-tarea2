@@ -2,6 +2,7 @@ package controller;
 
 import factory.item.BowFactory;
 import factory.item.DarkFactory;
+import factory.item.LightFactory;
 import factory.unit.*;
 import model.items.IEquipableItem;
 import model.items.attack.magic.AnimaBook;
@@ -9,6 +10,7 @@ import model.map.Field;
 import model.map.Location;
 import model.units.IUnit;
 import model.units.Sorcerer;
+import model.units.SwordMaster;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -34,6 +36,7 @@ public class TacticianTest {
     private BowFactory bowFactory;
     private ArcherFactory archerFactory;
     private FighterFactory fighterFactory;
+    private SwordMasterFactory swordMasterFactory;
 
 
     @BeforeEach
@@ -56,6 +59,8 @@ public class TacticianTest {
         this.controller.setActualPlayer(controller.getTacticians().get(0));
         this.controller.getActualPlayer().setActualUnit(controller.getActualPlayer().getPlayerUnits().get(0));
         this.tactician = controller.getActualPlayer();
+        this.swordMasterFactory = new SwordMasterFactory(tactician.getMap());
+
         this.unidades = controller.getActualPlayer().getPlayerUnits();
         this.jugador = new Tactician("player", controller);
         this.unit = archerFactory.createDefault(0,0, jugador);
@@ -266,6 +271,37 @@ public class TacticianTest {
         assertEquals(unidad, jugador.getActualUnit());
         jugador.setActualUnit(unidad1);
         assertEquals(unidad1,  jugador.getActualUnit());
+
+    }
+
+    /**
+     * Verifica el movimiento de una unidad
+     */
+
+    @Test
+    void movementUnit(){
+
+        tactician.getMap().addCells(true, new Location(0,0));
+        tactician.getMap().addCells(true, new Location(0,1));
+        tactician.getMap().addCells(true, new Location(0,2));
+        tactician.getMap().addCells(true, new Location(0,3));
+        tactician.getMap().getCell(0, 0).removeUnit();
+        IUnit unit = swordMasterFactory.createDefault(0,0, tactician);
+        tactician.getMap().getCell(0, 0).setUnit(unit);
+        tactician.getMap().getCell(0, 1).removeUnit();
+        tactician.getMap().getCell(0, 2).removeUnit();
+        tactician.getMap().getCell(0, 3).removeUnit();
+        tactician.addUnit(unit);
+        tactician.setActualUnit(unit);
+        assertEquals(tactician.getMap().getCell(0, 0).getUnit(), unit);
+        assertNotEquals(tactician.getMap().getCell(0, 1).getUnit(), unit);
+        tactician.moveUnit(0, 1);
+        assertEquals(tactician.getMap().getCell(0, 1).getUnit(), unit);
+        assertNotEquals(tactician.getMap().getCell(0, 0).getUnit(), unit);
+        tactician.moveUnit(0, 3);
+        assertNotEquals(tactician.getMap().getCell(0, 3).getUnit(), unit);
+
+
 
     }
 
