@@ -96,4 +96,12 @@ public class ClericTest extends AbstractTestUnit {
     assertEquals(unit.getEquippedItem(), getStaff());
 
   }
+
+  @Test
+  @Override
+  public void isHero(){
+
+    IUnit unit = getTestUnit();
+    assertFalse(unit.isHero());
+  }
 }

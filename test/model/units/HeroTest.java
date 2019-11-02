@@ -101,4 +101,12 @@ public class HeroTest extends AbstractTestUnit {
 
   }
 
+  @Test
+  @Override
+  public void isHero(){
+
+    IUnit unit = getTestUnit();
+    assertTrue(unit.isHero());
+  }
+
   }

@@ -403,10 +403,19 @@ public abstract class AbstractTestUnit implements ITestUnit {
   @Override
   public void testEquippedAndTrade(){
 
-
   }
 
+  @Test
+  @Override
+  public void setLifeDead(){
+
+    IUnit unit = getTestUnit();
+    assertTrue(unit.getLive());
+    unit.setLifeDead();
+    assertFalse(unit.getLive());
   }
+
+}
 
 
 

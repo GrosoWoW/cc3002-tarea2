@@ -102,4 +102,12 @@ public class ArcherTest extends AbstractTestUnit {
     assertEquals(unit.getEquippedItem(), getBow());
 
   }
+
+  @Test
+  @Override
+  public void isHero(){
+
+    IUnit unit = getTestUnit();
+    assertFalse(unit.isHero());
+  }
 }

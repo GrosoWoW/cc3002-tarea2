@@ -272,6 +272,11 @@ public interface IUnit {
 
   void setLifeDead();
 
+  /**
+   * Entrega el tactician dueño de la unidad
+   * @return a Tactician
+   */
+
   Tactician getOwner();
 
 

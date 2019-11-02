@@ -107,10 +107,14 @@ public class AlpacaTest extends AbstractTestUnit {
     assertNotEquals(unit.getEquippedItem(), getSpear());
 
 
+  }
 
+  @Test
+  @Override
+  public void isHero(){
 
-
-
+    IUnit unit = getTestUnit();
+    assertFalse(unit.isHero());
   }
 
 }

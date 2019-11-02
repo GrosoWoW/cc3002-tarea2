@@ -89,5 +89,11 @@ public class SorcererTest extends  AbstractTestUnit {
 
     }
 
+    @Test
+    @Override
+    public void isHero(){
 
+        IUnit unit = getTestUnit();
+        assertFalse(unit.isHero());
+    }
 }

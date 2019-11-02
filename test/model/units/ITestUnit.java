@@ -200,4 +200,16 @@ public interface ITestUnit {
   @Test
   void testEquip();
 
+  /**
+   * Verifica que la unidad seleccionada corresponda a un hero
+   */
+  @Test
+  void isHero();
+
+  /**
+   * Verifica que cuando se llame este metodo, la unidad tenga el estado de muerta
+   */
+  @Test
+  void setLifeDead();
+
 }

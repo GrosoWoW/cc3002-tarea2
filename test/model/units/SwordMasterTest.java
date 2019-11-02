@@ -92,4 +92,12 @@ public class SwordMasterTest extends AbstractTestUnit {
     assertEquals(unit.getEquippedItem(), getSword());
 
   }
+
+  @Test
+  @Override
+  public void isHero(){
+
+    IUnit unit = getTestUnit();
+    assertFalse(unit.isHero());
+  }
 }
