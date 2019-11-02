@@ -5,7 +5,7 @@ import model.items.attack.magic.DarkBook;
 /**
  * Esta clase se encarga de fabricar DarkBooks
  * @author Cristóbal Jaramillo Andrade
- * @Since 2.0
+ * @since  2.0
  */
 
 

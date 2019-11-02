@@ -18,10 +18,16 @@ public class ActualUnitChange implements PropertyChangeListener {
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
 
+
         IUnit unit = (IUnit) evt.getNewValue();
         int x = unit.getLocation().getRow();
         int y = unit.getLocation().getColumn();
-        controller.selectUnitIn(x, y);
+        if( x != -1 && y != -1) {
+            controller.selectUnitIn(x, y);
+        }
+        else {
+            controller.setActualUnit(unit);
+        }
 
     }
 }

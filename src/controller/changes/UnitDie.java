@@ -1,6 +1,5 @@
 package controller.changes;
 
-
 import model.map.Location;
 import model.units.IUnit;
 

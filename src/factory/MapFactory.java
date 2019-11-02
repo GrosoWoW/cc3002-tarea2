@@ -2,17 +2,14 @@ package factory;
 
 import model.map.Field;
 import model.map.Location;
-
-
-import java.util.Iterator;
 import java.util.Random;
 import java.util.Set;
 
 
 /**
  * Clase encargada de la fabricacion del mapa de juego
- * @Author Cristóbal Jaramillo Andrede
- * @Since 2.0
+ * @author Cristóbal Jaramillo Andrede
+ * @since 2.0
  */
 public class MapFactory {
 
@@ -90,7 +87,6 @@ public class MapFactory {
                             }
                             else{
 
-
                                 location.addNeighbour(map.getCell(i, j + 1));
                                 map.getCell(i, j + 1).addNeighbour(location);
                                 location.addNeighbour(map.getCell(i + 1, j));
@@ -118,14 +114,13 @@ public class MapFactory {
      * @param size Tamaño del mapa
      * @param seed Semilla para Random
      * @param field Mapa base donde se creara (testeos)
-     * @return
+     * @return a map
      */
 
     public Field createMapSeed(int size, Random seed, Field field){
 
-        Field map = field;
-        map.setRandom(seed);
-        return getField(size, map, seed);
+        field.setRandom(seed);
+        return getField(size, field, seed);
     }
 
     /**
@@ -166,9 +161,7 @@ public class MapFactory {
 
                     Location location = map.getCell(i ,j);
                     Set<Location> vecinos = location.getNeighbours();
-                    Iterator<Location> itr = vecinos.iterator();
-                    while(itr.hasNext()){
-                        Location o = itr.next();
+                    for (Location o : vecinos) {
                         location.removeNeighbour(o);
                         o.removeNeighbour(location);
                     }

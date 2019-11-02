@@ -3,57 +3,54 @@ package factory.unit;
 import controller.Tactician;
 import model.items.IEquipableItem;
 import model.map.Field;
+import model.map.InvalidLocation;
 import model.units.Sorcerer;
 
 /**
  * Clase de fabrica que se encarga de crear Sorcerers
- * @Author Cristóbal Jaramillo Andrade
- * @Since 2.0
+ * @author  Cristóbal Jaramillo Andrade
+ * @since  2.0
  *
  */
 
 public class SorcererFactory extends AbstractUnitFactory {
 
-     private Field map;
+     private InvalidLocation invalidLocation;
 
     public SorcererFactory(Field map) {
+
         super(map);
-        this.map = map;
+        this.invalidLocation = new InvalidLocation();
     }
 
     /**
      * Crea un sorcerer con parametros predefinidos
      * @param hitPoints cantidad de vida
-     * @param x posicion en x
-     * @param y posicion en y
      * @param player jugador dueño de la unidad
      * @param items objetos que tendra la unidad
      * @return a Sorcerer
      */
 
     @Override
-    public Sorcerer create(int hitPoints, int x, int y, Tactician player, IEquipableItem... items){
+    public Sorcerer create(int hitPoints, Tactician player, IEquipableItem... items){
 
-        Sorcerer sorcerer = new Sorcerer(hitPoints, 1, map.getCell(x,y), items);
-        map.getCell(x, y).setUnit(sorcerer);
+        Sorcerer sorcerer = new Sorcerer(hitPoints, 1, invalidLocation, items);
         sorcerer.setOwner(player);
         return sorcerer;
     }
 
     /**
      * Crea un sorcerer con parametros por default
-     * @param x posicion en x
-     * @param y posicion en y
      * @param player jugador dueño de la unidad
      * @return a Sorcerer
      */
 
     @Override
-    public Sorcerer createDefault(int x, int y, Tactician player){
+    public Sorcerer createDefault(Tactician player){
 
-        Sorcerer sorcerer = new Sorcerer(50, 1, map.getCell(x, y));
-        map.getCell(x, y).setUnit(sorcerer);
+        Sorcerer sorcerer = new Sorcerer(50, 1, invalidLocation);
         sorcerer.setOwner(player);
+        player.addUnit(sorcerer);
         return sorcerer;
     }
 }

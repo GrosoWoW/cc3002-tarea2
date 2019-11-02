@@ -5,7 +5,7 @@ import model.items.attack.magic.AnimaBook;
 /**
  * Esta clase se encarga de fabricar AnimaBooks
  * @author Cristóbal Jaramillo Andrade
- * @Since 2.0
+ * @since  2.0
  */
 
 public class AnimaFactory implements ItemFactory {

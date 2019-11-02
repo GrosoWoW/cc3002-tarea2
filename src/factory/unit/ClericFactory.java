@@ -3,59 +3,55 @@ package factory.unit;
 import controller.Tactician;
 import model.items.IEquipableItem;
 import model.map.Field;
+import model.map.InvalidLocation;
 import model.units.Cleric;
 
 /**
  * Clase de fabrica que se encarga de crear Clerics
- * @Author Cristóbal Jaramillo Andrade
- * @Since 2.0
+ * @author  Cristóbal Jaramillo Andrade
+ * @since  2.0
  *
  */
 
 public class ClericFactory extends AbstractUnitFactory {
 
-    private Field map;
+    private InvalidLocation invalidLocation;
 
     public ClericFactory(Field map) {
+
         super(map);
-        this.map = map;
+        this.invalidLocation = new InvalidLocation();
     }
 
     /**
      * Crea un cleric con parametros predefinidos
      * @param hitPoints cantidad de vida
-     * @param x posicion en x
-     * @param y posicion en y
      * @param player jugador dueño de la unidad
      * @param items objetos que tendra la unidad
-     * @return
+     * @return a cleric
      */
 
     @Override
-    public Cleric create(int hitPoints, int x, int y, Tactician player, IEquipableItem... items){
+    public Cleric create(int hitPoints,  Tactician player, IEquipableItem... items){
 
-        Cleric cleric = new Cleric(hitPoints, 1, map.getCell(x,y));
-        map.getCell(x, y).setUnit(cleric);
-
+        Cleric cleric = new Cleric(hitPoints, 1, invalidLocation, items);
         cleric.setOwner(player);
+        player.addUnit(cleric);
         return cleric;
     }
 
     /**
      * Crea un cleric con parametros por default
-     * @param x posicion en x
-     * @param y posicion en y
      * @param player jugador dueño de la unidad
-     * @return
+     * @return a cleric
      */
 
     @Override
-    public Cleric createDefault(int x, int y, Tactician player){
+    public Cleric createDefault(Tactician player){
 
-        Cleric cleric = new Cleric(50, 1, map.getCell(x, y));
-        map.getCell(x, y).setUnit(cleric);
-
+        Cleric cleric = new Cleric(50, 1, invalidLocation);
         cleric.setOwner(player);
+        player.addUnit(cleric);
         return cleric;
     }
 }

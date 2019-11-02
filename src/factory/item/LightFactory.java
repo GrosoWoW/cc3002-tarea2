@@ -5,7 +5,7 @@ import model.items.attack.magic.LightBook;
 /**
  * Esta clase se encarga de fabricar LightBooks
  * @author Cristóbal Jaramillo Andrade
- * @Since 2.0
+ * @since  2.0
  */
 
 

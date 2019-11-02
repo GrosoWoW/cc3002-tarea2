@@ -7,7 +7,7 @@ import model.units.IUnit;
 /**
  * Esta clase se encarga de fabricar Staffs
  * @author Cristóbal Jaramillo Andrade
- * @Since 2.0
+ * @since  2.0
  */
 
 

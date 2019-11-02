@@ -11,7 +11,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-
+/**
+ * Clase encargada de testear la fabrica de items
+ * @author Cristobal Jaramillo
+ * @since 2.0
+ */
 public class itemFactoryTest {
 
     private Axe axe;
@@ -31,8 +35,11 @@ public class itemFactoryTest {
     private LightFactory lightFactory;
     private StaffFactory staffFactory;
 
+    /**
+     * Preparacion para los test
+     */
     @BeforeEach
-    public void setUp(){
+     void setUp(){
 
         this.axe = new Axe("Axe", 10, 1, 1);
         this.bow = new Bow("Bow", 20, 1, 2);
@@ -52,8 +59,12 @@ public class itemFactoryTest {
         this.staffFactory = new StaffFactory();
     }
 
+    /**
+     * Testea la creacion de los items, tanto que correspondan al tipo de objetov solicitado
+     * Tambien verifica el rango, poder, etc
+     */
     @Test
-    public void testUnitFactory(){
+     void testUnitFactory(){
 
 
         IEquipableItem item = axeFactory.create(10, 1, 1);

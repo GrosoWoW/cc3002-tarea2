@@ -216,7 +216,7 @@ public abstract class AbstractUnit implements IUnit {
   public void trade(IUnit unit, IEquipableItem received, IEquipableItem delivered){
 
 
-    if(this.getLocation().distanceTo(unit.getLocation()) <= 1){
+    if(this.getLocation().distanceTo(unit.getLocation()) <= 1 && (this.getLocation().getNeighbours().size()> 0 && unit.getLocation().getNeighbours().size()>0)){
 
       if(this.getItems().contains(delivered) && unit.getItems().contains(received)){
 
@@ -234,8 +234,7 @@ public abstract class AbstractUnit implements IUnit {
 
   public void giveAway(IUnit unit, IEquipableItem gift) {
 
-    if(Math.abs(this.getLocation().getRow() - unit.getLocation().getRow()) <= 1 &&
-            Math.abs(this.getLocation().getColumn() - unit.getLocation().getColumn()) <= 1 && (this.getLocation().getNeighbours().size()> 0 && unit.getLocation().getNeighbours().size()>0)){
+    if(unit.getLocation().distanceTo(this.getLocation()) <=1 && (this.getLocation().getNeighbours().size()> 0 && unit.getLocation().getNeighbours().size()>0)){
 
       if(unit.getItems().size() < unit.getMaxItems()){
 
@@ -249,7 +248,8 @@ public abstract class AbstractUnit implements IUnit {
 
   public void receive(IUnit unit, IEquipableItem received) {
 
-    if(this.getLocation().distanceTo(unit.getLocation()) <= 1){
+    if(this.getLocation().distanceTo(unit.getLocation()) <= 1
+            && (this.getLocation().getNeighbours().size()> 0 && unit.getLocation().getNeighbours().size()>0)){
 
         if(this.getItems().size() < this.getMaxItems()){
 

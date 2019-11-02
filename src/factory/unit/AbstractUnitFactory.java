@@ -1,6 +1,7 @@
 package factory.unit;
 
 import model.map.Field;
+import model.map.InvalidLocation;
 
 /**
  * Clase abstracta que representa a una fabrica de unidades

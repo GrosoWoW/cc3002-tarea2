@@ -12,8 +12,8 @@ import java.util.List;
 
 /**
  * Clase Tactician, encargada de manejar todo lo relacionado con el jugador
- * @Author Cristóbal Jaramillo Andrade
- * @Since 2.0
+ * @author  Cristóbal Jaramillo Andrade
+ * @since  2.0
  */
 
 public class Tactician {
@@ -276,11 +276,16 @@ public class Tactician {
 
         Location actualPosicion = this.getActualUnit().getLocation();
         Location posicionFutura = this.getMap().getCell(x, y);
-        if(Math.abs(actualPosicion.getRow() - posicionFutura.getRow()) <= this.getActualUnit().getMovement() &&
-                Math.abs(actualPosicion.getColumn() - posicionFutura.getColumn()) <= this.getActualUnit().getMovement() &&
+        if(actualPosicion.distanceTo(posicionFutura) <= this.getActualUnit().getMovement() &&
                     actualPosicion.getNeighbours().contains(posicionFutura) && posicionFutura.getUnit() == null){
             actualPosicion.removeUnit();
             posicionFutura.setUnit(this.getActualUnit());
         }
+    }
+
+    public void setLocationUnit(int x, int y){
+
+        this.actualUnit.setLocation(this.getMap().getCell(x, y));
+        this.getMap().getCell(x, y).setUnit(this.actualUnit);
     }
 }

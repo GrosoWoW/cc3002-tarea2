@@ -8,9 +8,11 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
-import java.util.Random;
-import java.util.Set;
-
+/**
+ * Clase para testear la fabrica del mapa
+ * @author Cristobal Jaramillo Andrade
+ * @since 2.0
+ */
 public class mapFactoryTest {
 
     private GameController controller;
@@ -18,7 +20,9 @@ public class mapFactoryTest {
     private MapFactory mapFactory;
 
 
-
+    /**
+     * Preparacion antes de ejecutar los test
+     */
     @BeforeEach
     void setUp(){
 
@@ -27,13 +31,13 @@ public class mapFactoryTest {
         this.mapFactory = new MapFactory();
     }
 
-
-
-
+    /**
+     * Se encarga de tomar el mapa del controller y crear uno nuevo con la misma semilla
+     * Se verifica que estos dos sean iguales
+     */
     @Test
     void equalsMap(){
 
-        Random random = this.map.getSeed();
         Field nuevoMapa = mapFactory.createMap(7);
         for(int i = 0; i < map.getSize(); i++){
             for(int j = 0; j< map.getSize(); j++){
@@ -43,17 +47,5 @@ public class mapFactoryTest {
                 assertTrue(xMap.equals(xNuevo));
             }
         }
-
-
-
     }
-
-
-
-
-
-
-
-
-
 }

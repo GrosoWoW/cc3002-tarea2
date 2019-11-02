@@ -2,7 +2,6 @@ package controller;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import factory.unit.*;
 import model.items.IEquipableItem;
 import model.map.Field;
@@ -355,13 +354,13 @@ public class GameController {
 
     List<IUnit> list = new ArrayList<>();
 
-    IUnit alpaca = new AlpacaFactory(this.gameMap).createDefault(0, 1, player);
-    IUnit archer = new ArcherFactory(this.gameMap).createDefault(0, 2, player);
-    IUnit cleric = new ClericFactory(this.gameMap).createDefault(0, 3, player);
-    IUnit fighter = new FighterFactory(this.gameMap).createDefault(0, 4, player);
-    IUnit hero = new HeroFactory(this.gameMap).createDefault(1, 0, player);
-    IUnit sorcerer = new SorcererFactory(this.gameMap).createDefault(2, 0, player);
-    IUnit swordMaster = new SwordMasterFactory(this.gameMap).createDefault(3, 0, player);
+    IUnit alpaca = new AlpacaFactory(this.gameMap).createDefault(player);
+    IUnit archer = new ArcherFactory(this.gameMap).createDefault(player);
+    IUnit cleric = new ClericFactory(this.gameMap).createDefault(player);
+    IUnit fighter = new FighterFactory(this.gameMap).createDefault(player);
+    IUnit hero = new HeroFactory(this.gameMap).createDefault(player);
+    IUnit sorcerer = new SorcererFactory(this.gameMap).createDefault(player);
+    IUnit swordMaster = new SwordMasterFactory(this.gameMap).createDefault(player);
 
     list.add(alpaca);
     list.add(archer);
@@ -385,23 +384,13 @@ public class GameController {
     return this.actualUnit;
   }
 
-  public void setActualUnit(IUnit unit) {
+  public void setActualUnit(IUnit unit){
 
-    this.actualUnit = unit;
+    if(this.actualPlayer.getPlayerUnits().contains(unit)){
+
+      this.actualUnit = unit;
+    }
   }
-
-  /**
-   * Verifica que para los tacticians en juego, sus heros esten vivos
-   */
- // public void verifyHero() {
-   // int size = this.getTacticians().size();
-    //for (int i = 0; i < size; i++) {
-
-      //getTacticians().get(i).verifyUnits();
-      //size = this.getTacticians().size();
-
-   // }
- // }
 }
 
 

@@ -4,8 +4,8 @@ import model.items.IEquipableItem;
 
 /**
  * Esta interfaz representa a las fabricas que generan <IEquipableItem>
- * @Author Cristóbal Jaramillo Andrade
- * @Since 2.0
+ * @author  Cristóbal Jaramillo Andrade
+ * @since  2.0
  */
 
 public interface ItemFactory {

@@ -5,7 +5,7 @@ import model.items.attack.normal.Bow;
 /**
  * Esta clase se encarga de fabricar Bow
  * @author Cristóbal Jaramillo Andrade
- * @Since 2.0
+ * @since  2.0
  */
 
 

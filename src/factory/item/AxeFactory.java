@@ -5,7 +5,7 @@ import model.items.attack.normal.Axe;
 /**
  * Esta clase se encarga de fabricar Axe
  * @author Cristóbal Jaramillo Andrade
- * @Since 2.0
+ * @since  2.0
  */
 
 
