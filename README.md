@@ -57,7 +57,12 @@ Esta fabrica se encargara de crear las distintas unidades que se encuentran en e
 
 Es importante notar que la unidad no se coloca en ningun mapa (para completar con los parametros, se rellena con un InvalidLocation).
 
+Para la creacion de este tipo de fabrica se decidio crear una interfaz UnitFactory con los metodos create y createDefault, esta sera implementada por la clase abstracta AbstractUnitFactory, la cual sera heredada por las distintas fabricas de unidades.
+
 
 ### Fabrica de Objetos
+
+Este tipo de fabrica se encarga de la creacion de los distintos elementos que se encuentran disponibles en el juegos, funciona de manera similar a la anterior, se divide en dos metodos importantes, los cuales son el create y createDefault, el primero se encarga de crear el item correspondiente, pudiendo modificar el poder, el rango minimo y maximo, mientras que el segundo genera un item con parametros por default (estos son dependiendo del item). Una vez creado el item no posera dueño, este tendra que ser asignado luego.
+
 
 ### Fabrica de Mapa
