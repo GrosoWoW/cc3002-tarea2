@@ -39,10 +39,24 @@ Para el caso de UnitDie, este sera llamado cuando una unidad muere, para este ca
 
 Finalmente la clase UnitDie se encargara de responder frente a la muerte de la unidad de un Tactician. Si esto sucede, el jugador que se le fue eliminado la unidad Hero, debe ser removido de la partida.
 
+#### Metodos del Tactician a aplicar a sus unidades
+
+El tactician tendra a disposicion distintos metodos que le permitiran realizar acciones implementadas en la tarea 1, como atacar con sus unidades, mover a su unidad, ver sus parametro, items, etc, de esta manera el jugador poseera el conocimiento necesario para que su partida sea lo más jugable posible.
+
+
+
+
 
 ## Fabricas
 
+Las fabricas son las encargadas de crear las unidades, items y el mapa del juego, estas se basan en el patron de diseño de Factorys, cada clase de las mencionadas anteriormente tendra sus propias fabricas, de esta manera el jugador no podra interaccionar con los parametros que estan por detras en la creacion de una unidad, objeto, etc, al jugador solo se le entregara la unidad ya creada.
+
 ### Fabrica de Unidades
+
+Esta fabrica se encargara de crear las distintas unidades que se encuentran en el juego, para esto se dividio en dos tipos, el metodo create normal y el createDefault, para el primero se recibiran parametros como los hitpoints y una lista de items, de manera que al crear la unidad se pueda entregar la vida de este asi como sus items iniciales, mientras que el segundo es una creacion de una unidad por default, es decir no se podran modificar los hitpoints ni la lista de items, es decir estos parametros vendran por default. Es importante notar que una vez creada la unidad, antes de retornarla se setea el dueño de la unidad y se agrega a la lista de unidades del jugador. 
+
+Es importante notar que la unidad no se coloca en ningun mapa (para completar con los parametros, se rellena con un InvalidLocation).
+
 
 ### Fabrica de Objetos
 
