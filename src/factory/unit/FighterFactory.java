@@ -17,9 +17,8 @@ public class FighterFactory extends AbstractUnitFactory {
 
     private InvalidLocation invalidLocation;
 
-    public FighterFactory(Field map) {
+    public FighterFactory() {
 
-        super(map);
         this.invalidLocation = new InvalidLocation();
     }
 

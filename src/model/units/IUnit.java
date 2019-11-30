@@ -279,5 +279,9 @@ public interface IUnit {
 
   Tactician getOwner();
 
+  void setMove(boolean condition);
+
+  boolean getMove();
+
 
 }

@@ -54,13 +54,13 @@ public class unitFactoryTest {
         this.sorcerer = new Sorcerer(30, 1, field.getCell(1,0));
         this.swordMaster = new SwordMaster(30, 1 , field.getCell(1,1));
         this.cleric = new Cleric(70, 1, field.getCell(2,2));
-        this.alpacaFactory = new AlpacaFactory(field);
-        this.archerFactory = new ArcherFactory(field);
-        this.fighterFactory = new FighterFactory(field);
-        this.heroFactory = new HeroFactory(field);
-        this.sorcererFactory = new SorcererFactory(field);
-        this.swordMasterFactory = new SwordMasterFactory(field);
-        this.clericFactory = new ClericFactory(field);
+        this.alpacaFactory = new AlpacaFactory();
+        this.archerFactory = new ArcherFactory();
+        this.fighterFactory = new FighterFactory();
+        this.heroFactory = new HeroFactory();
+        this.sorcererFactory = new SorcererFactory();
+        this.swordMasterFactory = new SwordMasterFactory();
+        this.clericFactory = new ClericFactory();
         this.tactician = new Tactician("Player 0", controller);
 
 

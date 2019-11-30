@@ -6,6 +6,7 @@ import factory.unit.*;
 import model.items.IEquipableItem;
 import model.map.Field;
 import model.map.Location;
+import model.units.Alpaca;
 import model.units.IUnit;
 import java.util.Random;
 import factory.*;
@@ -152,6 +153,7 @@ public class GameController {
 
     List<Tactician> list = this.listOfPlayers;
     int tamano = list.size();
+    this.resetMovement(actualPlayer);
     if (this.getTacticians().size() == 1) {
 
       this.listOfWinners = this.getTacticians();
@@ -354,21 +356,13 @@ public class GameController {
 
     List<IUnit> list = new ArrayList<>();
 
-    IUnit alpaca = new AlpacaFactory(this.gameMap).createDefault(player);
-    IUnit archer = new ArcherFactory(this.gameMap).createDefault(player);
-    IUnit cleric = new ClericFactory(this.gameMap).createDefault(player);
-    IUnit fighter = new FighterFactory(this.gameMap).createDefault(player);
-    IUnit hero = new HeroFactory(this.gameMap).createDefault(player);
-    IUnit sorcerer = new SorcererFactory(this.gameMap).createDefault(player);
-    IUnit swordMaster = new SwordMasterFactory(this.gameMap).createDefault(player);
-
-    list.add(alpaca);
-    list.add(archer);
-    list.add(cleric);
-    list.add(fighter);
-    list.add(hero);
-    list.add(sorcerer);
-    list.add(swordMaster);
+    list.add(getAlpaca(player));
+    list.add(getArcher(player));
+    list.add(getCleric(player));
+    list.add(getFighter(player));
+    list.add(getHero(player));
+    list.add(getSorcerer(player));
+    list.add(getSwordMaster(player));
 
     return list;
 
@@ -390,6 +384,58 @@ public class GameController {
 
       this.actualUnit = unit;
     }
+  }
+
+  public void resetMovement(Tactician player){
+
+    for (int i = 0; i < player.getPlayerUnits().size(); i++){
+
+      IUnit unidad = player.getPlayerUnits().get(i);
+      unidad.setMove(false);
+
+    }
+  }
+
+  public IUnit getAlpaca(Tactician player){
+
+    IUnit alpaca = new AlpacaFactory().createDefault(player);
+    return alpaca;
+  }
+
+  public IUnit getArcher(Tactician player){
+
+    IUnit archer = new ArcherFactory().createDefault(player);
+    return archer;
+  }
+
+  public IUnit getCleric(Tactician player){
+
+    IUnit cleric = new ClericFactory().createDefault(player);
+    return cleric;
+  }
+
+  public  IUnit getFighter(Tactician player){
+
+    IUnit fighter = new FighterFactory().createDefault(player);
+    return fighter;
+  }
+
+  public IUnit getHero(Tactician player){
+
+    IUnit hero = new HeroFactory().createDefault(player);
+    return hero;
+  }
+
+  public IUnit getSorcerer(Tactician player){
+
+    IUnit sorcerer = new SorcererFactory().createDefault(player);
+    return sorcerer;
+  }
+
+  public IUnit getSwordMaster(Tactician player){
+
+    IUnit swordMaster = new SwordMasterFactory().createDefault(player);
+    return swordMaster;
   }
 }
 

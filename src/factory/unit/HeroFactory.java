@@ -17,9 +17,8 @@ public class HeroFactory extends AbstractUnitFactory {
 
     private InvalidLocation invalidLocation;
 
-    public HeroFactory(Field map) {
+    public HeroFactory() {
 
-        super(map);
         this.invalidLocation = new InvalidLocation();
     }
 

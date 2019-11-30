@@ -39,9 +39,9 @@ class GameControllerTest {
     controller = new GameController(4, 4);
     controller.initEndlessGame();
     testTacticians = controller.getTacticians();
-    heroFactory = new HeroFactory(controller.getGameMap());
+    heroFactory = new HeroFactory();
     axeFactory = new AxeFactory();
-    alpacaFactory = new AlpacaFactory(controller.getGameMap());
+    alpacaFactory = new AlpacaFactory();
     mapFactory = new MapFactory();
   }
 
@@ -459,6 +459,12 @@ class GameControllerTest {
     assertEquals(controller.getActualUnit(), unit1);
     controller.getActualPlayer().setActualUnit(unit2);
     assertNotEquals(controller.getActualUnit(), unit2);
+
+
+  }
+
+  @Test
+  void resetMovement(){
 
 
   }

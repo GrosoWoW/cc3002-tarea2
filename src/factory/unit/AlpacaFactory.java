@@ -17,9 +17,8 @@ public class AlpacaFactory extends AbstractUnitFactory {
 
     private InvalidLocation invalidLocation;
 
-    public AlpacaFactory(Field map) {
+    public AlpacaFactory() {
 
-        super(map);
         this.invalidLocation = new InvalidLocation();
     }
 

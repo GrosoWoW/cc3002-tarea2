@@ -45,17 +45,17 @@ public class TacticianTest {
         this.map.addCells(true, new Location(4,0));
         this.map.addCells(true, new Location(0,6));
         controller.initGame(4);
-        this.heroFactory = new HeroFactory(this.map);
-        this.alpacaFactory = new AlpacaFactory(this.map);
+        this.heroFactory = new HeroFactory();
+        this.alpacaFactory = new AlpacaFactory();
         this.darkFactory = new DarkFactory();
         this.bowFactory = new BowFactory();
-        this.archerFactory = new ArcherFactory(this.map);
-        this.fighterFactory = new FighterFactory(this.map);
-        this.clericFactory = new ClericFactory(this.map);
+        this.archerFactory = new ArcherFactory();
+        this.fighterFactory = new FighterFactory();
+        this.clericFactory = new ClericFactory();
         this.controller.setActualPlayer(controller.getTacticians().get(0));
         this.controller.getActualPlayer().setActualUnit(controller.getActualPlayer().getPlayerUnits().get(0));
         this.tactician = controller.getActualPlayer();
-        this.swordMasterFactory = new SwordMasterFactory(tactician.getMap());
+        this.swordMasterFactory = new SwordMasterFactory();
 
         this.unidades = controller.getActualPlayer().getPlayerUnits();
         this.jugador = new Tactician("player", controller);
@@ -306,6 +306,39 @@ public class TacticianTest {
         assertNotEquals(tactician.getMap().getCell(0, 0).getUnit(), unit);
         tactician.moveUnit(0, 3);
         assertNotEquals(tactician.getMap().getCell(0, 3).getUnit(), unit);
+
+    }
+
+    @Test
+    void movementUnique(){
+
+        tactician.getMap().addCells(true, new Location(0,0));
+        tactician.getMap().addCells(true, new Location(0,1));
+        tactician.getMap().addCells(true, new Location(0,2));
+        tactician.getMap().addCells(true, new Location(0,3));
+        tactician.getMap().getCell(0, 0).removeUnit();
+        IUnit unit = swordMasterFactory.createDefault(tactician);
+        tactician.getMap().getCell(0, 0).setUnit(unit);
+        tactician.getMap().getCell(0, 1).removeUnit();
+        tactician.getMap().getCell(0, 2).removeUnit();
+        tactician.getMap().getCell(0, 3).removeUnit();
+        tactician.setActualUnit(unit);
+        tactician.setLocationUnit(0, 0);
+        assertEquals(tactician.getMap().getCell(0, 0).getUnit(), unit);
+        assertNotEquals(tactician.getMap().getCell(0, 1).getUnit(), unit);
+        tactician.moveUnit(0, 1);
+        assertEquals(tactician.getMap().getCell(0, 1).getUnit(), unit);
+        assertNotEquals(tactician.getMap().getCell(0, 0).getUnit(), unit);
+        tactician.moveUnit(0, 0);
+        assertEquals(tactician.getMap().getCell(0, 1).getUnit(), unit);
+        assertNotEquals(tactician.getMap().getCell(0, 0).getUnit(), unit);
+        controller.endTurn();
+        controller.setActualPlayer(tactician);
+        tactician.moveUnit(0, 0);
+        assertNotEquals(tactician.getMap().getCell(0, 1).getUnit(), unit);
+        assertEquals(tactician.getMap().getCell(0, 0).getUnit(), unit);
+
+
 
     }
 

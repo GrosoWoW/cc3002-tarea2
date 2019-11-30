@@ -17,9 +17,8 @@ public class ClericFactory extends AbstractUnitFactory {
 
     private InvalidLocation invalidLocation;
 
-    public ClericFactory(Field map) {
+    public ClericFactory() {
 
-        super(map);
         this.invalidLocation = new InvalidLocation();
     }
 

@@ -17,9 +17,8 @@ public class SorcererFactory extends AbstractUnitFactory {
 
      private InvalidLocation invalidLocation;
 
-    public SorcererFactory(Field map) {
+    public SorcererFactory() {
 
-        super(map);
         this.invalidLocation = new InvalidLocation();
     }
 

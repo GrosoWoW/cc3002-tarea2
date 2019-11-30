@@ -277,9 +277,11 @@ public class Tactician {
         Location actualPosicion = this.getActualUnit().getLocation();
         Location posicionFutura = this.getMap().getCell(x, y);
         if(actualPosicion.distanceTo(posicionFutura) <= this.getActualUnit().getMovement() &&
-                    actualPosicion.getNeighbours().contains(posicionFutura) && posicionFutura.getUnit() == null){
+                    actualPosicion.getNeighbours().contains(posicionFutura) && posicionFutura.getUnit() == null && !this.getActualUnit().getMove()){
             actualPosicion.removeUnit();
             posicionFutura.setUnit(this.getActualUnit());
+            this.getActualUnit().setLocation(posicionFutura);
+            this.getActualUnit().setMove(true);
         }
     }
 

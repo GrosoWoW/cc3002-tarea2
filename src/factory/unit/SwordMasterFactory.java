@@ -17,9 +17,8 @@ public class SwordMasterFactory extends AbstractUnitFactory {
 
     private InvalidLocation invalidLocation;
 
-    public SwordMasterFactory(Field map) {
+    public SwordMasterFactory() {
 
-        super(map);
         this.invalidLocation = new InvalidLocation();
     }
 

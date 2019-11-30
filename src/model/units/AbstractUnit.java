@@ -35,6 +35,7 @@ public abstract class AbstractUnit implements IUnit {
   private Location location;
   private int maxItems;
   private boolean life;
+  private boolean move;
   private Tactician owner;
   private UnitDie unitDie;
   private PropertyChangeSupport handler1;
@@ -62,6 +63,7 @@ public abstract class AbstractUnit implements IUnit {
     this.maxItems = maxItems;
     this.life = true;
     this.owner = null;
+    this.move = false;
     this.unitDie =  new UnitDie();
     this.handler1 = new PropertyChangeSupport(this);
     handler1.addPropertyChangeListener(unitDie);
@@ -306,6 +308,16 @@ public abstract class AbstractUnit implements IUnit {
   public void setLifeDead(){
 
     this.life = false;
+  }
+
+  public void setMove(boolean condition){
+
+    this.move = condition;
+  }
+
+  public boolean getMove(){
+
+    return this.move;
   }
 
 }

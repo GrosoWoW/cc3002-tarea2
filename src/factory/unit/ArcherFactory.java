@@ -21,11 +21,9 @@ public class ArcherFactory extends AbstractUnitFactory {
 
     /**
      * Constructor de la fabrica
-     * @param map mapa donde se fabricaran las unidades
      */
-    public ArcherFactory(Field map){
+    public ArcherFactory(){
 
-        super(map);
         this.invalidLocation = new InvalidLocation();
     }
 
