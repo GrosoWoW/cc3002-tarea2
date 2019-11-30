@@ -6,13 +6,14 @@ import java.util.stream.IntStream;
 
 import factory.MapFactory;
 import factory.item.AxeFactory;
-import factory.unit.AlpacaFactory;
-import factory.unit.HeroFactory;
+import factory.unit.*;
 import model.items.IEquipableItem;
 import model.map.Field;
 import model.map.InvalidLocation;
 import model.map.Location;
+import model.units.Fighter;
 import model.units.IUnit;
+import model.units.SwordMaster;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -28,9 +29,14 @@ class GameControllerTest {
   private GameController controller;
   private long randomSeed;
   private List<Tactician> testTacticians;
-  private HeroFactory heroFactory;
   private AxeFactory axeFactory;
   private AlpacaFactory alpacaFactory;
+  private ArcherFactory archerFactory;
+  private ClericFactory clericFactory;
+  private FighterFactory fighterFactory;
+  private HeroFactory heroFactory;
+  private SorcererFactory sorcererFactory;
+  private SwordMasterFactory swordMasterFactory;
   private MapFactory mapFactory;
 
   @BeforeEach
@@ -39,9 +45,14 @@ class GameControllerTest {
     controller = new GameController(4, 4);
     controller.initEndlessGame();
     testTacticians = controller.getTacticians();
-    heroFactory = new HeroFactory();
     axeFactory = new AxeFactory();
     alpacaFactory = new AlpacaFactory();
+    archerFactory = new ArcherFactory();
+    clericFactory = new ClericFactory();
+    fighterFactory = new FighterFactory();
+    heroFactory = new HeroFactory();
+    sorcererFactory = new SorcererFactory();
+    swordMasterFactory = new SwordMasterFactory();
     mapFactory = new MapFactory();
   }
 
@@ -207,6 +218,7 @@ class GameControllerTest {
     assertEquals(3, controller.getTacticians().size());
     controller.getTacticians()
             .forEach(tactician -> Assertions.assertTrue(testTacticians.contains(tactician)));
+
   }
 
   @Test
@@ -466,6 +478,85 @@ class GameControllerTest {
   @Test
   void resetMovement(){
 
+    controller.initGame(4);
+    Tactician player = controller.getActualPlayer();
+    player.setActualUnit(player.getPlayerUnits().get(0));
+    controller.getGameMap().getCell(0, 0).setUnit(player.getActualUnit());
+    player.getActualUnit().setLocation(controller.getGameMap().getCell(0, 0));
+    assertFalse(player.getActualUnit().getMove());
+    player.moveUnit(0, 1);
+    assertTrue(player.getActualUnit().getMove());
+    controller.endTurn();
+    controller.setActualPlayer(player);
+    assertFalse(player.getActualUnit().getMove());
+  }
+
+  @Test
+  void getAlpaca(){
+
+    Tactician player = new Tactician("Player", controller);
+    controller.getAlpaca(player);
+    IUnit unit = alpacaFactory.createDefault(testTacticians.get(0));
+    player.getPlayerUnits().get(0).equalsTo(unit);
+  }
+
+  @Test
+  void getArcher(){
+
+    Tactician player = new Tactician("Player", controller);
+    controller.getArcher(player);
+    IUnit unit = archerFactory.createDefault(testTacticians.get(0));
+    player.getPlayerUnits().get(0).equalsTo(unit);
+
+  }
+
+  @Test
+  void getCleric(){
+
+    Tactician player = new Tactician("Player", controller);
+    controller.getCleric(player);
+    IUnit unit = clericFactory.createDefault(testTacticians.get(0));
+    player.getPlayerUnits().get(0).equalsTo(unit);
+
+  }
+
+  @Test
+  void getFighter(){
+
+    Tactician player = new Tactician("Player", controller);
+    controller.getFighter(player);
+    IUnit unit = fighterFactory.createDefault(testTacticians.get(0));
+    player.getPlayerUnits().get(0).equalsTo(unit);
+
+  }
+
+  @Test
+  void getHero(){
+
+    Tactician player = new Tactician("Player", controller);
+    controller.getHero(player);
+    IUnit unit = heroFactory.createDefault(testTacticians.get(0));
+    player.getPlayerUnits().get(0).equalsTo(unit);
+
+  }
+
+  @Test
+  void getSorcerer(){
+
+    Tactician player = new Tactician("Player", controller);
+    controller.getSorcerer(player);
+    IUnit unit = sorcererFactory.createDefault(testTacticians.get(0));
+    player.getPlayerUnits().get(0).equalsTo(unit);
+
+  }
+
+  @Test
+  void getSwordMaster(){
+
+    Tactician player = new Tactician("Player", controller);
+    controller.getSwordMaster(player);
+    IUnit unit = swordMasterFactory.createDefault(testTacticians.get(0));
+    player.getPlayerUnits().get(0).equalsTo(unit);
 
   }
 

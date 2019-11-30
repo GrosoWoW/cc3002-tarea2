@@ -199,6 +199,7 @@ public class GameController {
       if (this.getTacticians().get(i).getName().equals(tactician)) {
 
         if ((this.getTacticians().size() >= 2) && (this.actualPlayer == this.getTacticians().get(i))) {
+          removeIUnit(actualPlayer);
           this.actualPlayer = this.getTacticians().get(i + 1);
         }
 
@@ -436,6 +437,14 @@ public class GameController {
 
     IUnit swordMaster = new SwordMasterFactory().createDefault(player);
     return swordMaster;
+  }
+
+  public void removeIUnit(Tactician player){
+
+    for(int i = 0; i < player.getPlayerUnits().size(); i++){
+
+      player.getPlayerUnits().get(i).getLocation().removeUnit();
+    }
   }
 }
 
