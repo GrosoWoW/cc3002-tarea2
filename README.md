@@ -66,3 +66,7 @@ Este tipo de fabrica se encarga de la creacion de los distintos elementos que se
 
 
 ### Fabrica de Mapa
+
+Para la creacion de esta fabrica, se dividio en dos metodos de creacion de mapa, uno es con una semilla al azar y otra con una semilla random, la segunda es principalmente para hacer mucho mas faciles los test del mapa.
+
+El metodo getField se encargara de introducir las celdas a un Field en principio vacio, para esto primero crea nuevas Location en todos los puntos del HashMap, luego recorrera nuevamente las celdas, pero esta vez a travez de un random, donde se decidira si remover una location del mapa. Para remover una Location, se retiraran todos los vecinos de la Location, de esta manera quedara completamente aislada. Una vez terminado todo ese proceso, se chequeara el mapa para ver si es conexo o no, en caso de no serlo, se recorrera el HashMap nuevamente, agregando al mapa la location antes retirada, y se volvera a verificar la conexividad, este proceso se repetira hasta que el mapa sea conexo, el proceso anterior lo realiza el metodo checkMap.
