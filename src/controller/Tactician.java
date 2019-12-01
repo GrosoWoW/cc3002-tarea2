@@ -285,6 +285,12 @@ public class Tactician {
         }
     }
 
+    /**
+     * Setea la location de una unidad
+     * @param x posicion en x
+     * @param y posicion en y
+     */
+
     public void setLocationUnit(int x, int y){
 
         this.actualUnit.setLocation(this.getMap().getCell(x, y));

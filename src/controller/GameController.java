@@ -353,6 +353,12 @@ public class GameController {
     return this.numberOfPlayers;
   }
 
+  /**
+   * Coloca las unidades principales a un jugador
+   * @param player jugador a quien se le entregaran las unidades
+   * @return Lista de unidades
+   */
+
   public List<IUnit> setUnits(Tactician player) {
 
     List<IUnit> list = new ArrayList<>();
@@ -369,15 +375,28 @@ public class GameController {
 
   }
 
+  /**
+   * @return La cantidad maxima de jugadores
+   */
+
   public int getMaxNumberOfPlayers() {
 
     return this.maxNumberOfPlayers;
   }
 
+  /**
+   * @return La actual unidad en juego
+   */
+
   public IUnit getActualUnit() {
 
     return this.actualUnit;
   }
+
+  /**
+   * Modifica a la actual unidad en juego
+   * @param unit unidad que se seteara
+   */
 
   public void setActualUnit(IUnit unit){
 
@@ -386,6 +405,11 @@ public class GameController {
       this.actualUnit = unit;
     }
   }
+
+  /**
+   * Resetea la capacidad de movimiento de todas las unidades de un jugador
+   * @param player Jugador a quien se le reseteara la capacidad de movimiento de sus unidades
+   */
 
   public void resetMovement(Tactician player){
 
@@ -397,11 +421,21 @@ public class GameController {
     }
   }
 
+  /**
+   * @param player Jugador que recibira la unidad
+   * @return una Alpaca para el jugador
+   */
+
   public IUnit getAlpaca(Tactician player){
 
     IUnit alpaca = new AlpacaFactory().createDefault(player);
     return alpaca;
   }
+
+  /**
+   * @param player Jugador que recibira la unidad
+   * @return un Archer para el jugador
+   */
 
   public IUnit getArcher(Tactician player){
 
@@ -409,11 +443,21 @@ public class GameController {
     return archer;
   }
 
+  /**
+   * @param player Jugador que recibira la unidad
+   * @return un Cleric para el jugador
+   */
+
   public IUnit getCleric(Tactician player){
 
     IUnit cleric = new ClericFactory().createDefault(player);
     return cleric;
   }
+
+  /**
+   * @param player Jugador que recibira la unidad
+   * @return un Fighter para el jugador
+   */
 
   public  IUnit getFighter(Tactician player){
 
@@ -421,11 +465,21 @@ public class GameController {
     return fighter;
   }
 
+  /**
+   * @param player Jugador que recibira la unidad
+   * @return un Hero para el jugador
+   */
+
   public IUnit getHero(Tactician player){
 
     IUnit hero = new HeroFactory().createDefault(player);
     return hero;
   }
+
+  /**
+   * @param player Jugador que recibira la unidad
+   * @return un Sorcerer para el jugador
+   */
 
   public IUnit getSorcerer(Tactician player){
 
@@ -433,11 +487,21 @@ public class GameController {
     return sorcerer;
   }
 
+  /**
+   * @param player Jugador que recibira la unidad
+   * @return un SwordMster para el jugador
+   */
+
   public IUnit getSwordMaster(Tactician player){
 
     IUnit swordMaster = new SwordMasterFactory().createDefault(player);
     return swordMaster;
   }
+
+  /**
+   * Remove la unidad del mapa del juego
+   * @param player jugador a quien se le remueve la unidad
+   */
 
   public void removeIUnit(Tactician player){
 
