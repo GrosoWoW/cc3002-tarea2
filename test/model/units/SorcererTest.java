@@ -35,7 +35,7 @@ public class SorcererTest extends  AbstractTestUnit {
 
     @Test
     public void equipBookTest() {
-        assertNull(getTestUnit().getEquippedItem());
+        assertEquals(getTestUnit().getEquippedItem(), getTestUnit().getHand());
         getTestUnit().addItem(getAnima());
         getAnima().equipItem(getTestUnit());
         assertEquals(getAnima(), getTestUnit().getEquippedItem());

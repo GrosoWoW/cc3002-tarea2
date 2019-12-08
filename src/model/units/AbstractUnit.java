@@ -11,6 +11,7 @@ import controller.Tactician;
 import controller.changes.ActualUnitChange;
 import controller.changes.HeroDie;
 import controller.changes.UnitDie;
+import model.items.Hand;
 import model.items.IEquipableItem;
 import model.map.InvalidLocation;
 import model.map.Location;
@@ -36,6 +37,7 @@ public abstract class AbstractUnit implements IUnit {
   private int maxItems;
   private boolean life;
   private boolean move;
+  private Hand hand;
   private Tactician owner;
   private UnitDie unitDie;
   private PropertyChangeSupport handler1;
@@ -64,6 +66,8 @@ public abstract class AbstractUnit implements IUnit {
     this.life = true;
     this.owner = null;
     this.move = false;
+    this.hand = new Hand(this);
+    this.equippedItem = hand;
     this.unitDie =  new UnitDie();
     this.handler1 = new PropertyChangeSupport(this);
     handler1.addPropertyChangeListener(unitDie);
@@ -146,6 +150,11 @@ public abstract class AbstractUnit implements IUnit {
     return life;
   }
 
+  public Hand getHand(){
+
+    return this.hand;
+  }
+
   public void takeDamage(double damage){
 
     this.currentHitPoints -= damage;
@@ -179,13 +188,13 @@ public abstract class AbstractUnit implements IUnit {
 
     if(this.getEquippedItem() == item) {
 
-      this.equippedItem = null;
+      this.equippedItem = this.getHand();
     }
   }
 
   public void unEquipItem(){
 
-    this.equippedItem = null;
+    this.equippedItem = this.getHand();
   }
 
   public double check(double num, double vidaMaxima, double vidaActual) {
@@ -202,8 +211,7 @@ public abstract class AbstractUnit implements IUnit {
 
   public boolean canAttack(IUnit unit){
 
-    return (this.getEquippedItem() != null) &&
-            (this.getLocation().distanceTo(unit.getLocation()) <=this.getEquippedItem().getMaxRange()) &&
+    return (this.getLocation().distanceTo(unit.getLocation()) <=this.getEquippedItem().getMaxRange()) &&
             (this.getLocation().distanceTo(unit.getLocation()) >= this.getEquippedItem().getMinRange());
   }
 
@@ -268,14 +276,7 @@ public abstract class AbstractUnit implements IUnit {
     if (this.canAttack(unit)) {
 
       double damage = 0;
-      if (unit.getEquippedItem() == null) {
-        damage = this.getEquippedItem().getPower();
-
-      }
-      else {
-        damage = this.getEquippedItem().attack(unit.getEquippedItem());
-
-      }
+      damage = this.getEquippedItem().attack(unit.getEquippedItem());
       damage = check(damage, unit.getMaxHitPoints(), unit.getCurrentHitPoints());
       this.Damage(unit, damage);
     }
@@ -284,20 +285,18 @@ public abstract class AbstractUnit implements IUnit {
   public void Damage(IUnit attacker, double damage){
 
     attacker.takeDamage(damage);
-    if(attacker.getEquippedItem() == null) {}
-    else{
-      if (attacker.getCurrentHitPoints() <= 0) {
-        attacker.die();
-      } else if (attacker.canAttack(this) && damage > 0) {
+    if (attacker.getCurrentHitPoints() <= 0) {
+      attacker.die();
+    } else if (attacker.canAttack(this) && damage > 0) {
 
-        double dano = attacker.getEquippedItem().attack(this.getEquippedItem());
-        dano = check(dano, this.getMaxHitPoints(), this.getCurrentHitPoints());
-        this.takeDamage(dano);
-        if(this.getCurrentHitPoints() <= 0){
-          this.die();
-        }
-        }
+      double dano = attacker.getEquippedItem().attack(this.getEquippedItem());
+      dano = check(dano, this.getMaxHitPoints(), this.getCurrentHitPoints());
+      this.takeDamage(dano);
+      if (this.getCurrentHitPoints() <= 0) {
+        this.die();
+      }
     }
+
   }
 
   public boolean isHero(){
@@ -314,6 +313,7 @@ public abstract class AbstractUnit implements IUnit {
 
     this.move = condition;
   }
+
 
   public boolean getMove(){
 

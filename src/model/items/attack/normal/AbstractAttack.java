@@ -16,8 +16,7 @@ public abstract class AbstractAttack implements IMelee {
     protected int maxRange;
     protected int minRange;
     private IUnit owner;
-    private boolean magic;
-    private boolean attack;
+
 
 
     /**

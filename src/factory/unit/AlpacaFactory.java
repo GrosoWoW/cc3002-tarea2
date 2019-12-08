@@ -2,10 +2,8 @@ package factory.unit;
 
 import controller.Tactician;
 import model.items.IEquipableItem;
-import model.map.Field;
 import model.map.InvalidLocation;
 import model.units.Alpaca;
-import model.units.IUnit;
 
 /**
  * Clase de fabrica que se encarga de crear Alpacas

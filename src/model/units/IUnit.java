@@ -3,6 +3,7 @@ package model.units;
 import java.util.List;
 
 import controller.Tactician;
+import model.items.Hand;
 import model.items.IEquipableItem;
 import model.map.Location;
 
@@ -52,6 +53,12 @@ public interface IUnit {
    * @return the number of cells this unit can move
    */
   int getMovement();
+
+  /**
+   * @return the item hand
+   */
+
+  Hand getHand();
 
   /**
    * Moves this unit to another location.

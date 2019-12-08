@@ -288,8 +288,6 @@ public class TacticianTest {
     @Test
     void movementUnit(){
 
-        tactician.getMap().addCells(true, new Location(0,0));
-        tactician.getMap().addCells(true, new Location(0,2));
         tactician.getMap().addCells(true, new Location(0,3));
         tactician.getMap().getCell(0, 0).removeUnit();
         IUnit unit = swordMasterFactory.createDefault(tactician);
@@ -312,9 +310,6 @@ public class TacticianTest {
     @Test
     void movementUnique(){
 
-        tactician.getMap().addCells(true, new Location(0,0));
-        tactician.getMap().addCells(true, new Location(0,1));
-        tactician.getMap().addCells(true, new Location(0,2));
         tactician.getMap().addCells(true, new Location(0,3));
         tactician.getMap().getCell(0, 0).removeUnit();
         IUnit unit = swordMasterFactory.createDefault(tactician);

@@ -39,7 +39,7 @@ public class ClericTest extends AbstractTestUnit {
   @Test
   @Override
   public void equipStaffTest() {
-    assertNull(getTestUnit().getEquippedItem());
+    assertEquals(getTestUnit().getEquippedItem(), getTestUnit().getHand());
     getTestUnit().addItem(getStaff());
     getStaff().equipItem(getTestUnit());
     assertEquals(getStaff(), getTestUnit().getEquippedItem());

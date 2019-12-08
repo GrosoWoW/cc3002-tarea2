@@ -11,9 +11,7 @@ import model.items.IEquipableItem;
 import model.map.Field;
 import model.map.InvalidLocation;
 import model.map.Location;
-import model.units.Fighter;
 import model.units.IUnit;
-import model.units.SwordMaster;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -119,6 +117,9 @@ class GameControllerTest {
     return false;
   }
 
+  /**
+   * Verifica el metodo getTacticians
+   */
   @Test
   void getTacticians() {
     List<Tactician> tacticians = controller.getTacticians();
@@ -129,6 +130,10 @@ class GameControllerTest {
 
     }
   }
+
+  /**
+   * Verifica el metodo getGameMap comparando dos mapas con la misma semilla
+   */
 
   @Test
   void getGameMap() {
@@ -158,7 +163,6 @@ class GameControllerTest {
 
 
   }
-
   @Test
   void getRoundNumber() {
     controller.initGame(10);
@@ -201,6 +205,10 @@ class GameControllerTest {
     assertNotEquals(secondPlayer.getName(), controller.getTurnOwner().getName());
     assertEquals(thirdPlayer.getName(), controller.getTurnOwner().getName());
   }
+
+  /**
+   * Verifica que el Tactician sea removido de manera correcta
+   */
 
   @Test
   void removeTactician() {
@@ -303,6 +311,9 @@ class GameControllerTest {
 
   }
 
+  /**
+   * Verifica que a la unidad se le equipe el item correcto
+   */
   @Test
   void equipItem() {
 
@@ -316,12 +327,16 @@ class GameControllerTest {
     player.addUnit(unidad);
     unidad.addItem(objeto);
     this.controller.getActualPlayer().setActualUnit(unidad);
-    assertNull(this.controller.getActualPlayer().getActualUnit().getEquippedItem());
+    assertEquals(this.controller.getActualPlayer().getActualUnit().getEquippedItem(), this.controller.getActualPlayer().getActualUnit().getHand());
     this.controller.equipItem(0);
     assertEquals(objeto, this.controller.getActualPlayer().getActualUnit().getEquippedItem());
 
 
   }
+
+  /**
+   * Verifica que el item de la unidad sea usado en la posicion correcta
+   */
 
   @Test
   void useItemOn() {
@@ -338,6 +353,9 @@ class GameControllerTest {
 
   }
 
+  /**
+   * Verifica que el item de la unidad sea seleccionado de manera correcta
+   */
   @Test
   void selectItem() {
 
@@ -356,6 +374,9 @@ class GameControllerTest {
 
   }
 
+  /**
+   * Verifica que el item de la unidad sea entregado a otra de manera correcta
+   */
   @Test
   void giveItemTo() {
 
@@ -475,6 +496,9 @@ class GameControllerTest {
 
   }
 
+  /**
+   * Verifica que si una unidad se mueve en un turno, no pueda hacerlo más durante el resto del turno
+   */
   @Test
   void resetMovement(){
 
@@ -557,6 +581,43 @@ class GameControllerTest {
     controller.getSwordMaster(player);
     IUnit unit = swordMasterFactory.createDefault(testTacticians.get(0));
     player.getPlayerUnits().get(0).equalsTo(unit);
+
+  }
+
+  /**
+   * Verifica que solo una unidad este en una posicion
+   */
+  @Test
+  void OnlyOneUnit(){
+
+    controller.initGame(4);
+    controller.getActualPlayer().setActualUnit(controller.getActualPlayer().getPlayerUnits().get(0));
+    controller.getActualPlayer().setLocationUnit(0, 0);
+    controller.getActualPlayer().setActualUnit(controller.getActualPlayer().getPlayerUnits().get(1));
+    controller.getActualPlayer().setLocationUnit(0, 1);
+    assertEquals(controller.getActualPlayer().getPlayerUnits().get(0), controller.getGameMap().getCell(0, 0).getUnit());
+    assertEquals(controller.getActualPlayer().getPlayerUnits().get(1), controller.getGameMap().getCell(0, 1).getUnit());
+    controller.getActualPlayer().getActualUnit().moveTo(controller.getGameMap().getCell(0, 0));
+    assertEquals(controller.getActualPlayer().getPlayerUnits().get(0), controller.getGameMap().getCell(0, 0).getUnit());
+    assertEquals(controller.getActualPlayer().getPlayerUnits().get(1), controller.getGameMap().getCell(0, 1).getUnit());
+
+  }
+
+  /**
+   * Verifica que no se puedan seleccionar unidades enemigas y moverlas
+   */
+
+  @Test
+  void OnlyMyUnit(){
+
+    controller.initGame(4);
+    controller.setActualPlayer(controller.getTacticians().get(0));
+    controller.setActualUnit(controller.getTacticians().get(1).getPlayerUnits().get(0));
+    controller.getActualPlayer().moveUnit(0, 0);
+    assertEquals(controller.getGameMap().getCell(0, 0).getUnit(), null);
+    assertEquals(controller.getActualPlayer().getActualUnit(), null);
+
+
 
   }
 

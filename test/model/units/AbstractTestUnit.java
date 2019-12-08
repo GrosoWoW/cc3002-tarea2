@@ -109,7 +109,7 @@ public abstract class AbstractTestUnit implements ITestUnit {
   @Override
   @Test
   public void equipAxeTest() {
-    assertNull(getTestUnit().getEquippedItem());
+    assertEquals(getTestUnit().getEquippedItem(), getTestUnit().getHand());
     checkEquippedItem(getAxe());
   }
 
@@ -121,9 +121,9 @@ public abstract class AbstractTestUnit implements ITestUnit {
    */
   @Override
   public void checkEquippedItem(IEquipableItem item) {
-    assertNull(getTestUnit().getEquippedItem());
+    assertEquals(getTestUnit().getEquippedItem(), getTestUnit().getHand());
     item.equipItem(getTestUnit());
-    assertNull(getTestUnit().getEquippedItem());
+    assertEquals(getTestUnit().getEquippedItem(), getTestUnit().getHand());
   }
 
   /**
