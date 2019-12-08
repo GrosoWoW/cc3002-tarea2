@@ -212,4 +212,17 @@ public interface ITestUnit {
   @Test
   void setLifeDead();
 
+  /**
+   * Verifica la utilizacion de hand correctamente
+   */
+  @Test
+  void handEquipp();
+
+  /**
+   * Verifica que el ataque con manos se haga de manera correcta
+   */
+  @Test
+  void attackWithHand();
+
+
 }

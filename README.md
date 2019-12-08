@@ -73,3 +73,10 @@ El método getField se encargara de introducir las celdas a un Field en principi
 
 
 Una vez que el mapa es creado exitosamente, es retornado al controlador para que lo guarde y pueda ser utilizado en el juego. 
+
+
+### Hand y null Pattern
+
+Para facilitar el funcionamiento del programa, se creo la clase Hand, la cual representara una "mano" que tendran todos las unidades por defecto, de esta manera evitaremos preguntar si el objeto equipado es NULL, los metodos estan hechos de tal manera que al crear la unidad, tenga equipado un Hand y al desequipar un item, se coloque un hand en su lugar.
+
+Hand representa a un item con power 0 y rango 1, es decir que no podra atacar (cumple el funcionamiento del null). 

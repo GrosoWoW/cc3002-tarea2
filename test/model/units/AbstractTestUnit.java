@@ -415,6 +415,35 @@ public abstract class AbstractTestUnit implements ITestUnit {
     assertFalse(unit.getLive());
   }
 
+  @Test
+  @Override
+  public void handEquipp(){
+
+    assertEquals(getTestUnit().getHand(), getTestUnit().getEquippedItem());
+    IEquipableItem item = getAxe();
+    item.setOwner(getTestUnit());
+    getTestUnit().addItem(item);
+    getTestUnit().setEquippedItem(item);
+    assertEquals(getTestUnit().getEquippedItem(), item);
+  }
+
+
+  @Test
+  @Override
+  public void attackWithHand(){
+
+    IUnit primero = getTestUnit();
+    IUnit segundo = new Fighter(1, 2, field.getCell(1, 1));
+    primero.attackEnemy(segundo);
+    assertTrue(primero.getLive());
+    assertTrue(segundo.getLive());
+    IEquipableItem item = getAxe();
+    item.setOwner(primero);
+    primero.addItem(item);
+    primero.setEquippedItem(item);
+    primero.attackEnemy(segundo);
+    assertEquals(segundo.getCurrentHitPoints(), segundo.getMaxHitPoints() - item.getPower());
+  }
 }
 
 

@@ -1,5 +1,6 @@
 package model.units;
 
+import model.items.IEquipableItem;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -115,6 +116,23 @@ public class AlpacaTest extends AbstractTestUnit {
 
     IUnit unit = getTestUnit();
     assertFalse(unit.isHero());
+  }
+
+  @Test
+  @Override
+  public void attackWithHand(){
+
+    IUnit primero = getTestUnit();
+    IUnit segundo = new Fighter(1, 2, field.getCell(1, 1));
+    primero.attackEnemy(segundo);
+    assertTrue(primero.getLive());
+    assertTrue(segundo.getLive());
+    IEquipableItem item = getAxe();
+    item.setOwner(primero);
+    primero.addItem(item);
+    primero.setEquippedItem(item);
+    primero.attackEnemy(segundo);
+    assertEquals(segundo.getCurrentHitPoints(), segundo.getMaxHitPoints());
   }
 
 }
